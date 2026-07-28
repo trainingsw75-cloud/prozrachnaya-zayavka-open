@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Статус заявки на доступ к ресурсам</title>
+<style>
+:root{
+  --ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa;
+  --radius:12px;--shadow:0 1px 2px rgba(16,32,28,.06),0 10px 30px rgba(16,32,28,.07);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+  --muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.4);
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15px;line-height:1.55}
+
+.top{background:var(--brand);color:var(--brand-ink)}
+.top .in{max-width:960px;margin:0 auto;padding:15px 22px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top .mark{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:15px;flex:none}
+.top .ttl{font-size:14.5px;font-weight:650;line-height:1.25}
+.top .sub{font-size:11.5px;opacity:.85}
+.top .l{display:flex;align-items:center;gap:12px}
+.top button{font:inherit;font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer}
+.top button:hover{background:rgba(255,255,255,.24)}
+
+.wrap{max-width:960px;margin:0 auto;padding:22px 20px 60px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px}
+.hd{padding:20px 22px 18px;border-bottom:1px solid var(--line)}
+.num{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.h{font-size:19px;font-weight:650;margin:5px 0 12px;letter-spacing:-.01em;line-height:1.28}
+.b{display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 10px;border-radius:999px;font-size:12.5px;font-weight:600}
+.b .d{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+.b-info{background:var(--info-bg);color:var(--info)}
+.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-ok{background:var(--ok-bg);color:var(--ok)}
+.b-err{background:var(--err-bg);color:var(--err)}
+.b-violet{background:var(--violet-bg);color:var(--violet)}
+.b-muted{background:var(--muted-bg);color:var(--muted)}
+.bd{padding:20px 22px}
+
+h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:0 0 12px;font-weight:700}
+.steps{display:flex;margin-bottom:4px}
+.st{flex:1;position:relative;text-align:center;min-width:0}
+.st .bar{height:4px;background:var(--bg-3);border-radius:2px;margin-bottom:13px}
+.st.done .bar{background:var(--ok)}
+.st.now .bar{background:linear-gradient(90deg,var(--warn) 50%,var(--bg-3) 50%)}
+.st.dead .bar{background:var(--err)}
+.st .dot{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:var(--bg-3);border:3px solid var(--bg)}
+.st.done .dot{background:var(--ok)}
+.st.now .dot{background:var(--warn);box-shadow:0 0 0 4px var(--warn-bg)}
+.st.dead .dot{background:var(--err)}
+.st .t{font-size:11.5px;font-weight:600;padding:0 3px;line-height:1.25}
+.st.todo .t{color:var(--ink-3);font-weight:500}
+
+.now-box{margin:22px 0 0;padding:15px 17px;border-radius:10px;display:flex;gap:14px;align-items:flex-start}
+.now-box.wait{background:var(--warn-bg)}
+.now-box.bad{background:var(--err-bg)}
+.now-box.good{background:var(--ok-bg)}
+.now-box .ic{font-size:19px;line-height:1.1}
+.now-box .k{font-size:13.5px;font-weight:700;margin-bottom:3px}
+.now-box.wait .k{color:var(--warn)} .now-box.bad .k{color:var(--err)} .now-box.good .k{color:var(--ok)}
+.now-box .v{font-size:13px;color:var(--ink-2);line-height:1.5}
+
+dl{display:grid;grid-template-columns:200px 1fr;margin:22px 0 0;font-size:13.5px;border-top:1px solid var(--line)}
+dt{color:var(--ink-3);padding:11px 12px 11px 0;border-bottom:1px solid var(--line)}
+dd{margin:0;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink-2);word-break:break-word}
+@media (max-width:600px){dl{grid-template-columns:1fr}dt{padding-bottom:0;border-bottom:none}dd{padding-top:3px}.steps{display:none}}
+
+.stamp{margin-top:18px;padding:11px 14px;background:var(--bg-2);border-radius:9px;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.ft{padding:15px 22px;background:var(--bg-2);border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);line-height:1.55}
+
+/* конструктор */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label.f{display:block}
+label.f span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;margin-bottom:4px}
+input,select,textarea{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);background:var(--bg)}
+textarea{min-height:56px;resize:vertical}
+.out{margin-top:18px}
+.out textarea{font-family:var(--mono);font-size:12px;min-height:76px}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
+.row button{font:inherit;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9px;border:1px solid var(--line);background:var(--bg-2);color:var(--ink);cursor:pointer}
+.row button.pri{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.warnbox{margin-top:18px;padding:13px 16px;border-left:3px solid var(--err);background:var(--err-bg);border-radius:0 9px 9px 0;font-size:13px;color:var(--ink-2);line-height:1.55}
+.hint{font-size:12px;color:var(--ink-3);margin-top:6px;line-height:1.45}
+.err{padding:36px 24px;text-align:center}
+.err h2{margin:0 0 8px;font-size:18px}
+.err p{margin:0;color:var(--ink-3);font-size:14px}
+
+@media print{
+  body{background:#fff}
+  .top{background:#fff;color:#000;border-bottom:2px solid #000}
+  .top button,.builder{display:none!important}
+  .card{box-shadow:none;border:none}
+  .wrap{padding:0}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in">
+  <div class="l"><div class="mark">🗄</div>
+  <div><div class="ttl">Архив ОЭЗ «Алабуга»</div><div class="sub">Статус заявки на доступ к ресурсам</div></div></div>
+  <div><button onclick="window.print()">🖨 Печать</button></div>
+</div></div>
+
+<div class="wrap">
+  <div id="view"></div>
+
+  <div class="card builder" id="builder" hidden>
+    <div class="hd">
+      <div class="h" style="margin-bottom:4px">Конструктор ссылки</div>
+      <div class="num">Заполняет делопроизводитель или контролёр. Заявителю уходит только готовая ссылка.</div>
+    </div>
+    <div class="bd">
+      <div class="grid">
+        <label class="f"><span>Номер заявки</span><input id="i_num" placeholder="ЗД-2026-00147"></label>
+        <label class="f"><span>Дата подачи</span><input id="i_date" placeholder="00.00.0000"></label>
+        <label class="f"><span>Ресурс</span><input id="i_res" placeholder="Архивный фонд № 00"></label>
+        <label class="f"><span>Тип доступа</span><input id="i_typ" placeholder="Чтение"></label>
+        <label class="f"><span>Текущий этап</span><select id="i_st">
+          <option value="1">1 — Зарегистрирована</option>
+          <option value="2">2 — Рассмотрена</option>
+          <option value="3" selected>3 — Согласование</option>
+          <option value="4">4 — Утверждение</option>
+          <option value="5">5 — Выдача доступа</option>
+          <option value="6">6 — Готово</option>
+        </select></label>
+        <label class="f"><span>Особое состояние</span><select id="i_fl">
+          <option value="">— нет, идёт обычным порядком</option>
+          <option value="rej">Отклонена</option>
+          <option value="back">Возвращена на доработку</option>
+          <option value="wait">Ждём ответа заявителя</option>
+          <option value="hold">Ожидает освобождения ресурса</option>
+        </select></label>
+        <label class="f"><span>У кого сейчас — должность</span><input id="i_who" placeholder="Начальник отдела ИБ"></label>
+        <label class="f"><span>Срок этапа</span><input id="i_due" placeholder="00.00.0000"></label>
+        <label class="f"><span>Данные актуальны на</span><input id="i_upd" placeholder="00.00.0000"></label>
+        <label class="f"><span>Куда обращаться</span><input id="i_cnt" placeholder="архив, добавочный 000"></label>
+      </div>
+      <label class="f" style="margin-top:12px"><span>Причина отказа или что исправить</span><textarea id="i_note" placeholder="Заполняется, только если заявка отклонена или возвращена"></textarea></label>
+
+      <div class="warnbox">
+        <strong>Фамилий здесь быть не должно.</strong> Ссылку могут переслать кому угодно — всё, что вы впишете, прочитает каждый, у кого она окажется. Указывайте должность, а не человека. Номер заявки, ресурс и стадия — допустимый минимум; согласуйте состав со службой ИБ до первой рассылки.
+      </div>
+
+      <div class="out">
+        <label class="f"><span>Ссылка для заявителя</span><textarea id="o_url" readonly></textarea></label>
+        <div class="hint">Работает офлайн: все данные внутри самой ссылки, сервер их не получает. Обратная сторона — при смене этапа нужно выдать новую ссылку.</div>
+        <div class="row">
+          <button class="pri" onclick="copyUrl()">Скопировать ссылку</button>
+          <button onclick="openView()">Открыть как заявитель</button>
+          <button onclick="clearAll()">Очистить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var NAMES = ['Зарегистрирована','Рассмотрена','Согласование','Утверждение','Выдача доступа','Готово'];
+var LAST = NAMES.length;
+var FLAGS = {
+  rej:  {t:'Отклонена',                 cls:'b-err',    box:'bad',  ic:'✕', k:'Заявка отклонена'},
+  back: {t:'Возвращена на доработку',   cls:'b-warn',   box:'wait', ic:'↩', k:'Нужны исправления'},
+  wait: {t:'Ждём ответа заявителя',     cls:'b-warn',   box:'wait', ic:'⏳', k:'Мяч на вашей стороне'},
+  hold: {t:'Ожидает освобождения ресурса', cls:'b-muted', box:'wait', ic:'⏸', k:'Ожидание ресурса'}
+};
+
+function esc(s){ var d=document.createElement('span'); d.textContent = (s==null?'':String(s)); return d.innerHTML; }
+
+function enc(o){
+  var s = unescape(encodeURIComponent(JSON.stringify(o)));
+  return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function dec(t){
+  var s = t.replace(/-/g,'+').replace(/_/g,'/');
+  while (s.length % 4) s += '=';
+  return JSON.parse(decodeURIComponent(escape(atob(s))));
+}
+
+function collect(){
+  var g = function(id){ return document.getElementById(id).value.trim(); };
+  return { n:g('i_num'), d:g('i_date'), r:g('i_res'), t:g('i_typ'),
+           s:+document.getElementById('i_st').value, f:document.getElementById('i_fl').value,
+           w:g('i_who'), u:g('i_due'), a:g('i_upd'), c:g('i_cnt'), m:g('i_note') };
+}
+
+function makeUrl(){
+  var base = (location.protocol.indexOf('http')===0)
+    ? location.origin + location.pathname
+    : location.href.split('#')[0];
+  return base + '#d=' + enc(collect());
+}
+
+function render(o){
+  var flag = FLAGS[o.f] || null;
+  var st = Math.min(Math.max(+o.s || 1, 1), LAST);
+  var done = (st >= LAST && !flag);
+
+  var badge = flag ? '<span class="b '+flag.cls+'"><span class="d"></span>'+esc(flag.t)+'</span>'
+            : done ? '<span class="b b-violet"><span class="d"></span>Доступ предоставлен</span>'
+                   : '<span class="b b-warn"><span class="d"></span>'+esc(NAMES[st-1])+'</span>';
+
+  var steps = '';
+  for (var i=1; i<=LAST; i++){
+    var cls = i < st ? 'done' : (i === st ? (flag && o.f==='rej' ? 'dead' : 'now') : 'todo');
+    if (done) cls = 'done';
+    steps += '<div class="st '+cls+'"><div class="bar"><span class="dot"></span></div>'+
+             '<div class="t">'+esc(NAMES[i-1])+'</div></div>';
+  }
+
+  var box = '';
+  if (flag){
+    box = '<div class="now-box '+flag.box+'"><div class="ic">'+flag.ic+'</div><div>'+
+          '<div class="k">'+esc(flag.k)+'</div><div class="v">'+
+          (o.m ? esc(o.m) : 'Подробности уточните в архиве.') + '</div></div></div>';
+  } else if (done){
+    box = '<div class="now-box good"><div class="ic">✓</div><div>'+
+          '<div class="k">Готово</div><div class="v">Доступ предоставлен. Если он не работает — сообщите в архив, заявку вернут в работу.</div></div></div>';
+  } else {
+    box = '<div class="now-box wait"><div class="ic">⏳</div><div>'+
+          '<div class="k">Сейчас ждём решения</div><div class="v">'+
+          (o.w ? esc(o.w) : 'согласующий') +
+          (o.u ? ' — срок до ' + esc(o.u) : '') + '.</div></div></div>';
+  }
+
+  var rows = '';
+  var add = function(k,v){ if (v) rows += '<dt>'+k+'</dt><dd>'+esc(v)+'</dd>'; };
+  add('Ресурс', o.r); add('Тип доступа', o.t); add('Дата подачи', o.d);
+  add('Этап', st + ' из ' + LAST + ' — ' + NAMES[st-1]);
+
+  document.getElementById('view').innerHTML =
+    '<div class="card"><div class="hd">'+
+    '<div class="num">Заявка № '+esc(o.n || '—')+'</div>'+
+    '<div class="h">'+esc(o.r || 'Заявка на доступ к ресурсам')+'</div>'+ badge +
+    '</div><div class="bd">'+
+    '<h3>Ход рассмотрения</h3><div class="steps">'+steps+'</div>'+ box +
+    (rows ? '<dl>'+rows+'</dl>' : '') +
+    '<div class="stamp">Данные актуальны на <strong>'+esc(o.a || 'дату формирования ссылки')+'</strong>. '+
+    'Страница не обновляется сама: при смене этапа архив выдаёт новую ссылку. '+
+    'Юридически значимое состояние заявки — в 1С:Документооборот.</div>'+
+    '</div><div class="ft">Справочная информация. Вопросы по заявке — '+
+    esc(o.c || 'в архив') + '.</div></div>';
+}
+
+function showError(){
+  document.getElementById('view').innerHTML =
+    '<div class="card"><div class="err"><h2>Ссылка не открывается</h2>'+
+    '<p>Возможно, она повреждена при пересылке. Запросите новую в архиве.</p></div></div>';
+}
+
+// --- запуск ---
+var hash = location.hash || '';
+if (hash.indexOf('#d=') === 0){
+  try { render(dec(hash.slice(3))); }
+  catch(e){ showError(); }
+} else {
+  document.getElementById('builder').hidden = false;
+  var ids = ['i_num','i_date','i_res','i_typ','i_st','i_fl','i_who','i_due','i_upd','i_cnt','i_note'];
+  var upd = function(){
+    render(collect());
+    document.getElementById('o_url').value = makeUrl();
+  };
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener('input', upd);
+    el.addEventListener('change', upd);
+  });
+  upd();
+}
+
+window.copyUrl = function(){
+  var t = document.getElementById('o_url');
+  t.select(); t.setSelectionRange(0, 99999);
+  try { document.execCommand('copy'); alert('Ссылка скопирована. Вставьте её в письмо заявителю.'); }
+  catch(e){ alert('Скопируйте ссылку вручную из поля.'); }
+};
+window.openView = function(){ window.open(makeUrl(), '_blank'); };
+window.clearAll = function(){
+  ['i_num','i_date','i_res','i_typ','i_who','i_due','i_upd','i_cnt','i_note'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('i_st').value = '3';
+  document.getElementById('i_fl').value = '';
+  document.getElementById('i_num').dispatchEvent(new Event('input'));
+};
+})();
+</script>
+</body>
+</html>
