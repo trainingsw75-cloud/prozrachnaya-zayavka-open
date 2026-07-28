@@ -133,9 +133,8 @@ textarea{min-height:52px;resize:vertical}
       <div class="grid">
         <label class="f"><span>Номер заявки</span><input id="i_num" placeholder="ЗД-2026-00147"></label>
         <label class="f"><span>Дата подачи</span><input id="i_date" placeholder="00.00.0000"></label>
-        <label class="f"><span>Основание</span><input id="i_base" placeholder="приём на работу / приказ № ___"></label>
         <label class="f"><span>Данные актуальны на</span><input id="i_upd" placeholder="00.00.0000"></label>
-        <label class="f"><span>Куда обращаться</span><input id="i_cnt" placeholder="архив, добавочный 000"></label>
+        <label class="f"><span>Куда обращаться</span><input id="i_cnt" value="Королев, кабинет 245"></label>
       </div>
 
       <h3 style="margin-top:24px">Запрошенные ресурсы</h3>
@@ -241,7 +240,6 @@ function render(o){
     '</span><span class="cnt">'+resolved+' из '+total+'</span></div>'+
     (parts.length ? '<div class="stamp" style="margin:0 0 16px">'+esc(parts.join(' · '))+'</div>' : '')+
     items +
-    (o.b ? '<div class="stamp"><span style="color:var(--ink-3)">Основание: </span>'+esc(o.b)+'</div>' : '')+
     '<div class="stamp">Данные актуальны на <strong>'+esc(o.a||'дату формирования ссылки')+'</strong>. '+
     'Страница не обновляется сама: при изменении статуса архив выдаёт новую ссылку. '+
     'Юридически значимое состояние заявки — в 1С:Документооборот.</div>'+
@@ -291,7 +289,7 @@ function collect(){
     el.querySelectorAll('[data-k]').forEach(function(f){ r[f.dataset.k] = f.value.trim(); });
     if (r.n || r.t) rs.push(r);
   });
-  return { n:g('i_num'), d:g('i_date'), b:g('i_base'), a:g('i_upd'), c:g('i_cnt'), rs:rs };
+  return { n:g('i_num'), d:g('i_date'), a:g('i_upd'), c:g('i_cnt'), rs:rs };
 }
 
 function makeUrl(){
@@ -341,7 +339,8 @@ window.copyUrl = function(){
 };
 window.openView = function(){ window.open(makeUrl(),'_blank'); };
 window.clearAll = function(){
-  ['i_num','i_date','i_base','i_upd','i_cnt'].forEach(function(id){ document.getElementById(id).value=''; });
+  ['i_num','i_date','i_upd'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('i_cnt').value = 'Королев, кабинет 245';
   document.getElementById('rows').innerHTML='';
   addRow();
 };
