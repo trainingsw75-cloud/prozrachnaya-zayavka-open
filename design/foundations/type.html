@@ -1,0 +1,48 @@
+<!-- @dsCard group="Основы" name="Типографика" subtitle="Экранная шкала и печатная для документов на подпись" -->
+<style>
+:root{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--accent:#b9791a;--radius:10px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--serif:"Times New Roman",Times,serif}
+@media (prefers-color-scheme:dark){:root{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--accent:#e0a54a}}
+:root[data-theme="dark"]{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--accent:#e0a54a}
+:root[data-theme="light"]{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--accent:#b9791a}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);padding:28px}
+h1{font-size:20px;margin:0 0 4px}
+.lede{color:var(--ink-3);font-size:13px;margin:0 0 26px;max-width:66ch;line-height:1.5}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:30px 0 14px;font-weight:600}
+.sp{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.sp .tok{font-family:var(--mono);font-size:11px;color:var(--ink-3);line-height:1.4}
+.d1{font-size:26px;font-weight:650;letter-spacing:-.02em;line-height:1.2}
+.d2{font-size:20px;font-weight:650;letter-spacing:-.01em;line-height:1.25}
+.d3{font-size:16px;font-weight:600;line-height:1.3}
+.d4{font-size:13.5px;font-weight:600;line-height:1.4}
+.bodyt{font-size:14px;line-height:1.6;color:var(--ink-2)}
+.small{font-size:12.5px;line-height:1.5;color:var(--ink-3)}
+.over{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--ink-3)}
+.monod{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.paper{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;font-family:var(--serif);color:var(--ink)}
+.paper .pt{text-align:center;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:16px}
+.paper p{font-size:15px;line-height:1.5;margin:0 0 11px;text-align:justify;text-indent:1.25cm}
+.note{margin-top:28px;padding:13px 15px;border-left:3px solid var(--accent);background:var(--bg-2);border-radius:0 10px 10px 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+</style>
+
+<h1>Типографика</h1>
+<p class="lede">Две шкалы. Экранная — системный шрифт, для трекера, писем и реестров: он есть на любом компьютере и в 1С-клиенте. Печатная — Times New Roman, для регламента, листа согласования и всего, что уходит на подпись.</p>
+
+<h2>Экранная шкала</h2>
+<div class="sp"><div class="tok">display-1<br>26/650</div><div class="d1">Заявка № 0000-00</div></div>
+<div class="sp"><div class="tok">display-2<br>20/650</div><div class="d2">Доступ к архивным делам фонда № 00</div></div>
+<div class="sp"><div class="tok">heading<br>16/600</div><div class="d3">Ход рассмотрения</div></div>
+<div class="sp"><div class="tok">subhead<br>13.5/600</div><div class="d4">Сейчас ждём решения</div></div>
+<div class="sp"><div class="tok">body<br>14/1.6</div><div class="bodyt">Ваша заявка движется по согласованию. Сейчас она у согласующего, срок этапа — до указанной даты. Как только решение будет принято, вы получите письмо.</div></div>
+<div class="sp"><div class="tok">small<br>12.5/1.5</div><div class="small">Письмо сформировано автоматически, отвечать на него не нужно.</div></div>
+<div class="sp"><div class="tok">overline<br>11/600 caps</div><div class="over">История согласования</div></div>
+<div class="sp"><div class="tok">mono<br>13</div><div class="monod">№ 0000-00 · 00.00.0000 · шаг 3/6</div></div>
+
+<h2>Печатная шкала — документы на подпись</h2>
+<div class="paper">
+  <div class="pt">Порядок предоставления доступа к ресурсам</div>
+  <p>1.1. Настоящий Порядок устанавливает правила подачи, рассмотрения и исполнения заявок на предоставление доступа к информационным ресурсам, архивным документам и помещениям архива.</p>
+  <p>1.2. Порядок обязателен для всех работников, подающих заявки, согласующих их и предоставляющих доступ.</p>
+</div>
+
+<div class="note"><strong>Почему две шкалы, а не одна.</strong> Делопроизводство в России живёт на Times New Roman 14 пт с абзацным отступом 1,25 см — регламент, набранный модным гротеском, на подписи вызывает вопросы к оформлению вместо вопросов по сути. А на экране Times читается хуже. Поэтому: бумага — засечки, экран — системный шрифт, и не смешивать.</div>

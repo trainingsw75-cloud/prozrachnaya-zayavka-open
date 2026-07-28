@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Прозрачная заявка — доска решений проекта</title>
+<style>
+:root{
+  --ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa;
+  --radius:11px;--shadow:0 1px 2px rgba(16,32,28,.05),0 6px 20px rgba(16,32,28,.06);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+  --muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15px;line-height:1.55}
+
+.top{background:var(--brand);color:var(--brand-ink)}
+.top .in{max-width:1180px;margin:0 auto;padding:17px 22px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:17px;font-weight:650;letter-spacing:-.01em}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer}
+.acts button:hover{background:rgba(255,255,255,.22)}
+.acts button.danger:hover{background:var(--err);border-color:var(--err);color:#fff}
+.saved{font-size:12px;opacity:0;transition:opacity .3s}
+.saved.on{opacity:.9}
+
+.stats{background:var(--bg);border-bottom:1px solid var(--line)}
+.stats .in{max-width:1180px;margin:0 auto;padding:14px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.s{padding:9px 12px;border-radius:9px;background:var(--bg-2)}
+.s b{display:block;font-size:22px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.1}
+.s span{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.s.use b{color:var(--ok)} .s.fix b{color:var(--warn)} .s.no b{color:var(--err)}
+
+.wrap{max-width:1180px;margin:0 auto;padding:20px 22px 70px}
+
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.search{flex:1;min-width:240px;position:relative}
+.search input{width:100%;font:inherit;font-size:14px;padding:11px 14px 11px 38px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);outline:none}
+.search input:focus{border-color:var(--brand)}
+.search::before{content:"🔎";position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.6}
+.filt{display:flex;gap:6px;flex-wrap:wrap}
+.filt button{font:inherit;font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink-2);cursor:pointer}
+.filt button.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.add{font:inherit;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9px;border:1px solid var(--brand);background:var(--brand);color:var(--brand-ink);cursor:pointer}
+
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+.card.d-use{border-left:4px solid var(--ok)}
+.card.d-fix{border-left:4px solid var(--warn)}
+.card.d-no{border-left:4px solid var(--err);opacity:.72}
+.card.d-later{border-left:4px solid var(--muted)}
+.hd{padding:15px 18px;display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.hd h3{margin:0 0 5px;font-size:15.5px;font-weight:650;line-height:1.3}
+.hd .eff{font-size:13.5px;color:var(--ink-2);margin:0;max-width:70ch}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.t{font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px;white-space:nowrap}
+.t-box{background:var(--ok-bg);color:var(--ok)}
+.t-set{background:var(--info-bg);color:var(--info)}
+.t-dev{background:var(--warn-bg);color:var(--warn)}
+.t-org{background:var(--violet-bg);color:var(--violet)}
+.t-src{background:var(--muted-bg);color:var(--muted)}
+.t-cost{background:var(--bg-3);color:var(--ink-2)}
+
+.dec{padding:0 18px 15px;border-top:1px solid var(--line);padding-top:13px}
+.dbtns{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.dbtns button{font:inherit;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg-2);color:var(--ink-2);cursor:pointer}
+.dbtns button:hover{border-color:var(--ink-3)}
+.dbtns button.on-use{background:var(--ok);border-color:var(--ok);color:#fff}
+.dbtns button.on-fix{background:var(--warn);border-color:var(--warn);color:#fff}
+.dbtns button.on-no{background:var(--err);border-color:var(--err);color:#fff}
+.dbtns button.on-later{background:var(--muted);border-color:var(--muted);color:#fff}
+.drow{display:grid;grid-template-columns:1fr 200px 130px;gap:9px}
+@media (max-width:760px){.drow{grid-template-columns:1fr}}
+.drow input,.drow textarea{font:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);color:var(--ink);outline:none;width:100%}
+.drow textarea{min-height:40px;resize:vertical}
+.drow input:focus,.drow textarea:focus{border-color:var(--brand);background:var(--bg)}
+.stamp{font-size:11.5px;color:var(--ink-3);margin-top:7px}
+
+dialog{border:none;border-radius:var(--radius);padding:0;background:var(--bg);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35);max-width:560px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(8,18,15,.55)}
+dialog .dh{padding:17px 20px;border-bottom:1px solid var(--line);font-weight:650}
+dialog .db{padding:18px 20px;display:grid;gap:11px}
+dialog label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600;margin-bottom:4px}
+dialog input,dialog textarea,dialog select{font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);color:var(--ink);width:100%;outline:none}
+dialog .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:9px;justify-content:flex-end}
+dialog .df button{font:inherit;font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:8px;cursor:pointer;border:1px solid var(--line);background:var(--bg-2);color:var(--ink)}
+dialog .df button.pri{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+
+.sign{margin-top:26px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.sign h2{margin:0 0 4px;font-size:16px}
+.sign p{margin:0 0 14px;font-size:13px;color:var(--ink-3)}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.sgrid label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600;margin-bottom:4px}
+.sgrid input{font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);color:var(--ink);width:100%;outline:none}
+.sline{margin-top:16px;display:flex;gap:40px;flex-wrap:wrap;font-size:13px;color:var(--ink-3)}
+.sline div{flex:1;min-width:200px}
+.sline i{display:block;border-bottom:1px solid var(--ink-3);height:1.6em;margin-bottom:4px}
+
+.warn{margin-top:22px;padding:14px 16px;border-left:3px solid var(--err);background:var(--err-bg);border-radius:0 9px 9px 0;font-size:13px;color:var(--ink-2)}
+.empty{padding:40px 20px;text-align:center;color:var(--ink-3);font-size:14px}
+
+@media print{
+  body{background:#fff;font-size:10.5pt}
+  .top{background:#fff;color:#000;border-bottom:2px solid #000}
+  .acts,.bar,.saved,.dbtns,.warn{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .card{box-shadow:none;page-break-inside:avoid;border:1px solid #bbb;margin-bottom:8px}
+  .card.d-no{opacity:1}
+  .stats .in{padding:8px 0}
+  dialog{display:none!important}
+  .drow input,.drow textarea{border:none;background:none;padding:2px 0}
+  .sign{page-break-inside:avoid;border:none;padding:16px 0 0}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in">
+  <div>
+    <h1>Проект «Прозрачная заявка» — доска решений</h1>
+    <p>Архив ОЭЗ «Алабуга» · заявки на доступ к ресурсам · 1С:Документооборот 8, ред. 2.1</p>
+  </div>
+  <div class="acts">
+    <span class="saved" id="saved">сохранено</span>
+    <button onclick="window.print()">🖨 Печать протокола</button>
+    <button onclick="exportTxt()">⬇ Протокол в файл</button>
+    <button onclick="exportCsv()">⬇ Таблица CSV</button>
+    <button class="danger" onclick="wipe()">Сброс</button>
+  </div>
+</div></div>
+
+<div class="stats"><div class="in" id="stats"></div></div>
+
+<div class="wrap">
+
+  <div class="bar">
+    <div class="search"><input id="q" placeholder="Поиск по названию, эффекту, решению, комментарию…" autocomplete="off"></div>
+    <div class="filt" id="filt">
+      <button data-f="all" class="on">Все</button>
+      <button data-f="none">Без решения</button>
+      <button data-f="use">Использовать</button>
+      <button data-f="fix">Доработать</button>
+      <button data-f="no">Отклонено</button>
+      <button data-f="later">Отложено</button>
+      <button data-f="free">Без денег</button>
+    </div>
+    <button class="add" onclick="openAdd()">+ Добавить пункт</button>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="sign">
+    <h2>Подтверждение</h2>
+    <p>Заполняется при показе руководителю. Печатается вместе с протоколом решений выше.</p>
+    <div class="sgrid">
+      <div><label>Проект представил</label><input data-k="s_who" placeholder="должность, ФИО"></div>
+      <div><label>Кому представлен</label><input data-k="s_to" placeholder="должность, ФИО"></div>
+      <div><label>Дата рассмотрения</label><input data-k="s_date" placeholder="00.00.0000"></div>
+      <div><label>Срок следующей контрольной точки</label><input data-k="s_next" placeholder="00.00.0000"></div>
+    </div>
+    <div class="sline">
+      <div><i></i>подпись представившего</div>
+      <div><i></i>подпись руководителя</div>
+    </div>
+  </div>
+
+  <div class="warn"><b>Данные не покидают этот компьютер.</b> Всё заполненное хранится в браузере локально — ничего никуда не отправляется и не публикуется. Прежде чем выкладывать эту доску в интернет или пересылать файлом за пределы ОЭЗ, согласуйте состав сведений со службой информационной безопасности: перечень ресурсов и схема их защиты — это не публичная информация.</div>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog">
+    <div class="dh">Новый пункт проекта</div>
+    <div class="db">
+      <div><label>Название</label><input id="n_title" required placeholder="Коротко: что предлагается"></div>
+      <div><label>Что это даёт</label><textarea id="n_eff" rows="3" placeholder="Эффект простыми словами"></textarea></div>
+      <div><label>Сложность</label><select id="n_kind">
+        <option value="box">КОРОБКА — уже есть, начать пользоваться</option>
+        <option value="set" selected>НАСТРОЙКА — мышкой, без программиста</option>
+        <option value="dev">ДОРАБОТКА — нужен программист</option>
+        <option value="org">ОРГАНИЗАЦИОННОЕ — приказ, регламент, люди</option>
+      </select></div>
+      <div><label>Оценка (часы, деньги, срок)</label><input id="n_cost" placeholder="например: 8 ч · или: 0 ₽ · или: 1 неделя"></div>
+      <div><label>Откуда взято</label><input id="n_src" placeholder="например: свой опыт, совещание 00.00, документ «01 Пакет»"></div>
+    </div>
+    <div class="df">
+      <button value="cancel">Отмена</button>
+      <button value="ok" class="pri" id="n_ok">Добавить</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+var KEY='alabuga_board_v1';
+
+var SEED=[
+ {id:'s01',t:'Уведомлять заявителя на каждом этапе',e:'Человек видит движение заявки, не заходя в 1С и не звоня в архив. Закрывает главную боль проекта.',k:'set',c:'0 ₽ · 1 день',src:'01 Пакет, Часть III'},
+ {id:'s02',t:'Включить автора заявки в рабочую группу по умолчанию',e:'Заявитель начинает видеть собственную заявку. Частая дыра: письма идут согласующим, а автору — нет.',k:'set',c:'0 ₽ · 1 час',src:'01 Пакет, дыра №1'},
+ {id:'s03',t:'Сделать обязательными ключевые поля заявки',e:'Ресурс, тип доступа, срок действия, основание. Меньше возвратов «переделайте».',k:'set',c:'0 ₽ · 2 часа',src:'01 Пакет, Часть I'},
+ {id:'s04',t:'Проставить сроки всем этапам и включить рабочий график',e:'Без графика «2 рабочих дня» считаются календарными, и пятничные заявки просрочены уже в понедельник.',k:'set',c:'0 ₽ · 2 часа',src:'01 Пакет, дыра №3'},
+ {id:'s05',t:'Перевести согласование руководителя и ИБ в параллельное',e:'Два согласующих работают одновременно, а не в очередь. Самый дешёвый способ сократить срок.',k:'set',c:'0 ₽ · 1 час',src:'01 Пакет, Часть I'},
+ {id:'s06',t:'Добавить ветку отказа с обязательной причиной',e:'Отказ перестаёт быть тупиком: человек понимает, что исправить, и не подаёт заявку наугад.',k:'set',c:'0 ₽ · 2 часа (штатно) или ~2 ч программиста',src:'01 Пакет, дыра №7'},
+ {id:'s07',t:'Ввести этап проверки исполнения',e:'Доступ считается выданным не когда админ нажал «выполнено», а когда заявитель подтвердил, что доступ реально работает.',k:'set',c:'0 ₽ · 1 час',src:'01 Пакет, Часть I'},
+ {id:'s08',t:'Заполнить замещающих у всех участников маршрута',e:'Отпуск согласующего перестаёт останавливать процесс.',k:'set',c:'0 ₽ · 2 часа',src:'01 Пакет, дыра №10'},
+ {id:'s09',t:'Назначить контролёра и заместителя, выдать профиль прав',e:'Появляется человек, который каждый день видит просрочки и имеет право вмешаться.',k:'org',c:'0 ₽ · приказ',src:'01 Пакет, Часть V'},
+ {id:'s10',t:'Утвердить регламент «Порядок предоставления доступа»',e:'Сроки и основания отказа перестают быть предметом устных договорённостей.',k:'org',c:'0 ₽ · 2–4 недели согласования',src:'01 Пакет, Часть VI'},
+ {id:'s11',t:'Ввести отзыв доступа по истечении срока',e:'Доступы перестают жить вечно. Закрывает замечание, которое первым делом находит любая проверка ИБ.',k:'dev',c:'оценка подрядчика',src:'01 Пакет, регламент п. 9.5'},
+ {id:'s12',t:'Ежегодная пересертификация прав доступа',e:'Раз в год владелец ресурса подтверждает список тех, у кого есть доступ. Лишнее отваливается само.',k:'org',c:'0 ₽ · регламент',src:'02 Руководство'},
+ {id:'s13',t:'Справочник шаблонов писем с подстановкой параметров',e:'Тексты писем правит делопроизводитель, а не программист. Нужен, если штатный текст уведомления не редактируется.',k:'dev',c:'24–32 ч',src:'01 Пакет, Часть III'},
+ {id:'s14',t:'Страница-трекер статуса заявки (HTTP-сервис в 1С)',e:'Ссылка из письма открывает живой статус заявки без входа в 1С. Полноценное решение, данные всегда актуальны.',k:'dev',c:'80 ч · упрощённый 56 ч',src:'01 Пакет, Часть IV'},
+ {id:'s15',t:'Пилот трекера на готовом коде соседнего проекта',e:'У вас уже есть работающая страница отслеживания и генератор QR. Для пилота их можно переделать под заявку вместо ТЗ на 80 часов. Данные не живые — ссылка обновляется вручную.',k:'dev',c:'малая · уточняется',src:'разбор репозитория'},
+ {id:'s16',t:'Лист согласования с QR-кодом',e:'Бумажный лист лежит в деле, а текущий статус — на один скан телефона дальше. Распечатка перестаёт устаревать.',k:'dev',c:'12–16 ч · при готовом трекере 8 ч',src:'01 Пакет, Часть IV'},
+ {id:'s17',t:'Бот статуса заявки в мессенджере',e:'Статус приходит туда, где человек и так сидит. Требует отдельного согласования с ИБ.',k:'dev',c:'40–56 ч + 8–12 ч на ИБ',src:'01 Пакет, Часть IV'},
+ {id:'s18',t:'QR на единицах хранения и топография хранилища',e:'Стеллаж — полка — короб — дело. Поиск дела перестаёт зависеть от памяти сотрудника.',k:'dev',c:'уточняется',src:'02 Руководство, фичи архива'},
+ {id:'s19',t:'Журнал выдачи архивных дел',e:'Видно, какое дело у кого на руках и когда должно вернуться. Основа — готовый журнал отправлений из соседнего проекта.',k:'dev',c:'малая',src:'разбор репозитория'},
+ {id:'s20',t:'Электронный читальный зал',e:'Заявка на дело, бронь времени, выдача скан-образа вместо подлинника. Подлинник меньше изнашивается.',k:'dev',c:'уточняется',src:'02 Руководство, фичи архива'},
+ {id:'s21',t:'Единый фирменный стиль документов и страниц',e:'Статусы узнаются по цвету везде одинаково, письма читаются с телефона, бланки выглядят как документы.',k:'set',c:'сделано, требует внедрения',src:'дизайн-система проекта'},
+ {id:'s22',t:'Канцелярия голосом: наговорил — получил бланк и номер',e:'Заготовка alabugha-clerk. Проверяется, годится ли для подачи заявки и архивных справок.',k:'dev',c:'уточняется',src:'разбор репозитория'}
+];
+
+var KIND={box:['КОРОБКА','t-box'],set:['НАСТРОЙКА','t-set'],dev:['ДОРАБОТКА','t-dev'],org:['ОРГАНИЗАЦИОННОЕ','t-org']};
+var DEC={use:'Использовать',fix:'Доработать',no:'Отклонить',later:'Отложить'};
+
+var S={items:[],d:{},f:{}};
+try{ var raw=localStorage.getItem(KEY); if(raw) S=JSON.parse(raw); }catch(e){}
+if(!S.items||!S.items.length) S.items=SEED.slice();
+if(!S.d) S.d={};
+if(!S.f) S.f={};
+
+var badge=document.getElementById('saved'),tmr;
+function save(){
+  try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){}
+  badge.classList.add('on'); clearTimeout(tmr);
+  tmr=setTimeout(function(){badge.classList.remove('on');},1200);
+}
+function today(){ var d=new Date(); function p(n){return (n<10?'0':'')+n;} return p(d.getDate())+'.'+p(d.getMonth()+1)+'.'+d.getFullYear(); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+var flt='all', q='';
+
+function match(it){
+  var d=S.d[it.id]||{};
+  if(flt==='none' && d.v) return false;
+  if(flt==='free' && !(it.k==='set'||it.k==='box'||it.k==='org')) return false;
+  if(['use','fix','no','later'].indexOf(flt)>=0 && d.v!==flt) return false;
+  if(q){
+    var hay=(it.t+' '+it.e+' '+(it.c||'')+' '+(it.src||'')+' '+(KIND[it.k]?KIND[it.k][0]:'')+' '+(d.cm||'')+' '+(d.by||'')+' '+(d.v?DEC[d.v]:'')).toLowerCase();
+    if(hay.indexOf(q)<0) return false;
+  }
+  return true;
+}
+
+function render(){
+  var L=document.getElementById('list'),h='',n=0;
+  S.items.forEach(function(it){
+    if(!match(it)) return;
+    n++;
+    var d=S.d[it.id]||{}, kd=KIND[it.k]||['—','t-src'];
+    h+='<div class="card'+(d.v?' d-'+d.v:'')+'">'+
+       '<div class="hd"><div><h3>'+esc(it.t)+'</h3><p class="eff">'+esc(it.e)+'</p>'+
+       '<div class="tags"><span class="t '+kd[1]+'">'+kd[0]+'</span>'+
+       (it.c?'<span class="t t-cost">'+esc(it.c)+'</span>':'')+
+       (it.src?'<span class="t t-src">'+esc(it.src)+'</span>':'')+'</div></div></div>'+
+       '<div class="dec"><div class="dbtns">'+
+       ['use','fix','no','later'].map(function(v){
+         return '<button data-i="'+it.id+'" data-v="'+v+'" class="'+(d.v===v?'on-'+v:'')+'">'+DEC[v]+'</button>';
+       }).join('')+
+       (d.v?'<button data-i="'+it.id+'" data-v="">Снять решение</button>':'')+
+       '</div><div class="drow">'+
+       '<textarea data-i="'+it.id+'" data-fld="cm" placeholder="Комментарий, условие, что доработать">'+esc(d.cm)+'</textarea>'+
+       '<input data-i="'+it.id+'" data-fld="by" placeholder="Кто решил" value="'+esc(d.by)+'">'+
+       '<input data-i="'+it.id+'" data-fld="dt" placeholder="Дата" value="'+esc(d.dt)+'">'+
+       '</div>'+(d.v?'<div class="stamp">Решение: <b>'+DEC[d.v]+'</b>'+(d.dt?' · '+esc(d.dt):'')+(d.by?' · '+esc(d.by):'')+'</div>':'')+
+       '</div></div>';
+  });
+  L.innerHTML = n ? h : '<div class="empty">Ничего не найдено. Измените запрос или фильтр.</div>';
+  stats();
+}
+
+function stats(){
+  var c={use:0,fix:0,no:0,later:0,none:0};
+  S.items.forEach(function(it){ var v=(S.d[it.id]||{}).v; if(v) c[v]++; else c.none++; });
+  document.getElementById('stats').innerHTML=
+    '<div class="s"><b>'+S.items.length+'</b><span>всего пунктов</span></div>'+
+    '<div class="s use"><b>'+c.use+'</b><span>использовать</span></div>'+
+    '<div class="s fix"><b>'+c.fix+'</b><span>доработать</span></div>'+
+    '<div class="s no"><b>'+c.no+'</b><span>отклонено</span></div>'+
+    '<div class="s"><b>'+c.later+'</b><span>отложено</span></div>'+
+    '<div class="s"><b>'+c.none+'</b><span>без решения</span></div>';
+}
+
+document.getElementById('list').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-i]'); if(!b) return;
+  var id=b.dataset.i, v=b.dataset.v;
+  var d=S.d[id]||{};
+  if(v===''){ delete S.d[id]; } else { d.v=v; if(!d.dt) d.dt=today(); S.d[id]=d; }
+  save(); render();
+});
+document.getElementById('list').addEventListener('input',function(e){
+  var el=e.target; if(!el.dataset||!el.dataset.fld) return;
+  var d=S.d[el.dataset.i]||{}; d[el.dataset.fld]=el.value; S.d[el.dataset.i]=d; save(); stats();
+});
+
+document.getElementById('q').addEventListener('input',function(e){ q=e.target.value.trim().toLowerCase(); render(); });
+document.getElementById('filt').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-f]'); if(!b) return;
+  flt=b.dataset.f;
+  document.querySelectorAll('#filt button').forEach(function(x){ x.classList.toggle('on',x===b); });
+  render();
+});
+
+document.querySelectorAll('.sgrid input[data-k]').forEach(function(el){
+  if(S.f[el.dataset.k]!==undefined) el.value=S.f[el.dataset.k];
+  el.addEventListener('input',function(){ S.f[el.dataset.k]=el.value; save(); });
+});
+
+var dlg=document.getElementById('dlg');
+window.openAdd=function(){ dlg.showModal(); document.getElementById('n_title').focus(); };
+dlg.addEventListener('close',function(){
+  if(dlg.returnValue!=='ok') return;
+  var t=document.getElementById('n_title').value.trim();
+  if(!t) return;
+  S.items.push({
+    id:'u'+Date.now(), t:t,
+    e:document.getElementById('n_eff').value.trim(),
+    k:document.getElementById('n_kind').value,
+    c:document.getElementById('n_cost').value.trim(),
+    src:document.getElementById('n_src').value.trim()||'добавлено вручную'
+  });
+  ['n_title','n_eff','n_cost','n_src'].forEach(function(i){ document.getElementById(i).value=''; });
+  save(); render();
+});
+
+window.wipe=function(){
+  if(!confirm('Сбросить все решения и вернуть исходный список? Отменить нельзя.')) return;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  location.reload();
+};
+
+function lines(){
+  var L=['ПРОТОКОЛ РЕШЕНИЙ ПО ПРОЕКТУ «ПРОЗРАЧНАЯ ЗАЯВКА»','Архив ОЭЗ «Алабуга» · заявки на доступ к ресурсам · 1С:Документооборот 8, ред. 2.1',''];
+  L.push('Представил: '+(S.f.s_who||'—')+'    Кому: '+(S.f.s_to||'—'));
+  L.push('Дата рассмотрения: '+(S.f.s_date||'—')+'    Контрольная точка: '+(S.f.s_next||'—'));
+  L.push('');
+  [['use','ПРИНЯТО К ИСПОЛЬЗОВАНИЮ'],['fix','НА ДОРАБОТКУ'],['later','ОТЛОЖЕНО'],['no','ОТКЛОНЕНО'],['','БЕЗ РЕШЕНИЯ']].forEach(function(g){
+    var rows=S.items.filter(function(it){ var v=(S.d[it.id]||{}).v||''; return v===g[0]; });
+    if(!rows.length) return;
+    L.push('--- '+g[1]+' ('+rows.length+') ---');
+    rows.forEach(function(it,i){
+      var d=S.d[it.id]||{}, kd=KIND[it.k]||['—'];
+      L.push((i+1)+') '+it.t);
+      L.push('   эффект: '+it.e);
+      L.push('   сложность: '+kd[0]+(it.c?' · оценка: '+it.c:'')+(it.src?' · источник: '+it.src:''));
+      if(d.cm) L.push('   комментарий: '+d.cm);
+      if(d.by||d.dt) L.push('   решил: '+(d.by||'—')+(d.dt?', '+d.dt:''));
+      L.push('');
+    });
+  });
+  L.push('','Представил ______________________     Руководитель ______________________');
+  return L.join('\r\n');
+}
+function dl(name,text,mime){
+  var b=new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+window.exportTxt=function(){ dl('Протокол решений - Прозрачная заявка.txt',lines()); };
+window.exportCsv=function(){
+  var rows=[['Пункт','Эффект','Сложность','Оценка','Источник','Решение','Комментарий','Кто','Дата']];
+  S.items.forEach(function(it){
+    var d=S.d[it.id]||{},kd=KIND[it.k]||['—'];
+    rows.push([it.t,it.e,kd[0],it.c||'',it.src||'',d.v?DEC[d.v]:'',d.cm||'',d.by||'',d.dt||'']);
+  });
+  var csv='﻿'+rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(';'); }).join('\r\n');
+  dl('Решения - Прозрачная заявка.csv',csv,'text/csv');
+};
+
+render();
+})();
+</script>
+</body>
+</html>

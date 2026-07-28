@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>08. Принципы клиники на Льва Толстого: маршрутный лист</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>08. Принципы клиники на Льва Толстого: маршрутный лист</h1><p>Личный кабинет пациента как образец единой точки входа, образец маршрутного листа заявителя, чего из медицины не брать</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#принципы-клиники-на-льва-толстого-для-заявок-на-доступ">Принципы клиники на Льва Толстого для заявок на доступ</a><a class="l2" href="#часть-1-что-удалось-проверить">Часть 1. Что удалось проверить</a><a class="l2" href="#часть-2-перенос-на-процесс-заявок">Часть 2. Перенос на процесс заявок</a><a class="l2" href="#принцип-клиники-что-делаем-у-себя">Принцип клиники → что делаем у себя</a><a class="l2" href="#маршрутный-лист-заявителя">Маршрутный лист заявителя</a><a class="l2" href="#чего-из-медицины-не-брать">Чего из медицины НЕ брать</a><a class="l2" href="#что-осталось-неподтверждённым">Что осталось неподтверждённым</a></nav>
+<main class="doc"><h1 id="принципы-клиники-на-льва-толстого-для-заявок-на-доступ">Принципы клиники на Льва Толстого для заявок на доступ</h1>
+<h2 id="часть-1-что-удалось-проверить">Часть 1. Что удалось проверить</h2>
+<div class="scroll"><table><thead><tr><th>№</th><th>Что проверял</th><th>Страница (полный URL)</th><th>Что там реально написано</th><th>Вердикт</th></tr></thead><tbody><tr><td>1</td><td>Личный кабинет пациента ПСПбГМУ: есть ли, что видно, запись онлайн</td><td><a href="https://www.1spbgmu.ru/klinika/platnye-uslugi/lichnyj-kabinet" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/platnye-uslugi/lichnyj-kabinet</a></td><td>В кабинете можно «посмотреть результаты анализов, записаться на консультации к специалистам, оплатить услуги». На вкладке «Назначения» видны время записи, ФИО врача и номер кабинета. Бронь держится 30 минут до оплаты, потом запись отменяется; оплата картой через Сбербанк; есть кнопка «Отменить». Кабинет доступен через браузер и мобильное приложение</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>1а</td><td>Вторая страница «Личный кабинет» в разделе клиники</td><td><a href="https://www.1spbgmu.ru/klinika/lichnyj-kabinet" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/lichnyj-kabinet</a></td><td>Содержимое не отдалось (пустой ответ)</td><td><strong>СТРАНИЦА НЕ ОТКРЫЛАСЬ</strong></td></tr><tr><td>2</td><td>Электронная очередь, талон с номером, табло в ПСПбГМУ</td><td><a href="https://www.1spbgmu.ru/klinika/patients" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/patients</a></td><td>Страница даёт правила внутреннего распорядка, права пациентов, порядок обращения, телефоны call-центра 429-03-33 и координаторов плановой госпитализации 429-03-11 (09:00–17:30). Про электронную очередь, талоны и табло не сказано ничего</td><td><strong>НЕ НАЙДЕНО</strong></td></tr><tr><td>2а</td><td>Талон при записи в городской системе (не ПСПбГМУ)</td><td><a href="https://gorzdrav.spb.ru/service-free-schedule" target="_blank" rel="noopener">https://gorzdrav.spb.ru/service-free-schedule</a></td><td>После записи система пишет «Вы успешно записаны на прием к врачу», есть кнопка «Распечатать талон» и сохранение в PDF. Запись по полису ОМС, 4 шага (мед. организация → специальность → врач и время → подтверждение), при отсутствии слотов — «Лист ожидания»</td><td><strong>ПОДТВЕРЖДЕНО</strong> (городской портал, не клиника ПСПбГМУ)</td></tr><tr><td>3</td><td>Маршрутный лист пациента «куда идти по порядку»</td><td><a href="https://www.1spbgmu.ru/klinika/patients" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/patients</a> ; <a href="https://www.1spbgmu.ru/klinika/platnye-uslugi/lichnyj-kabinet" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/platnye-uslugi/lichnyj-kabinet</a></td><td>Ни на одной из открытых страниц маршрутный лист не упоминается. Максимум — номер кабинета в личном кабинете</td><td><strong>НЕ НАЙДЕНО</strong></td></tr><tr><td>4</td><td>Как пациент получает результаты обследований</td><td><a href="https://www.1spbgmu.ru/klinika/platnye-uslugi/lichnyj-kabinet" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/platnye-uslugi/lichnyj-kabinet</a></td><td>Прямо указано, что результаты анализов можно посмотреть в личном кабинете. Способ выдачи «на руки / по QR-ссылке» на странице не описан</td><td><strong>ПОДТВЕРЖДЕНО</strong> (только просмотр в кабинете)</td></tr><tr><td>5</td><td>Статус заявки на госпитализацию/консультацию и объявленный срок</td><td><a href="https://www.1spbgmu.ru/klinika/patients" target="_blank" rel="noopener">https://www.1spbgmu.ru/klinika/patients</a></td><td>Есть телефоны координаторов плановой госпитализации, но никакого онлайн-статуса заявки и никаких сроков ожидания на странице не заявлено</td><td><strong>НЕ НАЙДЕНО</strong></td></tr><tr><td>6</td><td>Штрихкод/QR на пробирке, направлении, карте</td><td><a href="https://gorzdrav.spb.ru/service-referral-schedule" target="_blank" rel="noopener">https://gorzdrav.spb.ru/service-referral-schedule</a></td><td>Для записи по направлению используется «14-значный номер, расположенный на бланке направления». Это цифровой номер; штрихкод/QR на бланке страницей не подтверждается</td><td><strong>НЕ НАЙДЕНО</strong> (номер — да, штрихкод — нет)</td></tr></tbody></table></div>
+<p>Вывод: у клиники ПСПбГМУ документально подтверждён только личный кабинет пациента — онлайн-запись, просмотр результатов анализов, оплата, время и кабинет приёма; он привязан к платным услугам. Всё остальное — электронная очередь с талоном и табло, маршрутный лист, онлайн-статус заявки на госпитализацию, штрихкод/QR — на открытых страницах клиники не подтверждается ни одной строкой. Печатный талон и лист ожидания подтверждены только для городского портала gorzdrav.spb.ru, то есть для системы записи в поликлиники по ОМС, а не для клиники на Льва Толстого, 6–8 — смешивать эти два факта в служебной записке нельзя.</p>
+<hr>
+<h2 id="часть-2-перенос-на-процесс-заявок">Часть 2. Перенос на процесс заявок</h2>
+<h2 id="принцип-клиники-что-делаем-у-себя">Принцип клиники → что делаем у себя</h2>
+<div class="scroll"><table><thead><tr><th>Принцип</th><th>Как это выглядит в клинике</th><th>Что конкретно сделать в заявках на доступ</th><th>Маркер</th></tr></thead><tbody><tr><td>Один вход для заявителя</td><td>Личный кабинет ПСПбГМУ: запись, результаты, оплата — всё в одном месте <em>(подтверждено)</em></td><td>Свести пилот страницы статуса и подачу заявки в одну точку входа по регистрационному номеру</td><td>[ДОРАБОТКА]</td></tr><tr><td>Видно, кто и где принимает</td><td>Во вкладке «Назначения» — ФИО врача и номер кабинета <em>(подтверждено)</em></td><td>На странице статуса показывать ФИО текущего согласующего и подразделение, а не только «на согласовании»</td><td>[ПРОВЕРИТЬ] состав данных, отдаваемых из ДО 2.1 наружу</td></tr><tr><td>Номер обращения на руки</td><td>Городской портал: «Распечатать талон», сохранение в PDF <em>(подтверждено, gorzdrav, не ПСПбГМУ)</em></td><td>При подаче заявки — печатная форма с рег. номером и QR/ссылкой на страницу статуса</td><td>[ДОРАБОТКА]</td></tr><tr><td>Заявка не «висит» бесконечно</td><td>Бронь держится 30 минут, потом снимается автоматически <em>(подтверждено)</em></td><td>Ввести срок реакции согласующего и автоэскалацию руководителю по истечении</td><td>[НАСТРОЙКА] сроки в задачах + [ОРГ] приказ о сроках</td></tr><tr><td>Отказ — тоже действие</td><td>Кнопка «Отменить» доступна пациенту <em>(подтверждено)</em></td><td>Кнопка «Отозвать заявку» у заявителя, статус «Отозвана», без звонка в архив</td><td>[ДОРАБОТКА]</td></tr><tr><td>Нет свободного окна — очередь, а не тишина</td><td>«Лист ожидания» при отсутствии слотов <em>(подтверждено, gorzdrav)</em></td><td>Статус «Ожидает освобождения ресурса» вместо неопределённого зависания</td><td>[НАСТРОЙКА]</td></tr><tr><td>Результат отдаётся в кабинете</td><td>Результаты анализов видны в личном кабинете <em>(подтверждено)</em></td><td>Итог заявки (доступ выдан / отказано, с причиной) публиковать на той же странице</td><td>[ДОРАБОТКА]</td></tr><tr><td>Живой канал остаётся</td><td>Телефоны call-центра и координаторов, часы работы <em>(подтверждено)</em></td><td>На странице статуса — контакт ответственного и часы приёма обращений</td><td>[ОРГ]</td></tr></tbody></table></div>
+<h2 id="маршрутный-лист-заявителя">Маршрутный лист заявителя</h2>
+<blockquote><p>Печатная форма, выдаётся/отправляется при регистрации заявки. Образец; сроки заполняются после утверждения регламента.</p></blockquote>
+<p><strong>МАРШРУТНЫЙ ЛИСТ ПО ЗАЯВКЕ НА ДОСТУП К РЕСУРСАМ</strong></p>
+<p>Регистрационный номер: <code>{{РегНомер}}</code> Дата подачи: <code>{{ДатаПодачи}}</code> Заявитель: <code>{{ФИО}}</code>, <code>{{Подразделение}}</code>, <code>{{Должность}}</code> Предмет заявки: <code>{{Ресурс/Система}}</code> Проверить статус: <code>{{URL страницы статуса}}</code> / QR: <code>{{QR}}</code></p>
+<div class="scroll"><table><thead><tr><th>№</th><th>Этап</th><th>Кто (роль)</th><th>Ориент. срок</th><th>Отметка о прохождении</th></tr></thead><tbody><tr><td>1</td><td>Регистрация заявки</td><td><code>{{Секретарь/автомат}}</code></td><td><code>______</code></td><td>☐ дата <code>____</code></td></tr><tr><td>2</td><td>Согласование непосредственным руководителем</td><td><code>{{ФИО}}</code></td><td><code>______</code></td><td>☐ дата <code>____</code></td></tr><tr><td>3</td><td>Согласование владельцем ресурса</td><td><code>{{ФИО, подразделение}}</code></td><td><code>______</code></td><td>☐ дата <code>____</code></td></tr><tr><td>4</td><td>Проверка службой безопасности</td><td><code>{{ФИО}}</code></td><td><code>______</code></td><td>☐ дата <code>____</code></td></tr><tr><td>5</td><td>Исполнение (настройка прав)</td><td><code>{{ИТ-специалист}}</code></td><td><code>______</code></td><td>☐ дата <code>____</code></td></tr><tr><td>6</td><td>Уведомление заявителя о результате</td><td><code>{{Ответственный}}</code></td><td><code>______</code></td><td>☐ дата <code>____</code></td></tr></tbody></table></div>
+<p>Возможные состояния: зарегистрирована · на согласовании (этап №\_\_) · возвращена на доработку · ожидает освобождения ресурса · исполнена · отклонена (причина: <code>__________</code>) · отозвана заявителем.</p>
+<p>Вопросы по заявке: <code>{{ФИО ответственного}}</code>, тел. <code>{{телефон}}</code>, часы <code>{{часы}}</code>.</p>
+<p><em>Состав этапов — макет под ваш процесс, требует сверки с действующей схемой согласования в 1С:ДО.</em></p>
+<h2 id="чего-из-медицины-не-брать">Чего из медицины НЕ брать</h2>
+<ol><li><strong>Табло с номерами в холле.</strong> У клиники не подтверждено, а у нас имена заявителей и названия ресурсов — публичный экран создаёт утечку.</li><li><strong>Привязку сервиса к «платным услугам».</strong> В клинике кабинет привязан к платному контуру; у нас доступ к статусу должен быть у каждого заявителя без исключений.</li><li><strong>Автоотмену по таймеру как у брони (30 минут).</strong> Пациент теряет слот, заявитель потеряет работу — таймер должен эскалировать, а не аннулировать.</li><li><strong>Смешение двух источников.</strong> Печатный талон и лист ожидания подтверждены для городского портала, а не для клиники; в служебной записке ссылаться на них как на «опыт клиники» нельзя.</li><li><strong>Телефон как основной канал статуса.</strong> У клиники координаторы работают по расписанию; у нас цель — снять нагрузку с людей, а не перенести её на телефон.</li></ol>
+<h2 id="что-осталось-неподтверждённым">Что осталось неподтверждённым</h2>
+<ul><li><strong>Электронная очередь, талон и табло в самой клинике</strong> — на открытых страницах ПСПбГМУ не найдено ни строки. Всё, что взято из «очереди», — общий принцип, источником не подтверждён.</li><li><strong>Маршрутный лист пациента как документ</strong> — не найден ни на одной открытой странице. Форма выше построена по общей логике этапного маршрута, источником не подтверждена.</li><li><strong>Онлайн-статус заявки на госпитализацию и объявленные сроки ожидания</strong> — не найдено; идея «видимого этапа и срока» — общий принцип, источником не подтверждён.</li><li><strong>Штрихкод/QR на бланке</strong> — подтверждён только 14-значный номер направления на городском портале; QR — общий принцип, источником не подтверждён.</li><li><strong>Автоэскалация при просрочке</strong> — прямого медицинского аналога в источниках нет; общий принцип, источником не подтверждён.</li><li><strong>Возможности 1С:ДО 2.1</strong> — маркеры [КОРОБКА]/[НАСТРОЙКА]/[ДОРАБОТКА] проставлены по общему представлению о конфигурации и требуют сверки с вашей рабочей базой.</li><li>Страница <code>https://www.1spbgmu.ru/klinika/lichnyj-kabinet</code> не открылась — часть данных о кабинете могла остаться непроверенной.</li></ul></main>
+</div></body></html>

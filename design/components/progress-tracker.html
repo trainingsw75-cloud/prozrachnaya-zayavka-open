@@ -1,0 +1,78 @@
+<!-- @dsCard group="Компоненты" name="Шкала прогресса заявки" subtitle="Полная, компактная и текстовая версии" -->
+<style>
+:root{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--muted:#5a6b66;--muted-bg:#eef2f0;--radius:10px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--muted:#9fb0ab;--muted-bg:#1c2724}}
+:root[data-theme="dark"]{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--muted:#9fb0ab;--muted-bg:#1c2724}
+:root[data-theme="light"]{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--muted:#5a6b66;--muted-bg:#eef2f0}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);padding:28px}
+h1{font-size:20px;margin:0 0 4px}
+.lede{color:var(--ink-3);font-size:13px;margin:0 0 26px;max-width:66ch;line-height:1.5}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:30px 0 14px;font-weight:600}
+
+/* --- полная шкала --- */
+.steps{display:flex;gap:0;align-items:flex-start}
+.st{flex:1;position:relative;text-align:center;min-width:0}
+.st .bar{height:4px;background:var(--bg-3);border-radius:2px;margin:0 0 14px}
+.st.done .bar{background:var(--ok)}
+.st.now .bar{background:linear-gradient(90deg,var(--warn) 50%,var(--bg-3) 50%)}
+.st .dot{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;background:var(--bg-3);border:3px solid var(--bg);display:grid;place-items:center;font-size:9px;color:var(--bg)}
+.st.done .dot{background:var(--ok)}
+.st.now .dot{background:var(--warn);box-shadow:0 0 0 4px var(--warn-bg)}
+.st .t{font-size:12.5px;font-weight:600;padding:0 6px;line-height:1.3}
+.st .s{font-size:11.5px;color:var(--ink-3);margin-top:3px;padding:0 6px;line-height:1.35}
+.st.todo .t{color:var(--ink-3);font-weight:500}
+
+/* --- компактная --- */
+.mini{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);max-width:520px}
+.mini .track{flex:1;height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden}
+.mini .fill{height:100%;width:60%;background:var(--brand);border-radius:4px}
+.mini .lab{font-size:12.5px;font-weight:600;white-space:nowrap}
+.mini .pct{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+
+/* --- текстовая --- */
+pre{font-family:var(--mono);font-size:13px;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:15px 17px;overflow-x:auto;line-height:1.7;color:var(--ink-2);margin:0}
+.note{margin-top:28px;padding:13px 15px;border-left:3px solid var(--accent);background:var(--bg-2);border-radius:0 10px 10px 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.two{grid-template-columns:1fr}.steps{flex-direction:column;gap:14px}.st .bar{display:none}.st{text-align:left}.st .dot{position:static;transform:none}}
+</style>
+
+<h1>Шкала прогресса заявки</h1>
+<p class="lede">Главный ответ на вопрос «где моя заявка». Заявитель должен понять стадию за одну секунду — и на странице, и в письме, и в уведомлении на телефоне.</p>
+
+<h2>Полная — для страницы-трекера</h2>
+<div class="steps">
+  <div class="st done"><div class="bar"><span class="dot"></span></div><div class="t">Зарегистрирована</div><div class="s">00.00.0000</div></div>
+  <div class="st done"><div class="bar"><span class="dot"></span></div><div class="t">Рассмотрена</div><div class="s">00.00.0000</div></div>
+  <div class="st now"><div class="bar"><span class="dot"></span></div><div class="t">Согласование</div><div class="s">у «Должность, ФИО»<br>срок до 00.00.0000</div></div>
+  <div class="st todo"><div class="bar"><span class="dot"></span></div><div class="t">Утверждение</div><div class="s">ожидает</div></div>
+  <div class="st todo"><div class="bar"><span class="dot"></span></div><div class="t">Выдача доступа</div><div class="s">ожидает</div></div>
+  <div class="st todo"><div class="bar"><span class="dot"></span></div><div class="t">Готово</div><div class="s">—</div></div>
+</div>
+
+<h2>Компактная — для реестра и карточки</h2>
+<div class="mini">
+  <span class="lab">Шаг 3 из 6</span>
+  <span class="track"><span class="fill"></span></span>
+  <span class="pct">50 %</span>
+</div>
+
+<h2>Текстовая — для письма и мессенджера</h2>
+<div class="two">
+<pre>Заявка № 0000-00 от 00.00.0000
+
+Ход: ✅ ✅ 🟡 ⬜ ⬜ ⬜   (шаг 3 из 6)
+
+Сейчас: на согласовании
+Ждём: «Должность, ФИО»
+Срок:  до 00.00.0000</pre>
+<pre>Заявка № 0000-00
+
+[■■■□□□] 3/6
+
+🟨 На согласовании
+👤 «Должность, ФИО»
+📅 до 00.00.0000</pre>
+</div>
+
+<div class="note"><strong>Почему текстовая версия обязательна.</strong> Корпоративные почтовые клиенты режут CSS, а часть сотрудников читает почту с телефона в режиме предпросмотра. Строка <span style="font-family:var(--mono)">✅ ✅ 🟡 ⬜ ⬜ ⬜</span> переживает любой клиент и читается в уведомлении, не открывая письмо. HTML-шкала — приятный бонус сверху, а не основа.</div>

@@ -1,0 +1,66 @@
+<!-- @dsCard group="Компоненты" name="Реестр заявок" subtitle="Таблица со статусами, сроками и просрочкой" -->
+<style>
+:root{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa;--radius:10px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33}}
+:root[data-theme="dark"]{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33}
+:root[data-theme="light"]{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);padding:28px}
+h1{font-size:20px;margin:0 0 4px}
+.lede{color:var(--ink-3);font-size:13px;margin:0 0 22px;max-width:66ch;line-height:1.5}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{padding:6px 13px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:var(--ink-2);background:var(--bg-2);cursor:default}
+.chip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);font-weight:600}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
+thead th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:600;padding:11px 14px;background:var(--bg-2);border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg-2)}
+.num{font-family:var(--mono);font-size:12px;color:var(--ink);white-space:nowrap}
+.b{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;border-radius:6px;font-size:12px;font-weight:600;white-space:nowrap}
+.b .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-info{background:var(--info-bg);color:var(--info)}
+.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-ok{background:var(--ok-bg);color:var(--ok)}
+.b-err{background:var(--err-bg);color:var(--err)}
+.b-violet{background:var(--violet-bg);color:var(--violet)}
+.b-muted{background:var(--muted-bg);color:var(--muted)}
+.due{white-space:nowrap;font-variant-numeric:tabular-nums}
+.due.late{color:var(--err);font-weight:600}
+.due.soon{color:var(--warn);font-weight:600}
+.mini{display:flex;align-items:center;gap:7px;min-width:96px}
+.mini .tr{flex:1;height:5px;background:var(--bg-3);border-radius:3px;overflow:hidden}
+.mini .fl{height:100%;background:var(--brand);border-radius:3px}
+.mini .n{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.note{margin-top:24px;padding:13px 15px;border-left:3px solid var(--accent);background:var(--bg-2);border-radius:0 10px 10px 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+</style>
+
+<h1>Реестр заявок на доступ</h1>
+<p class="lede">Рабочий экран контролёра. Сортировка по умолчанию — сначала просроченные, потом горящие. Данные в примере обезличены: везде плейсхолдеры вместо реальных фамилий и номеров.</p>
+
+<div class="bar">
+  <span class="chip on">Все</span>
+  <span class="chip">Просроченные</span>
+  <span class="chip">Горят сегодня</span>
+  <span class="chip">На согласовании</span>
+  <span class="chip">Готовы к выдаче</span>
+  <span class="chip">Завершённые</span>
+</div>
+
+<div class="scroll">
+<table>
+  <thead><tr><th>№</th><th>Заявитель</th><th>Ресурс</th><th>Статус</th><th>Прогресс</th><th>У кого</th><th>Срок</th></tr></thead>
+  <tbody>
+    <tr><td class="num">0000-01</td><td>Должность, ФИО</td><td>Архивный фонд № 00</td><td><span class="b b-err"><span class="d"></span>Просрочена</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:50%"></span></span><span class="n">3/6</span></div></td><td>Должность, ФИО</td><td class="due late">−0 дн.</td></tr>
+    <tr><td class="num">0000-02</td><td>Должность, ФИО</td><td>Система «Наименование»</td><td><span class="b b-warn"><span class="d"></span>На согласовании</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:50%"></span></span><span class="n">3/6</span></div></td><td>Должность, ФИО</td><td class="due soon">сегодня</td></tr>
+    <tr><td class="num">0000-03</td><td>Должность, ФИО</td><td>Помещение хранилища</td><td><span class="b b-info"><span class="d"></span>На рассмотрении</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:33%"></span></span><span class="n">2/6</span></div></td><td>Архив</td><td class="due">00.00</td></tr>
+    <tr><td class="num">0000-04</td><td>Должность, ФИО</td><td>Сетевая папка</td><td><span class="b b-ok"><span class="d"></span>Согласована</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:83%"></span></span><span class="n">5/6</span></div></td><td>Администратор</td><td class="due">00.00</td></tr>
+    <tr><td class="num">0000-05</td><td>Должность, ФИО</td><td>Архивный фонд № 00</td><td><span class="b b-violet"><span class="d"></span>Доступ выдан</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:100%"></span></span><span class="n">6/6</span></div></td><td>—</td><td class="due">закрыта</td></tr>
+    <tr><td class="num">0000-06</td><td>Должность, ФИО</td><td>Система «Наименование»</td><td><span class="b b-err"><span class="d"></span>Отклонена</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:50%"></span></span><span class="n">3/6</span></div></td><td>—</td><td class="due">закрыта</td></tr>
+    <tr><td class="num">0000-07</td><td>Должность, ФИО</td><td>Читальный зал</td><td><span class="b b-muted"><span class="d"></span>Доступ отозван</span></td><td><div class="mini"><span class="tr"><span class="fl" style="width:100%"></span></span><span class="n">6/6</span></div></td><td>—</td><td class="due">00.00</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note"><strong>Что здесь важнее красоты.</strong> Колонка «У кого» — единственная, ради которой реестр вообще открывают: она отвечает на вопрос «кому звонить». Если в вашей выгрузке из 1С этой колонки нет, добавьте её первой, а оформление — потом.</div>

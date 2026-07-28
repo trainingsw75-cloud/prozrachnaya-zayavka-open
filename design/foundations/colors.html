@@ -1,0 +1,85 @@
+<!-- @dsCard group="Основы" name="Палитра" subtitle="Бренд, статусы заявки, нейтральные" -->
+<style>
+:root{
+  --ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;
+  --bg:#ffffff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#ffffff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa;
+  --radius:10px;--shadow:0 1px 2px rgba(16,32,28,.06),0 8px 24px rgba(16,32,28,.06);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+  --muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+  --muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33;
+}
+:root[data-theme="light"]{
+  --ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;
+  --bg:#ffffff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#ffffff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);padding:28px}
+h1{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+.lede{color:var(--ink-3);font-size:13px;margin:0 0 26px;max-width:64ch;line-height:1.5}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:26px 0 12px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.sw{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-2)}
+.chip{height:64px}
+.meta{padding:9px 11px}
+.nm{font-size:12.5px;font-weight:600}
+.tok{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:2px}
+.pair{display:flex;align-items:center;gap:9px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--radius);font-size:13px}
+.dot{width:11px;height:11px;border-radius:50%;flex:none}
+.note{margin-top:26px;padding:13px 15px;border-left:3px solid var(--accent);background:var(--bg-2);border-radius:0 var(--radius) var(--radius) 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+</style>
+
+<h1>Палитра — Архив ОЭЗ «Алабуга»</h1>
+<p class="lede">Рабочая палитра для заявок на доступ к ресурсам и цифровых сервисов архива. Тёмно-зелёный — основной, песочный — акцент документа. Все цвета заданы переменными: замена брендбуком делается в одном месте.</p>
+
+<h2>Бренд</h2>
+<div class="grid">
+  <div class="sw"><div class="chip" style="background:var(--brand)"></div><div class="meta"><div class="nm">Основной</div><div class="tok">--brand</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--brand-2)"></div><div class="meta"><div class="nm">Основной светлый</div><div class="tok">--brand-2</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--accent)"></div><div class="meta"><div class="nm">Акцент «архив»</div><div class="tok">--accent</div></div></div>
+</div>
+
+<h2>Статусы заявки</h2>
+<div class="grid">
+  <div class="pair"><span class="dot" style="background:var(--muted)"></span>Черновик</div>
+  <div class="pair"><span class="dot" style="background:var(--info)"></span>На рассмотрении</div>
+  <div class="pair"><span class="dot" style="background:var(--warn)"></span>На согласовании</div>
+  <div class="pair"><span class="dot" style="background:var(--ok)"></span>Согласована</div>
+  <div class="pair"><span class="dot" style="background:var(--err)"></span>Отклонена</div>
+  <div class="pair"><span class="dot" style="background:var(--violet)"></span>Доступ выдан</div>
+</div>
+
+<h2>Поверхности и текст</h2>
+<div class="grid">
+  <div class="sw"><div class="chip" style="background:var(--bg);border-bottom:1px solid var(--line)"></div><div class="meta"><div class="nm">Фон</div><div class="tok">--bg</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--bg-2)"></div><div class="meta"><div class="nm">Подложка</div><div class="tok">--bg-2</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--bg-3)"></div><div class="meta"><div class="nm">Подложка 2</div><div class="tok">--bg-3</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink)"></div><div class="meta"><div class="nm">Текст</div><div class="tok">--ink</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink-3)"></div><div class="meta"><div class="nm">Текст вторичный</div><div class="tok">--ink-3</div></div></div>
+  <div class="sw"><div class="chip" style="background:var(--line)"></div><div class="meta"><div class="nm">Линии</div><div class="tok">--line</div></div></div>
+</div>
+
+<div class="note"><strong>Как заменить на официальные цвета ОЭЗ.</strong> Если брендбук есть — поменяйте только <span style="font-family:var(--mono)">--brand</span>, <span style="font-family:var(--mono)">--brand-2</span> и <span style="font-family:var(--mono)">--accent</span> в блоке <span style="font-family:var(--mono)">:root</span>. Цвета статусов не трогайте: зелёный «согласовано» и красный «отклонено» узнаются без чтения, это важнее фирменного стиля.</div>

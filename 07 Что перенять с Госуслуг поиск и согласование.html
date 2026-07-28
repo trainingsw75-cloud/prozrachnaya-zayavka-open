@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>07. Что перенять с Госуслуг: поиск и согласование</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>07. Что перенять с Госуслуг: поиск и согласование</h1><p>Улучшения поиска и маршрута, пятёрка на первую неделю, порядок несогласия с отказом, чего брать не надо</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#что-перенять-с-госуслуг-в-заявки-на-доступ">Что перенять с Госуслуг в заявки на доступ</a><a class="l2" href="#вывод-в-трёх-предложениях">Вывод в трёх предложениях</a><a class="l2" href="#улучшения-поиска">Улучшения поиска</a><a class="l2" href="#улучшения-согласования-и-принятия-решения">Улучшения согласования и принятия решения</a><a class="l2" href="#пятёрка-на-первую-неделю">Пятёрка на первую неделю</a><a class="l2" href="#готовый-текст-в-регламент-несогласие-заявителя-с-отказом">Готовый текст в регламент: несогласие заявителя с отказом</a><a class="l2" href="#чего-с-госуслуг-не-брать">Чего с Госуслуг НЕ брать</a><a class="l2" href="#что-не-подтвердилось">Что не подтвердилось</a></nav>
+<main class="doc"><h1 id="что-перенять-с-госуслуг-в-заявки-на-доступ">Что перенять с Госуслуг в заявки на доступ</h1>
+<h2 id="вывод-в-трёх-предложениях">Вывод в трёх предложениях</h2>
+<p>Ценность Госуслуг для нас не в сроках и не в юридических формулировках, а в трёх принципах: заявитель всегда видит, на каком этапе его заявка и у кого она сейчас; отказ невозможен без причины из заранее известного списка и без указания, что делать дальше; недостающие сведения добирает исполнитель, а не заявитель. Большая часть этого закрывается штатными средствами 1С:ДО — поиском, отборами, колонками, маршрутами и уведомлениями — без бюджета и без программиста. Доработки кода нужны только для внешней страницы статуса (номер заявки, лента стадий, оценка), их разумно откладывать на второй этап.</p>
+<h2 id="улучшения-поиска">Улучшения поиска</h2>
+<div class="scroll"><table><thead><tr><th>Что сделать</th><th>Зачем</th><th>Где именно</th><th>Маркер</th></tr></thead><tbody><tr><td>Поиск по регистрационному номеру в списке документов</td><td>Номер — главный вход в заявку и для контролёра, и для заявителя</td><td>1С:ДО</td><td>[КОРОБКА]</td></tr><tr><td>Сделать «Задачи мне» стартовой страницей</td><td>Одна очередь «мои дела» вместо обхода журналов</td><td>1С:ДО</td><td>[КОРОБКА]·[НАСТРОЙКА]</td></tr><tr><td>Включить полнотекстовый поиск и обновление индекса</td><td>Найти заявку по любому фрагменту текста</td><td>1С:ДО</td><td>[КОРОБКА]·[НАСТРОЙКА]</td></tr><tr><td>Сохранённые отборы «Мои просроченные», «Ждут меня», «Отказано»</td><td>Готовые «ситуации» вместо ручной фильтрации</td><td>1С:ДО</td><td>[НАСТРОЙКА]</td></tr><tr><td>Колонки списка: № · заявитель · ресурс · стадия · срок · исполнитель</td><td>Решение принимается по строке, без открытия карточки</td><td>1С:ДО</td><td>[НАСТРОЙКА]</td></tr><tr><td>Условное оформление списка (цвет по сроку)</td><td>Просрочка видна сразу, а не в отчёте</td><td>1С:ДО</td><td>[НАСТРОЙКА]·[ПРОВЕРИТЬ]</td></tr><tr><td>Доп. реквизит «ресурс/тип доступа» со значениями из справочника</td><td>Тема из списка, а не свободный текст — иначе поиск и статистика бесполезны</td><td>1С:ДО</td><td>[НАСТРОЙКА]·[ОРГ]·[ПРОВЕРИТЬ]</td></tr><tr><td>Памятка «типовые причины отклонения» рядом с формой подачи</td><td>Заявитель узнаёт причины до подачи, а не после отказа</td><td>Форма заявки</td><td>[ОРГ]</td></tr><tr><td>Поле «номер заявки» → карточка статуса</td><td>Внешний вход без логина и без звонка исполнителю</td><td>Страница статуса</td><td>[ДОРАБОТКА]</td></tr><tr><td>Хронология стадий с датами и ролью «у кого сейчас»</td><td>Снимает вопрос «что с моей заявкой»; показ ФИО сверить с актом по ПДн</td><td>Страница статуса</td><td>[ДОРАБОТКА]·[ПРОВЕРИТЬ]</td></tr></tbody></table></div>
+<h2 id="улучшения-согласования-и-принятия-решения">Улучшения согласования и принятия решения</h2>
+<div class="scroll"><table><thead><tr><th>Что сделать</th><th>Зачем</th><th>Где именно</th><th>Маркер</th></tr></thead><tbody><tr><td>Перенаправление задачи + автоуведомление инициатору о смене исполнителя</td><td>Передача «не по адресу» — штатный шаг, а не потеря заявки</td><td>1С:ДО, шаблон процесса</td><td>[КОРОБКА]·[ПРОВЕРИТЬ]</td></tr><tr><td>Подписка на оповещения о смене состояния и передаче согласующему</td><td>Заявитель не опрашивает исполнителей вручную</td><td>1С:ДО</td><td>[КОРОБКА]·[НАСТРОЙКА]</td></tr><tr><td>Условная маршрутизация по виду ресурса и подразделению</td><td>Исполнителя определяют правила, а не «кто откликнулся»</td><td>Шаблон процесса</td><td>[НАСТРОЙКА]</td></tr><tr><td>Шаг «запрос владельцу ресурса» внутри процесса</td><td>Сведения добирает исполнитель; инициатора за бумагами не гоняем</td><td>Шаблон процесса</td><td>[НАСТРОЙКА]</td></tr><tr><td>Отдельное состояние «ждём заявителя» (возврат на доработку)</td><td>«Мяч на стороне заявителя» ≠ «в работе»; иначе срок съедается молча</td><td>1С:ДО</td><td>[НАСТРОЙКА]·[ПРОВЕРИТЬ]</td></tr><tr><td>Обязательный комментарий при решении «Не согласовано»</td><td>Отклонение без причины невозможно</td><td>1С:ДО</td><td>[ПРОВЕРИТЬ] → [НАСТРОЙКА] или [ДОРАБОТКА]</td></tr><tr><td>Плановая дата от типа заявки; отдельный срок у подпроцесса</td><td>Срок известен до подачи, просрочка считается честно</td><td>1С:ДО</td><td>[НАСТРОЙКА]·[ОРГ]</td></tr><tr><td>Продление срока — только с комментарием и уведомлением инициатору</td><td>Продление — именованное решение конкретного человека</td><td>1С:ДО</td><td>[НАСТРОЙКА]·[ПРОВЕРИТЬ]</td></tr><tr><td>Матрица «ресурс → кто вправе разрешить», утверждённая приказом</td><td>Полномочие закреплено заранее; роли подставляются в исполнителей</td><td>Приказ + 1С:ДО</td><td>[ОРГ]·[НАСТРОЙКА]</td></tr><tr><td>Второй маршрут «Пересмотр отказа» у вышестоящего, срок короче основного</td><td>Отказ не тупик: снимает личные звонки, даёт статистику причин</td><td>Шаблон процесса</td><td>[ОРГ]·[НАСТРОЙКА]</td></tr></tbody></table></div>
+<h2 id="пятёрка-на-первую-неделю">Пятёрка на первую неделю</h2>
+<ol><li>Включить в 1С:ДО полнотекстовый поиск, запустить обновление индекса и проверить поиск заявки по регистрационному номеру.</li><li>Сохранить три отбора списка — «Мои просроченные», «Ждут меня», «Отказано» — и раздать их контролёрам.</li><li>Настроить колонки списка (№ · заявитель · ресурс · стадия · срок · исполнитель) и условное оформление по сроку.</li><li>Выписать на один лист реальные состояния процесса и напротив каждого — название на языке заявителя, показать владельцу процесса.</li><li>Составить черновик матрицы «ресурс → кто вправе разрешить доступ» по 5–7 самым частым ресурсам и отправить владельцам на подтверждение.</li></ol>
+<h2 id="готовый-текст-в-регламент-несогласие-заявителя-с-отказом">Готовый текст в регламент: несогласие заявителя с отказом</h2>
+<blockquote><p><strong>Пересмотр решения об отказе.</strong> Если инициатор не согласен с отказом в доступе, он в течение {СРОК} рабочих дней создаёт в {СИСТЕМА} заявку вида «Пересмотр отказа» со ссылкой на номер первичной заявки и указывает: реквизиты решения, свои доводы и сведения, которые ранее не рассматривались. Пересмотр выполняет {ДОЛЖНОСТЬ}, не принимавший исходное решение, в срок {СРОК} рабочих дней с даты регистрации. Результат — один из трёх: отказ отменён и доступ открыт; отказ подтверждён; заявка возвращена исходному исполнителю. Ответ с причиной из справочника публикуется на странице статуса заявки. Повторный пересмотр по тем же основаниям без новых сведений закрывается ссылкой на ранее принятое решение, право обратиться к {ВЫШЕСТОЯЩИЙ} сохраняется.</p></blockquote>
+<h2 id="чего-с-госуслуг-не-брать">Чего с Госуслуг НЕ брать</h2>
+<ol><li>Сроки 30/10/15/5 дней — это регулирование госуслуги; свой срок задаётся своим приказом.</li><li>Термины «отказ в услуге», «досудебное обжалование», «не рассматривается по существу», перечень из 13 оснований — юридические конструкции 59-ФЗ/210-ФЗ, к предприятию неприменимы.</li><li>Каталог «жизненных ситуаций» — у нас один вид процесса, разбивать нечего.</li><li>Робот-ассистент и подсказки при вводе — на десятки заявок дороже пользы.</li><li>Отдельный контур обжалования как самостоятельную систему — хватает стадии «пересмотр отказа».</li><li>Фото, видео, геометку во вложениях заявки — для доступа к ресурсу бессмысленны.</li><li>Публичные рейтинги исполнителей и открытые опросы удовлетворённости — дают давление на людей, а не качество решений.</li><li>Прекращение переписки при повторном обращении — работнику отвечаем всегда, пусть и ссылкой на прежнее решение.</li></ol>
+<h2 id="что-не-подтвердилось">Что не подтвердилось</h2>
+<ul><li>Официальный перечень статусов ЕПГУ: подтверждены только коды результата 3 / 4 / 10; сама цепочка статусов — вторичный источник.</li><li>Отдельное «уведомление о продлении срока» в Правилах ПОС — в тексте нет; есть только промежуточный ответ с новой датой.</li><li>Обратный отсчёт срока, плановая дата в карточке заявления, санкции за просрочку.</li><li>Автозапуск повторного рассмотрения при оценке ≤2 и эскалация в вышестоящий орган — страница Минцифры и Регламент ПОС недоступны.</li><li>Предзаполнение полей формы из цифрового профиля и черновики заявлений в ЛК.</li><li>Поиск по номеру заявления и фильтры списка в личном кабинете ЕПГУ.</li><li>Поведение поиска при опечатке и при нулевом результате.</li><li>«Интенты» и сопоставление с цифровым профилем у Робота Макса — в источнике этого нет, формулировка снята.</li><li>Расхождение в сроке ПОС: постановление — 10 дней, вторичные источники — «10 рабочих».</li><li>Указание причин отказа в итоговом решении — только вторичный источник.</li><li>Официальные страницы gosuslugi.ru и pos.gosuslugi.ru отдают JS-заглушку и напрямую не читаются (проверка 28.07.2026).</li></ul></main>
+</div></body></html>

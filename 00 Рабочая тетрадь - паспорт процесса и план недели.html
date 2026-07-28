@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Рабочая тетрадь — паспорт процесса и план недели</title>
+<style>
+:root{
+  --ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;
+  --bg:#ffffff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#ffffff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --radius:10px;--shadow:0 1px 2px rgba(16,32,28,.06),0 8px 24px rgba(16,32,28,.06);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15px;line-height:1.55}
+
+.top{background:var(--brand);color:var(--brand-ink);padding:18px 24px}
+.top .in{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.top h1{font-size:17px;margin:0;font-weight:650;letter-spacing:-.01em}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer}
+.acts button:hover{background:rgba(255,255,255,.22)}
+.acts button.danger:hover{background:var(--err);border-color:var(--err);color:#fff}
+
+.tabs{max-width:1120px;margin:0 auto;padding:16px 20px 0;display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:inherit;font-size:13.5px;font-weight:600;padding:9px 16px;border-radius:9px 9px 0 0;border:1px solid var(--line);border-bottom:none;background:var(--bg-2);color:var(--ink-3);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--bg);color:var(--ink)}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 60px}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:0 var(--radius) var(--radius) var(--radius);box-shadow:var(--shadow);padding:26px 26px 32px}
+.panel[hidden]{display:none}
+
+h2{font-size:19px;margin:0 0 6px;letter-spacing:-.01em}
+h2 .n{color:var(--ink-3);font-weight:500}
+h3{font-size:14.5px;margin:30px 0 10px;font-weight:650}
+h3:first-of-type{margin-top:18px}
+.lede{color:var(--ink-3);font-size:13.5px;margin:0 0 8px;max-width:78ch}
+
+.prog{display:flex;align-items:center;gap:11px;margin:16px 0 4px;padding:12px 15px;background:var(--bg-2);border-radius:9px;font-size:13px}
+.prog .track{flex:1;height:7px;background:var(--bg-3);border-radius:4px;overflow:hidden}
+.prog .fill{height:100%;width:0;background:var(--brand);border-radius:4px;transition:width .25s}
+.prog b{font-variant-numeric:tabular-nums}
+
+ul.chk{list-style:none;margin:0;padding:0}
+ul.chk li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line)}
+ul.chk li:last-child{border-bottom:none}
+ul.chk input[type=checkbox]{margin:3px 0 0;width:17px;height:17px;flex:none;accent-color:var(--brand);cursor:pointer}
+ul.chk label{font-size:14px;color:var(--ink-2);cursor:pointer}
+ul.chk li.done label{color:var(--ink-3);text-decoration:line-through}
+.sub{display:block;font-size:12.5px;color:var(--ink-3);margin-top:2px}
+code{font-family:var(--mono);font-size:12.5px;background:var(--bg-2);padding:2px 6px;border-radius:5px}
+
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);margin-top:12px}
+table{border-collapse:collapse;width:100%;min-width:900px;font-size:13px}
+th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600;padding:10px 10px;background:var(--bg-2);border-bottom:1px solid var(--line);vertical-align:bottom}
+td{padding:0;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+td:last-child{border-right:none}
+tr:last-child td{border-bottom:none}
+td.lbl{padding:10px;color:var(--ink-2);background:var(--bg-2);font-size:12.5px;min-width:190px}
+td.idx{padding:10px;color:var(--ink-3);text-align:center;width:38px;font-variant-numeric:tabular-nums}
+textarea{width:100%;min-height:52px;border:none;background:transparent;color:var(--ink);font:inherit;font-size:13px;padding:9px 10px;resize:vertical;outline:none;display:block}
+textarea:focus{background:var(--info-bg)}
+input.line{width:100%;border:none;background:transparent;color:var(--ink);font:inherit;font-size:13px;padding:10px;outline:none}
+input.line:focus{background:var(--info-bg)}
+
+.hdrfields{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0 4px}
+.f{border:1px solid var(--line);border-radius:9px;padding:9px 12px;background:var(--bg-2)}
+.f span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600;margin-bottom:3px}
+.f input{width:100%;border:none;background:transparent;color:var(--ink);font:inherit;font-size:14px;outline:none}
+
+.day{border:1px solid var(--line);border-radius:var(--radius);margin-top:14px;overflow:hidden}
+.day>summary{padding:13px 16px;background:var(--bg-2);font-weight:650;font-size:14.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.day>summary::-webkit-details-marker{display:none}
+.day>summary .cnt{font-size:12px;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.day .in{padding:14px 16px 18px}
+.res{margin-top:12px;padding:11px 14px;background:var(--ok-bg);border-radius:8px;font-size:13px;color:var(--ok);font-weight:600}
+.res span{display:block;font-weight:400;color:var(--ink-2);margin-top:3px}
+
+.warn{margin-top:22px;padding:13px 16px;border-left:3px solid var(--accent);background:var(--bg-2);border-radius:0 9px 9px 0;font-size:13px;color:var(--ink-2)}
+.saved{font-size:12px;color:var(--brand-ink);opacity:0;transition:opacity .3s}
+.saved.on{opacity:.9}
+
+@media print{
+  body{background:#fff;font-size:11pt}
+  .top{background:#fff;color:#000;border-bottom:2px solid #000;padding:0 0 10px}
+  .acts,.tabs,.saved{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .panel{border:none;box-shadow:none;padding:0;border-radius:0}
+  .panel[hidden]{display:block!important;page-break-before:always}
+  .day[open]>.in,.day>.in{display:block!important}
+  .day{page-break-inside:avoid}
+  textarea,input{border-bottom:1px solid #999!important}
+  table{min-width:0}
+  h2{page-break-after:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in">
+  <div>
+    <h1>Рабочая тетрадь: заявки на доступ к ресурсам</h1>
+    <p>Архив ОЭЗ «Алабуга» · 1С:Документооборот 8, ред. 2.1 · заполняется прямо здесь</p>
+  </div>
+  <div class="acts">
+    <span class="saved" id="saved">сохранено</span>
+    <button onclick="window.print()">🖨 Печать</button>
+    <button onclick="dump()">⬇ Скачать заполненное</button>
+    <button class="danger" onclick="wipe()">Очистить</button>
+  </div>
+</div></div>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-p="p1">Сегодня — паспорт за час</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="p2">Эта неделя — 5 дней без программиста</button>
+</div>
+
+<div class="wrap">
+
+<!-- ================= ПАСПОРТ ================= -->
+<section class="panel" id="p1">
+  <h2>Паспорт процесса <span class="n">— один час, один лист</span></h2>
+  <p class="lede">Цель: зафиксировать, как процесс устроен <b>сегодня</b>, до того как что-то менять. Без этого листа нельзя ни считать эффект, ни спорить с руководством, ни ставить задачу программисту.</p>
+
+  <div class="hdrfields">
+    <label class="f"><span>Дата снятия</span><input data-k="p_date" placeholder="00.00.0000"></label>
+    <label class="f"><span>Кто снимал</span><input data-k="p_who" placeholder="должность, ФИО"></label>
+    <label class="f"><span>Конфигурация и релиз</span><input data-k="p_rel" placeholder="1С:ДО ___, ред. 2.1, релиз ___"></label>
+    <label class="f"><span>Платформа</span><input data-k="p_plat" placeholder="8.3.___"></label>
+  </div>
+
+  <div class="prog"><span>Пройдено</span><span class="track"><span class="fill" id="f1"></span></span><b id="c1">0 / 0</b></div>
+
+  <h3>Шаг 0. Подготовка — 5 минут</h3>
+  <ul class="chk" data-g="g1">
+    <li><input type="checkbox" data-k="a1" id="a1"><label for="a1">Записать точный релиз и редакцию: <i>Главное меню → Справка → О программе</i><span class="sub">Формат: <code>1С:Документооборот ___, ред. 2.1, релиз ______, платформа 8.3.___</code></span></label></li>
+    <li><input type="checkbox" data-k="a2" id="a2"><label for="a2">Завести файл для скриншотов <span class="sub">PrtScr на каждой карточке, подписать «что это, дата снятия»</span></label></li>
+    <li><input type="checkbox" data-k="a3" id="a3"><label for="a3">Отобрать заявку (а): свежая, сейчас в работе</label></li>
+    <li><input type="checkbox" data-k="a4" id="a4"><label for="a4">Отобрать заявку (б): исполненная 1–2 месяца назад, прошла полный маршрут</label></li>
+    <li><input type="checkbox" data-k="a5" id="a5"><label for="a5">Отобрать заявку (в): та, на которую жаловались, что «зависла»<span class="sub">Самая ценная. С неё и начинать разбор</span></label></li>
+    <li><input type="checkbox" data-k="a6" id="a6"><label for="a6">Согласовать доступ на просмотр карточки вида документа и шаблона процесса<span class="sub">Без этих прав аудит не сделать. Готовая формулировка запроса — в документе «01 Пакет», раздел 4.4</span></label></li>
+  </ul>
+
+  <h3>Шаг 1–8. Маршрут снятия настройки — 55 минут</h3>
+  <ul class="chk" data-g="g1">
+    <li><input type="checkbox" data-k="b1" id="b1"><label for="b1"><b>1. Карточка вида документа</b> — 10 мин<span class="sub">Выписать: наименование, индекс, папку хранения, включённые флажки, нумератор, привязанные шаблоны, доп. реквизиты</span></label></li>
+    <li><input type="checkbox" data-k="b2" id="b2"><label for="b2"><b>2. Три реальные заявки</b> — 10 мин<span class="sub">Пройти все вкладки слева направо, отметить: заполнена / пуста. Пустые вкладки — это ваш резерв</span></label></li>
+    <li><input type="checkbox" data-k="b3" id="b3"><label for="b3"><b>3. Какой процесс запущен</b> — 5 мин<span class="sub">Название процесса, кем и когда запущен, перечень задач и их состояния</span></label></li>
+    <li><input type="checkbox" data-k="b4" id="b4"><label for="b4"><b>4. Разбор процесса по задачам</b> — 10 мин<span class="sub">По каждой: этап → исполнитель → плановый срок → факт → результат. Разница «план минус факт» по 20 заявкам — главный аргумент в разговоре с руководством</span></label></li>
+    <li><input type="checkbox" data-k="b5" id="b5"><label for="b5"><b>5. Шаблон процесса</b> — 10 мин<span class="sub">Схему маршрута сфотографировать. Это центральный лист паспорта</span></label></li>
+    <li><input type="checkbox" data-k="b6" id="b6"><label for="b6"><b>6. Условия маршрутизации</b> — 5 мин<span class="sub">Какие заведены, какие реально работают в вашем шаблоне, какие «мёртвые»</span></label></li>
+    <li><input type="checkbox" data-k="b7" id="b7"><label for="b7"><b>7. Почта и уведомления</b> — 5 мин<span class="sub">Включена ли рассылка, какие события, есть ли ящик-отправитель, проходит ли тест, включено ли регламентное задание</span></label></li>
+    <li><input type="checkbox" data-k="b8" id="b8"><label for="b8"><b>8. Факт по отчётам</b> — 5 мин<span class="sub">За 3 месяца: сколько заявок, сколько просрочено, средний срок прохождения</span></label></li>
+  </ul>
+
+  <div class="warn"><b>Если шага нет.</b> Не искать «похожее» и не додумывать. Записать честно: «механизм в базе не найден, уточнить у администратора». Отсутствие механизма — тоже результат аудита, и часто самый ценный.</div>
+
+  <h3>Таблица А. Этапы процесса</h3>
+  <p class="lede">Строки — подсказки, что искать. Заменяйте своими данными, лишнее удаляйте, недостающее дописывайте в пустые строки внизу.</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>№</th><th>Этап</th><th>Исполнитель<br>роль или ФИО</th><th>Срок<br>раб./кал. дни</th><th>Что при просрочке</th><th>Кого уведомляет</th><th>Узкое место, факт</th></tr></thead>
+    <tbody id="tblA"></tbody>
+  </table>
+  </div>
+
+  <h3>Таблица Б. Настройки</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Что проверяли</th><th>Как настроено сейчас</th><th>Надо менять?</th></tr></thead>
+    <tbody id="tblB"></tbody>
+  </table>
+  </div>
+
+  <h3>Итог часа — три цифры</h3>
+  <div class="hdrfields">
+    <label class="f"><span>Средний срок, раб. дней</span><input data-k="r_avg" placeholder="___"></label>
+    <label class="f"><span>Максимальный срок</span><input data-k="r_max" placeholder="___"></label>
+    <label class="f"><span>Висят дольше 5 дней</span><input data-k="r_stuck" placeholder="___"></label>
+  </div>
+  <div class="res">Это ваш главный слайд<span>Одна строка: «Средний срок ___ рабочих дней, максимальный ___, зависших дольше пяти дней ___». Всё остальное в презентации — иллюстрации к ней.</span></div>
+</section>
+
+<!-- ================= НЕДЕЛЯ ================= -->
+<section class="panel" id="p2" hidden>
+  <h2>Победа за неделю <span class="n">— 5 рабочих дней, без программиста</span></h2>
+  <p class="lede">Цель недели: к пятнице показать две вещи — фактический срок прохождения заявки сегодня и работающее уведомление заявителю. Всё, что здесь, делается настройкой.</p>
+
+  <div class="prog"><span>Пройдено</span><span class="track"><span class="fill" id="f2"></span></span><b id="c2">0 / 0</b></div>
+
+  <details class="day" open>
+    <summary>Понедельник — замер «как есть» <span class="cnt">4 пункта</span></summary>
+    <div class="in">
+      <ul class="chk" data-g="g2">
+        <li><input type="checkbox" data-k="m1" id="m1"><label for="m1">Отобрать все заявки на доступ за 3 последних полных месяца<span class="sub">В доклад пишите название того отчёта, которым реально пользовались</span></label></li>
+        <li><input type="checkbox" data-k="m2" id="m2"><label for="m2">Посчитать: сколько заявок, средний срок, максимальный, доля возвратов, сколько висят дольше 5 дней</label></li>
+        <li><input type="checkbox" data-k="m3" id="m3"><label for="m3">Распечатать и раздать лист учёта обращений «где моя заявка»<span class="sub">Считаем всю неделю. Эту цифру нельзя взять из 1С, а на защите она главная</span></label></li>
+        <li><input type="checkbox" data-k="m4" id="m4"><label for="m4">Сохранить выгрузку в файл — это приложение к отчёту</label></li>
+      </ul>
+      <div class="res">Результат дня<span>Одна строка с тремя цифрами «до».</span></div>
+    </div>
+  </details>
+
+  <details class="day">
+    <summary>Вторник — уведомления заявителю <span class="cnt">6 пунктов</span></summary>
+    <div class="in">
+      <ul class="chk" data-g="g2">
+        <li><input type="checkbox" data-k="t1" id="t1"><label for="t1">Открыть существующий вид документа «Заявка на доступ» и его шаблон процесса</label></li>
+        <li><input type="checkbox" data-k="t2" id="t2"><label for="t2">Проверить, попадает ли <b>заявитель</b> в получатели уведомлений по своей заявке<span class="sub">Частая дыра: письма уходят согласующим, а автору — нет</span></label></li>
+        <li><input type="checkbox" data-k="t3" id="t3"><label for="t3">Проверить отправку почты: включена ли, задан ли ящик-отправитель<span class="sub">Единственная точка, где нужен ИТ. Если разрешение ИБ на отправку почты с сервера ещё не получено — подать заявку сегодня же, это две недели календаря</span></label></li>
+        <li><input type="checkbox" data-k="t4" id="t4"><label for="t4">Проверить, редактируется ли текст письма штатно<span class="sub">Редактируется — делаем сами. Не редактируется — уходит в задачу программисту</span></label></li>
+        <li><input type="checkbox" data-k="t5" id="t5"><label for="t5">Подать тестовую заявку на себя, дождаться письма, проверить, что ссылка открывается</label></li>
+        <li><input type="checkbox" data-k="t6" id="t6"><label for="t6">Снять скриншот письма</label></li>
+      </ul>
+      <div class="res">Результат дня<span>Скриншот реального письма — это слайд, который убеждает быстрее любых слов.</span></div>
+    </div>
+  </details>
+
+  <details class="day">
+    <summary>Среда — карточка и обязательные поля <span class="cnt">4 пункта</span></summary>
+    <div class="in">
+      <ul class="chk" data-g="g2">
+        <li><input type="checkbox" data-k="w1" id="w1"><label for="w1">Пройти карточку заявки по вкладкам, выписать: что заполняется всегда, что пустует</label></li>
+        <li><input type="checkbox" data-k="w2" id="w2"><label for="w2">Сделать обязательными поля, из-за которых чаще всего идут возвраты<span class="sub">Ресурс, тип доступа, срок действия, основание</span></label></li>
+        <li><input type="checkbox" data-k="w3" id="w3"><label for="w3">Заполнить подсказки к полям — заявитель должен понимать, что писать</label></li>
+        <li><input type="checkbox" data-k="w4" id="w4"><label for="w4">Проверить на тестовой заявке, что неполную отправить нельзя</label></li>
+      </ul>
+      <div class="res">Результат дня<span>Таблица «было пусто / стало обязательно» — аргумент по снижению возвратов.</span></div>
+    </div>
+  </details>
+
+  <details class="day">
+    <summary>Четверг — контролёр и регламент <span class="cnt">4 пункта</span></summary>
+    <div class="in">
+      <ul class="chk" data-g="g2">
+        <li><input type="checkbox" data-k="h1" id="h1"><label for="h1">Определить <b>человека</b>-контролёра и его заместителя на время отпуска<span class="sub">Один контролёр без заместителя = контроль встанет в первый же отпуск</span></label></li>
+        <li><input type="checkbox" data-k="h2" id="h2"><label for="h2">Написать его регламент на одну страницу<span class="sub">Готовый текст — в документе «01 Пакет», Часть V</span></label></li>
+        <li><input type="checkbox" data-k="h3" id="h3"><label for="h3">Настроить регулярный отчёт «в работе / просроченные»<span class="sub">Если механизма рассылки в вашей 2.1 нет — на первое время достаточно открывать отчёт вручную раз в день, так и написать в регламенте</span></label></li>
+        <li><input type="checkbox" data-k="h4" id="h4"><label for="h4">Согласовать регламент устно с руководителем</label></li>
+      </ul>
+      <div class="res">Результат дня<span>Регламент контролёра на одну страницу.</span></div>
+    </div>
+  </details>
+
+  <details class="day">
+    <summary>Пятница — упаковка и показ <span class="cnt">4 пункта</span></summary>
+    <div class="in">
+      <ul class="chk" data-g="g2">
+        <li><input type="checkbox" data-k="p1x" id="p1x"><label for="p1x">Собрать презентацию из материалов понедельника–четверга</label></li>
+        <li><input type="checkbox" data-k="p2x" id="p2x"><label for="p2x">Посчитать обращения по листу учёта, подставить свои значения в формулы<span class="sub">Не подставляйте чужие цифры. Условный расчёт разваливается на первом же вопросе</span></label></li>
+        <li><input type="checkbox" data-k="p3x" id="p3x"><label for="p3x">Пройти стоп-лист: убрать из презентации всё, чего не проверили в своей базе</label></li>
+        <li><input type="checkbox" data-k="p4x" id="p4x"><label for="p4x">Показать руководителю и попросить ровно три вещи<span class="sub">Не список из двадцати пунктов. Три</span></label></li>
+      </ul>
+      <div class="res">Результат недели<span>Работающее уведомление + названный контролёр + честная цифра «до».</span></div>
+    </div>
+  </details>
+
+  <h3>Заметки по неделе</h3>
+  <div class="scroll" style="min-width:0">
+    <table style="min-width:0"><tbody>
+      <tr><td class="lbl">Что пошло не так</td><td><textarea data-k="n1"></textarea></td></tr>
+      <tr><td class="lbl">Кто помог / кого подключить</td><td><textarea data-k="n2"></textarea></td></tr>
+      <tr><td class="lbl">Что уходит программисту</td><td><textarea data-k="n3"></textarea></td></tr>
+      <tr><td class="lbl">Три вещи, которые прошу у руководителя</td><td><textarea data-k="n4"></textarea></td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="warn"><b>Заполненное хранится в этом браузере, на этом компьютере.</b> Чтобы не потерять при переустановке или чистке кеша — нажмите «Скачать заполненное» и сохраните файл рядом с остальными документами.</div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var A = [
+    ["Создание заявки автором","сотрудник-заявитель","—","—","получает ли автор подтверждение приёма?",""],
+    ["Старт процесса: авто или вручную?","кто нажимает «Стартовать»","—","ручной старт = скрытая задержка","—","замер: создание → старт"],
+    ["Согласование непосредственным руководителем","автоподстановка или ФИО?","","","",""],
+    ["Согласование владельцем ресурса","роль или ФИО?","","","","зафиксирован ли владелец каждого ресурса"],
+    ["Согласование службой ИБ","роль ИБ","","","","сколько человек может закрыть этап"],
+    ["Согласование архивом (если ресурс архивный)","сотрудник архива","","","","ваш собственный этап"],
+    ["Утверждение / подписание","руководитель","","","","нужен ли этап вообще"],
+    ["Регистрация, присвоение номера","делопроизводитель / авто","","","доходит ли номер до автора",""],
+    ["Исполнение: фактическая выдача прав","ИТ-администратор","","","",""],
+    ["Проверка исполнения (доступ реально работает)","автор заявки","","","","часто этапа нет вовсе"],
+    ["Уведомление заявителя о результате","авто или письмо руками?","","—","автор",""],
+    ["Ветка отказа","кто оформляет и с какой формулировкой","","—","автор","есть ли ветка в схеме"],
+    ["Списание в дело / архивная копия","архив","","—","—",""],
+    ["Отзыв доступа по окончании срока","кто и по какому сигналу","","—","владелец ресурса, ИБ",""],
+    ["","","","","",""],["","","","","",""],["","","","","",""]
+  ];
+  var B = [
+    "Релиз и редакция","Вид документа, флажки настроек","Нумератор и префикс","Шаблон документа",
+    "Дополнительные реквизиты","Рабочая группа по умолчанию","Автозапуск процесса","Шаблон процесса и схема",
+    "Условия маршрутизации","Учётная запись отправки почты","Регламентное задание рассылки","Номенклатура дел и срок хранения"
+  ];
+  var ta = document.getElementById('tblA'), tb = document.getElementById('tblB'), h = '';
+  A.forEach(function(r,i){
+    h += '<tr><td class="idx">'+(i+1)+'</td>';
+    for(var c=0;c<6;c++){ h += '<td><textarea data-k="A'+i+'_'+c+'" placeholder="'+(r[c]||'')+'"></textarea></td>'; }
+    h += '</tr>';
+  });
+  ta.innerHTML = h; h = '';
+  B.forEach(function(n,i){
+    h += '<tr><td class="lbl">'+n+'</td><td><textarea data-k="B'+i+'_0"></textarea></td><td style="width:190px"><textarea data-k="B'+i+'_1"></textarea></td></tr>';
+  });
+  tb.innerHTML = h;
+
+  var KEY = 'alabuga_tetrad_v1', S = {};
+  try { S = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { S = {}; }
+
+  function all(){ return document.querySelectorAll('[data-k]'); }
+  all().forEach(function(el){
+    var k = el.dataset.k;
+    if (S[k] === undefined) return;
+    if (el.type === 'checkbox') el.checked = !!S[k]; else el.value = S[k];
+  });
+
+  var tmr, badge = document.getElementById('saved');
+  function save(){
+    all().forEach(function(el){ S[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){}
+    badge.classList.add('on'); clearTimeout(tmr);
+    tmr = setTimeout(function(){ badge.classList.remove('on'); }, 1200);
+  }
+
+  function counts(){
+    [['g1','f1','c1'],['g2','f2','c2']].forEach(function(t){
+      var boxes = document.querySelectorAll('ul.chk[data-g="'+t[0]+'"] input[type=checkbox]');
+      var n = 0; boxes.forEach(function(b){ if (b.checked) n++; b.closest('li').classList.toggle('done', b.checked); });
+      var pct = boxes.length ? Math.round(n / boxes.length * 100) : 0;
+      document.getElementById(t[1]).style.width = pct + '%';
+      document.getElementById(t[2]).textContent = n + ' / ' + boxes.length;
+    });
+    document.querySelectorAll('details.day').forEach(function(d){
+      var bs = d.querySelectorAll('input[type=checkbox]'), n = 0;
+      bs.forEach(function(b){ if (b.checked) n++; });
+      var c = d.querySelector('.cnt');
+      if (c) c.textContent = n + ' из ' + bs.length;
+    });
+  }
+
+  document.addEventListener('input', function(e){ if (e.target.dataset && e.target.dataset.k){ save(); counts(); } });
+  document.addEventListener('change', function(e){ if (e.target.dataset && e.target.dataset.k){ save(); counts(); } });
+  counts();
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){ x.setAttribute('aria-selected', String(x === t)); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.hidden = (p.id !== t.dataset.p); });
+      window.scrollTo(0,0);
+    });
+  });
+
+  window.wipe = function(){
+    if (!confirm('Стереть всё заполненное? Это нельзя отменить.')) return;
+    try { localStorage.removeItem(KEY); } catch(e){}
+    location.reload();
+  };
+
+  window.dump = function(){
+    var L = ['ПАСПОРТ ПРОЦЕССА «ЗАЯВКА НА ДОСТУП К РЕСУРСАМ»','Архив ОЭЗ «Алабуга» · 1С:Документооборот 8, ред. 2.1',''];
+    function v(k){ return (S[k] === undefined || S[k] === '') ? '—' : S[k]; }
+    L.push('Дата снятия: ' + v('p_date') + '    Кто снимал: ' + v('p_who'));
+    L.push('Конфигурация: ' + v('p_rel') + '    Платформа: ' + v('p_plat'));
+    L.push('', 'ИТОГ: средний срок ' + v('r_avg') + ' раб. дн., максимальный ' + v('r_max') + ', висят дольше 5 дней: ' + v('r_stuck'));
+    L.push('', '--- ЭТАПЫ ПРОЦЕССА ---');
+    var hdr = ['Этап','Исполнитель','Срок','При просрочке','Уведомляет','Узкое место'];
+    A.forEach(function(r,i){
+      var row = [], any = false;
+      for (var c=0;c<6;c++){ var val = S['A'+i+'_'+c] || ''; if (val) any = true; row.push(hdr[c] + ': ' + (val || '—')); }
+      if (any) L.push((i+1) + ') ' + row.join(' | '));
+    });
+    L.push('', '--- НАСТРОЙКИ ---');
+    B.forEach(function(n,i){
+      var s = S['B'+i+'_0'] || '', m = S['B'+i+'_1'] || '';
+      if (s || m) L.push(n + ': ' + (s || '—') + '   [менять: ' + (m || '—') + ']');
+    });
+    L.push('', '--- ЗАМЕТКИ ПО НЕДЕЛЕ ---');
+    [['Что пошло не так','n1'],['Кто помог','n2'],['Что уходит программисту','n3'],['Прошу у руководителя','n4']].forEach(function(p){
+      if (S[p[1]]) L.push(p[0] + ': ' + S[p[1]]);
+    });
+    var blob = new Blob([L.join('\r\n')], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Паспорт процесса - заявка на доступ.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!-- @dsCard group="Компоненты" name="Плитки дашборда архива" subtitle="KPI процесса заявок для контролёра и руководства" -->
+<style>
+:root{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--radius:12px;--shadow:0 1px 2px rgba(16,32,28,.05),0 6px 18px rgba(16,32,28,.05);--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437}
+:root[data-theme="light"]{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg-2);color:var(--ink);padding:28px}
+h1{font-size:20px;margin:0 0 4px}
+.lede{color:var(--ink-3);font-size:13px;margin:0 0 22px;max-width:66ch;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.k{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:17px 18px;box-shadow:var(--shadow)}
+.k .lab{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:600;line-height:1.3}
+.k .val{font-size:32px;font-weight:650;letter-spacing:-.02em;margin:9px 0 3px;font-variant-numeric:tabular-nums;line-height:1}
+.k .val small{font-size:16px;font-weight:600;color:var(--ink-3);margin-left:2px}
+.k .sub{font-size:12px;color:var(--ink-3);line-height:1.4}
+.k.alert{border-color:var(--err);background:var(--err-bg)}
+.k.alert .val,.k.alert .lab{color:var(--err)}
+.k.good .val{color:var(--ok)}
+.trend{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;margin-top:7px;padding:3px 8px;border-radius:6px}
+.up{background:var(--ok-bg);color:var(--ok)}
+.down{background:var(--err-bg);color:var(--err)}
+.flat{background:var(--bg-3);color:var(--ink-3)}
+.spark{display:flex;align-items:flex-end;gap:3px;height:30px;margin-top:11px}
+.spark i{flex:1;background:var(--bg-3);border-radius:2px 2px 0 0}
+.spark i.on{background:var(--brand)}
+.note{margin-top:24px;padding:13px 15px;border-left:3px solid var(--accent);background:var(--bg);border-radius:0 10px 10px 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+</style>
+
+<h1>Плитки дашборда архива</h1>
+<p class="lede">Экран, который контролёр открывает утром, а руководитель — раз в месяц. Все значения ниже — заглушки (нули и прочерки): реальные цифры появляются только после замера по вашей базе.</p>
+
+<div class="grid">
+  <div class="k"><div class="lab">Заявок в работе</div><div class="val">0</div><div class="sub">из них 0 поданы сегодня</div><span class="trend flat">— без изменений</span></div>
+  <div class="k alert"><div class="lab">Просрочено</div><div class="val">0</div><div class="sub">требуют вмешательства контролёра</div><span class="trend down">▲ 0 за неделю</span></div>
+  <div class="k"><div class="lab">Средний срок согласования</div><div class="val">0,0<small> дн.</small></div><div class="sub">цель: не более 0 дней</div><div class="spark"><i style="height:40%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:60%"></i><i style="height:45%"></i><i class="on" style="height:30%"></i></div></div>
+  <div class="k good"><div class="lab">Исполнено в срок</div><div class="val">0<small> %</small></div><div class="sub">цель: не менее 0 %</div><span class="trend up">▲ 0 п. п.</span></div>
+  <div class="k"><div class="lab">Отклонено</div><div class="val">0<small> %</small></div><div class="sub">с указанием причины: 0 из 0</div></div>
+  <div class="k"><div class="lab">Доступов истекает в этом месяце</div><div class="val">0</div><div class="sub">подлежат отзыву или продлению</div></div>
+  <div class="k"><div class="lab">Дел выдано из хранилища</div><div class="val">0</div><div class="sub">не возвращено в срок: 0</div></div>
+  <div class="k"><div class="lab">Обращений «где моя заявка»</div><div class="val">0</div><div class="sub">за неделю, по листу учёта</div><span class="trend up">▼ 0 к прошлой</span></div>
+</div>
+
+<div class="note"><strong>Восьмая плитка — самая важная для защиты проекта.</strong> «Обращений „где моя заявка“» считается вручную по листу учёта: две недели до запуска и две недели после. Это единственная метрика, которая прямо доказывает, что прозрачность сработала, — и единственная, которую нельзя взять из 1С. Начните считать её <em>до</em> внедрения, иначе сравнивать будет не с чем.</div>

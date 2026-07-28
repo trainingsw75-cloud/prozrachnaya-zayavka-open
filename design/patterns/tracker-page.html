@@ -1,0 +1,103 @@
+<!-- @dsCard group="Экраны" name="Страница «Где моя заявка»" subtitle="То, что открывается по ссылке из письма, без входа в 1С" -->
+<style>
+:root{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa;--radius:12px;--shadow:0 1px 2px rgba(16,32,28,.06),0 10px 30px rgba(16,32,28,.07);--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--brand-2:#57c3a4;--brand-ink:#06201a;--accent:#e0a54a;--ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;--err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;--muted:#9fb0ab;--muted-bg:#1c2724;--violet:#b393e8;--violet-bg:#221a33}
+:root[data-theme="light"]{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--brand-2:#127a61;--brand-ink:#fff;--accent:#b9791a;--ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;--err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;--muted:#5a6b66;--muted-bg:#eef2f0;--violet:#6b3fa0;--violet-bg:#f0eafa}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg-2);color:var(--ink);padding:0}
+.top{background:var(--brand);color:var(--brand-ink);padding:16px 24px;display:flex;align-items:center;gap:12px}
+.top .mark{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:15px;flex:none}
+.top .ttl{font-size:14px;font-weight:600;line-height:1.25}
+.top .sub{font-size:11.5px;opacity:.8}
+.wrap{max-width:760px;margin:0 auto;padding:24px 20px 40px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.hd{padding:20px 22px 18px;border-bottom:1px solid var(--line)}
+.num{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.02em}
+.h{font-size:19px;font-weight:650;margin:5px 0 12px;letter-spacing:-.01em;line-height:1.25}
+.b{display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 10px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--warn-bg);color:var(--warn)}
+.b .d{width:7px;height:7px;border-radius:50%;background:currentColor}
+.bd{padding:20px 22px}
+h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:0 0 12px;font-weight:600}
+.steps{display:flex;margin-bottom:6px}
+.st{flex:1;position:relative;text-align:center;min-width:0}
+.st .bar{height:4px;background:var(--bg-3);border-radius:2px;margin-bottom:13px}
+.st.done .bar{background:var(--ok)}
+.st.now .bar{background:linear-gradient(90deg,var(--warn) 50%,var(--bg-3) 50%)}
+.st .dot{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:var(--bg-3);border:3px solid var(--bg)}
+.st.done .dot{background:var(--ok)}
+.st.now .dot{background:var(--warn);box-shadow:0 0 0 4px var(--warn-bg)}
+.st .t{font-size:11.5px;font-weight:600;padding:0 4px;line-height:1.25}
+.st .s{font-size:10.5px;color:var(--ink-3);margin-top:2px;padding:0 4px}
+.st.todo .t{color:var(--ink-3);font-weight:500}
+.now-box{margin:22px 0 4px;padding:15px 17px;background:var(--warn-bg);border-radius:10px;display:flex;gap:14px;align-items:flex-start}
+.now-box .ic{font-size:19px;line-height:1}
+.now-box .k{font-size:13.5px;font-weight:650;color:var(--warn);margin-bottom:3px}
+.now-box .v{font-size:13px;color:var(--ink-2);line-height:1.5}
+dl{display:grid;grid-template-columns:190px 1fr;gap:0;margin:22px 0 0;font-size:13.5px;border-top:1px solid var(--line)}
+dt{color:var(--ink-3);padding:11px 12px 11px 0;border-bottom:1px solid var(--line)}
+dd{margin:0;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.tl{margin:24px 0 0;padding:0;list-style:none;position:relative}
+.tl:before{content:"";position:absolute;left:7px;top:8px;bottom:12px;width:2px;background:var(--line)}
+.tl li{position:relative;padding:0 0 18px 28px;font-size:13px;line-height:1.5}
+.tl li:before{content:"";position:absolute;left:2px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--ok);border:2px solid var(--bg)}
+.tl li.pend:before{background:var(--bg-3)}
+.tl .w{font-weight:600;color:var(--ink)}
+.tl .m{color:var(--ink-3);font-size:12px;margin-top:2px}
+.ft{padding:16px 22px;background:var(--bg-2);border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);line-height:1.55}
+.btn{display:inline-block;padding:10px 18px;border-radius:8px;background:var(--brand);color:var(--brand-ink);font-size:13px;font-weight:600;text-decoration:none;margin-top:4px}
+@media (max-width:640px){dl{grid-template-columns:1fr}dt{padding-bottom:0;border-bottom:none}dd{padding-top:3px}.steps{display:none}}
+</style>
+
+<div class="top">
+  <div class="mark">🗄</div>
+  <div><div class="ttl">Архив ОЭЗ «Алабуга»</div><div class="sub">Статус заявки на доступ к ресурсам</div></div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <div class="hd">
+      <div class="num">Заявка № 0000-00 от 00.00.0000</div>
+      <div class="h">Доступ к архивным делам фонда № 00</div>
+      <span class="b"><span class="d"></span>На согласовании</span>
+    </div>
+
+    <div class="bd">
+      <h3>Ход рассмотрения</h3>
+      <div class="steps">
+        <div class="st done"><div class="bar"><span class="dot"></span></div><div class="t">Принята</div><div class="s">00.00</div></div>
+        <div class="st done"><div class="bar"><span class="dot"></span></div><div class="t">Рассмотрена</div><div class="s">00.00</div></div>
+        <div class="st now"><div class="bar"><span class="dot"></span></div><div class="t">Согласование</div><div class="s">идёт</div></div>
+        <div class="st todo"><div class="bar"><span class="dot"></span></div><div class="t">Утверждение</div><div class="s">—</div></div>
+        <div class="st todo"><div class="bar"><span class="dot"></span></div><div class="t">Выдача</div><div class="s">—</div></div>
+        <div class="st todo"><div class="bar"><span class="dot"></span></div><div class="t">Готово</div><div class="s">—</div></div>
+      </div>
+
+      <div class="now-box">
+        <div class="ic">⏳</div>
+        <div><div class="k">Сейчас ждём решения</div><div class="v">«Должность, ФИО» — срок до 00.00.0000. Осталось 0 рабочих дня.</div></div>
+      </div>
+
+      <dl>
+        <dt>Ресурс</dt><dd>«Наименование системы или фонда»</dd>
+        <dt>Тип доступа</dt><dd>Чтение</dd>
+        <dt>Срок действия</dt><dd>до 00.00.0000</dd>
+        <dt>Заявитель</dt><dd>«Должность, ФИО»</dd>
+        <dt>Подразделение</dt><dd>«Наименование»</dd>
+      </dl>
+
+      <h3 style="margin-top:26px">История</h3>
+      <ul class="tl">
+        <li><span class="w">Заявка зарегистрирована</span><div class="m">00.00.0000, 00:00 — номер 0000-00 присвоен автоматически</div></li>
+        <li><span class="w">Рассмотрена делопроизводителем архива</span><div class="m">00.00.0000, 00:00 — направлена на согласование</div></li>
+        <li class="pend"><span class="w">Согласование — в работе</span><div class="m">срок до 00.00.0000</div></li>
+      </ul>
+    </div>
+
+    <div class="ft">
+      Страница обновляется автоматически. Вход в 1С не требуется.<br>
+      Вопросы по заявке — в архив ОЭЗ, добавочный 000.
+      <div><a class="btn" href="#">Написать по заявке</a></div>
+    </div>
+  </div>
+</div>

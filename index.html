@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Опись комплекта — проект «Прозрачная заявка»</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+
+.wrap2{max-width:900px;margin:0 auto;padding:24px 22px 70px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:26px 30px;margin-bottom:16px}
+.it{border-top:1px solid var(--line);padding:18px 0 4px}
+.it:first-of-type{border-top:none;padding-top:4px}
+.hd{display:flex;gap:14px;align-items:flex-start}
+.num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--brand-ink);background:var(--brand);padding:4px 8px;border-radius:6px;flex:none;margin-top:2px}
+.it h3{margin:0 0 3px;font-size:16.5px;line-height:1.3}
+.it h3 a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--brand)}
+.it h3 a:hover{color:var(--brand)}
+.who{font-size:12px;color:var(--ink-3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.ds{margin:10px 0 8px;font-size:14px;color:var(--ink-2);line-height:1.55}
+.nt{margin:0;font-size:13px;color:var(--ink-2);background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 13px;line-height:1.5}
+.lead{font-size:15px;color:var(--ink-2);margin:0 0 6px;line-height:1.6}
+h2.s{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:0 0 14px;font-weight:700}
+.warn2{background:var(--err-bg);border-left:3px solid var(--err)}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>Опись комплекта — проект «Прозрачная заявка»</h1>
+<p>Заявки на доступ к ресурсам · архив ОЭЗ «Алабуга» · 1С:Документооборот 8, ред. 2.1</p></div>
+<div class="acts"><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+
+<div class="wrap2">
+<div class="card">
+<h2 class="s">С чего начать</h2>
+<p class="lead">Откройте документ <strong>04</strong> — это сценарий внесения проекта наверх. Всё остальное к нему приложения. Каждый файл открывается двойным щелчком в браузере; чтобы получить PDF, нажмите «Печать» и выберите «Сохранить как PDF».</p>
+<p class="nt warn2">Все документы — <strong>проект</strong>, а не утверждённые материалы. Пути в меню 1С, сроки и цифры эффекта помечены знаком «проверить»: они не подтверждены на вашей базе и не должны попадать в регламент или служебную записку, пока вы не сверили их с экраном. Реквизиты, фамилии и номера приказов намеренно оставлены пустыми.</p>
+</div>
+
+<div class="card">
+<h2 class="s">Состав комплекта — 9 документов</h2>
+<article class="it">
+  <div class="hd"><span class="num">00</span>
+    <div><h3><a href="00%20%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B0%D1%8F%20%D1%82%D0%B5%D1%82%D1%80%D0%B0%D0%B4%D1%8C%20-%20%D0%BF%D0%B0%D1%81%D0%BF%D0%BE%D1%80%D1%82%20%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%B0%20%D0%B8%20%D0%BF%D0%BB%D0%B0%D0%BD%20%D0%BD%D0%B5%D0%B4%D0%B5%D0%BB%D0%B8.html">Рабочая тетрадь</a></h3>
+    <div class="who">Себе. Наверх не отправлять · 33 КБ</div></div></div>
+  <p class="ds">Паспорт процесса за час и план недели по дням. Заполняется прямо на экране, сохраняется само, печатается.</p>
+  <p class="nt">Это ваша кухня, а не документ для рецензента.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">01</span>
+    <div><h3><a href="01%20%D0%9F%D0%B0%D0%BA%D0%B5%D1%82%20%D0%B0%D1%83%D0%B4%D0%B8%D1%82%2C%20%D0%BF%D0%B8%D1%81%D1%8C%D0%BC%D0%B0%2C%20%D1%80%D0%B5%D0%B3%D0%BB%D0%B0%D0%BC%D0%B5%D0%BD%D1%82%2C%20%D0%B7%D0%B0%D1%89%D0%B8%D1%82%D0%B0.html">Пакет: аудит, письма, регламент, защита</a></h3>
+    <div class="who">Себе · выдержки — юрслужбе и ИБ · 279 КБ</div></div></div>
+  <p class="ds">Аудит работающего процесса, 15 типовых дыр, разбор карточек по вкладкам, 6 готовых писем заявителю, условия маршрутизации, проект регламента, роль контролёра, матрицы RACI и эскалации.</p>
+  <p class="nt">Целиком наверх не отправлять — 245 КБ. Юрслужбе шлётся только проект регламента, ИБ — только состав видимых сведений.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">02</span>
+    <div><h3><a href="02%20%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE%20%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%2C%20%D0%B2%D0%BA%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8%2C%20%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%91%D1%80%2C%20%D1%84%D0%B8%D1%87%D0%B8%20%D0%B0%D1%80%D1%85%D0%B8%D0%B2%D0%B0.html">Руководство: процесс, вкладки, контролёр, фичи архива</a></h3>
+    <div class="who">Себе · разделы — администратору 1С · 303 КБ</div></div></div>
+  <p class="ds">Настройка процесса с нуля, разбор карточек, права доступа и грифы, опыт Иннополиса, цифровые фичи архива, дорожная карта. В конце — приложение с замечаниями независимого критика.</p>
+  <p class="nt">Из Иннополиса дословно переносится одна вещь — форма описи прилагаемых документов, вставка В6.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">03</span>
+    <div><h3><a href="03%20%D0%A7%D1%82%D0%BE%20%D0%BF%D0%B5%D1%80%D0%B5%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20QR-%D1%82%D1%80%D0%B5%D0%BA%2C%20%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0%2C%20%D0%BA%D0%B0%D0%BD%D1%86%D0%B5%D0%BB%D1%8F%D1%80%D0%B8%D1%8F.html">Что переиспользовать: QR-трек, библиотека, канцелярия</a></h3>
+    <div class="who">Подразделению ИТ · 45 КБ</div></div></div>
+  <p class="ds">Пилот страницы статуса на готовом коде за один рабочий день, 19 отобранных бесплатных ресурсов, вердикт по голосовой канцелярии.</p>
+  <p class="nt">ВНИМАНИЕ: первоисточник библиотеки на рабочем компьютере не открывать — в каталоге есть пиратский софт и поиск по лицу. Отобранные 19 ссылок проверены поштучно.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">04</span>
+    <div><h3><a href="04%20%D0%9F%D0%B0%D0%BA%D0%B5%D1%82%20%D0%BD%D0%B0%20%D1%80%D0%B0%D1%81%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%B0%D0%BA%20%D0%BF%D0%BE%D0%B4%D0%B0%D1%82%D1%8C%20%D0%BD%D0%B0%D0%B2%D0%B5%D1%80%D1%85.html">Пакет на рассмотрение: как подать наверх</a></h3>
+    <div class="who">Себе — это ваш сценарий · 195 КБ</div></div></div>
+  <p class="ds">Маршрут внесения по семи кабинетам с готовыми ответами на первый вопрос каждого. Полные тексты служебной записки, повестки совещания и протокола. Три просьбы. Реестр решений. Отчёт на 30-й день.</p>
+  <p class="nt">Начните отсюда. Правило 1–3–30: одна страница руководителю, три на совещание, тридцать минут чтения — только ИТ и юристам.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">06</span>
+    <div><h3><a href="06%20%D0%94%D0%BE%D1%81%D0%BA%D0%B0%20%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0.html">Доска решений проекта</a></h3>
+    <div class="who">Себе. На совещании — только если попросят · 29 КБ</div></div></div>
+  <p class="ds">22 пункта проекта. По каждому: использовать / доработать / отклонить / отложить, комментарий, кто решил. Поиск и фильтры. Протокол и таблица CSV на выгрузку.</p>
+  <p class="nt">Не открывать первым: руководитель увидит свою роль расписанной заранее. Основной инструмент — после положительного решения.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">07</span>
+    <div><h3><a href="07%20%D0%A7%D1%82%D0%BE%20%D0%BF%D0%B5%D1%80%D0%B5%D0%BD%D1%8F%D1%82%D1%8C%20%D1%81%20%D0%93%D0%BE%D1%81%D1%83%D1%81%D0%BB%D1%83%D0%B3%20%D0%BF%D0%BE%D0%B8%D1%81%D0%BA%20%D0%B8%20%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5.html">Что перенять с Госуслуг: поиск и согласование</a></h3>
+    <div class="who">Себе и администратору 1С · 21 КБ</div></div></div>
+  <p class="ds">Две таблицы улучшений — поиск и маршрут согласования. Пятёрка на первую неделю без денег и без программиста. Готовый абзац в регламент про несогласие заявителя с отказом. Отдельно — чего с Госуслуг брать не надо.</p>
+  <p class="nt">Официальные страницы Госуслуг напрямую не читаются, часть сведений из вторичных источников. Раздел «Что не подтвердилось» в конце показывает, на что в служебной записке ссылаться нельзя.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">08</span>
+    <div><h3><a href="08%20%D0%9F%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B%20%D0%BA%D0%BB%D0%B8%D0%BD%D0%B8%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%9B%D1%8C%D0%B2%D0%B0%20%D0%A2%D0%BE%D0%BB%D1%81%D1%82%D0%BE%D0%B3%D0%BE%20%D0%BC%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BB%D0%B8%D1%81%D1%82.html">Принципы клиники на Льва Толстого: маршрутный лист</a></h3>
+    <div class="who">Себе · образец формы — делопроизводителю · 25 КБ</div></div></div>
+  <p class="ds">Личный кабинет пациента ПСПбГМУ как образец единой точки входа. Таблица переноса принципов на процесс заявок. Готовый образец маршрутного листа заявителя — что человек получает на руки при подаче.</p>
+  <p class="nt">Подтверждён только личный кабинет; цитаты сверены дословно. Талон и лист ожидания относятся к городскому порталу, а не к клинике — как «опыт клиники» их в записке не подавать.</p>
+</article><article class="it">
+  <div class="hd"><span class="num">09</span>
+    <div><h3><a href="09%20%D0%9F%D0%BB%D0%B0%D0%BD%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%20%C2%AB%D0%A1%D0%B2%D0%BE%D0%B8%D0%BC%D0%B8%20%D1%80%D1%83%D0%BA%D0%B0%D0%BC%D0%B8%C2%BB.html">План работ «Своими руками»</a></h3>
+    <div class="who">Себе — рабочий документ на каждый день · 56 КБ</div></div></div>
+  <p class="ds">Всё, что делается мышкой, без программиста и без денег: 207 пунктов из девяти документов, сведённые в один план по разделам — от «сначала посмотреть, ничего не меняя» до прав и организационного. С блоком «прежде чем трогать базу» и предупреждениями «что здесь легко сломать».</p>
+  <p class="nt">Раздел «З. Оказалось не своими руками» прочитайте раньше, чем что-то пообещаете руководителю: восемь пунктов, которые в других документах названы настройкой, а на деле требуют программиста.</p>
+</article>
+</div>
+
+<div class="card">
+<h2 class="s">Что это и для кого</h2>
+<p class="lead">Открытая часть материалов проекта: методология, образцы форм и готовые тексты, которые можно взять и применить у себя. Внутренние разделы — аудит слабых мест конкретного процесса и техническое задание подрядчику — в открытую часть не входят.</p>
+<p class="lead">Организация-владелец: архив особой экономической зоны. Ни фамилий, ни номеров заявок, ни перечня информационных систем в материалах нет — везде плейсхолдеры. Берите как заготовку и подставляйте своё.</p>
+<p class="lead">Отдельно собрана дизайн-система: палитра, статусы заявки, шкала прогресса, шаблон письма, страница статуса, лист согласования с QR-кодом.</p>
+</div>
+</div></body></html>

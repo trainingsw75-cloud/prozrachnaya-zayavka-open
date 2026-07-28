@@ -1,0 +1,69 @@
+<!-- @dsCard group="Экраны" name="Лист согласования (печать)" subtitle="Бумажная форма с QR на страницу-трекер" -->
+<style>
+:root{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--accent:#b9791a;--ok:#1c7c46;--err:#b23030;--radius:10px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--serif:"Times New Roman",Times,serif}
+@media (prefers-color-scheme:dark){:root{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--accent:#e0a54a;--ok:#5fd39a;--err:#f08a8a}}
+:root[data-theme="dark"]{--ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;--bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;--brand:#3fa98c;--accent:#e0a54a;--ok:#5fd39a;--err:#f08a8a}
+:root[data-theme="light"]{--ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;--bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;--brand:#0f5f4c;--accent:#b9791a;--ok:#1c7c46;--err:#b23030}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg-2);color:var(--ink);padding:28px}
+h1{font-size:20px;margin:0 0 4px}
+.lede{color:var(--ink-3);font-size:13px;margin:0 0 22px;max-width:66ch;line-height:1.5}
+.sheet{max-width:640px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:34px 38px;font-family:var(--serif);color:var(--ink);box-shadow:0 6px 24px rgba(16,32,28,.07)}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:22px;border-bottom:2px solid var(--ink);padding-bottom:13px;margin-bottom:20px}
+.org{font-size:13px;line-height:1.4}
+.org b{display:block;font-size:14.5px;text-transform:uppercase;letter-spacing:.02em}
+.qr{width:76px;height:76px;flex:none;background:var(--bg-3);border:1px solid var(--line);border-radius:5px;display:grid;place-items:center;text-align:center;font-family:var(--font);font-size:9px;color:var(--ink-3);line-height:1.25;padding:5px}
+.ttl{text-align:center;font-size:16px;font-weight:700;text-transform:uppercase;margin:0 0 6px}
+.sub{text-align:center;font-size:13.5px;color:var(--ink-2);margin-bottom:22px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-family:var(--font)}
+th{background:var(--bg-2);text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600;padding:8px 9px;border:1px solid var(--line)}
+td{padding:11px 9px;border:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+td.c{text-align:center;white-space:nowrap}
+.ok{color:var(--ok);font-weight:700}
+.sign{border-bottom:1px solid var(--ink-3);display:inline-block;min-width:82px;height:1em}
+.fields{font-size:13.5px;line-height:1.9;margin-bottom:20px}
+.fields .l{color:var(--ink-3);display:inline-block;min-width:170px}
+.fields .v{border-bottom:1px dotted var(--line);padding:0 4px}
+.foot{margin-top:22px;padding-top:13px;border-top:1px solid var(--line);font-family:var(--font);font-size:10.5px;color:var(--ink-3);line-height:1.5;display:flex;justify-content:space-between;gap:18px}
+.note{max-width:640px;margin:24px auto 0;padding:13px 15px;border-left:3px solid var(--accent);background:var(--bg);border-radius:0 10px 10px 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+</style>
+
+<h1>Лист согласования — печатная форма</h1>
+<p class="lede">Прикладывается к заявке в PDF или печатается. QR-код ведёт на ту же страницу-трекер, что и ссылка в письме: бумага и экран показывают одно и то же состояние.</p>
+
+<div class="sheet">
+  <div class="hdr">
+    <div class="org"><b>Архив ОЭЗ «Алабуга»</b>Особая экономическая зона<br>промышленно-производственного типа</div>
+    <div class="qr">QR<br>статус<br>заявки</div>
+  </div>
+
+  <div class="ttl">Лист согласования</div>
+  <div class="sub">заявки на доступ к ресурсам № 0000-00 от 00.00.0000</div>
+
+  <div class="fields">
+    <div><span class="l">Заявитель:</span><span class="v">&nbsp;должность, ФИО&nbsp;</span></div>
+    <div><span class="l">Подразделение:</span><span class="v">&nbsp;наименование&nbsp;</span></div>
+    <div><span class="l">Ресурс:</span><span class="v">&nbsp;наименование системы, фонда или помещения&nbsp;</span></div>
+    <div><span class="l">Тип доступа:</span><span class="v">&nbsp;чтение / запись / полный&nbsp;</span></div>
+    <div><span class="l">Срок действия:</span><span class="v">&nbsp;до 00.00.0000 / бессрочно&nbsp;</span></div>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:24%">Этап</th><th style="width:30%">Согласующий</th><th style="width:16%">Решение</th><th style="width:14%">Дата</th><th style="width:16%">Подпись</th></tr></thead>
+    <tbody>
+      <tr><td>Рассмотрение</td><td>должность, ФИО</td><td class="c ok">Согласовано</td><td class="c">00.00.0000</td><td class="c"><span class="sign"></span></td></tr>
+      <tr><td>Руководитель подразделения</td><td>должность, ФИО</td><td class="c ok">Согласовано</td><td class="c">00.00.0000</td><td class="c"><span class="sign"></span></td></tr>
+      <tr><td>Владелец ресурса</td><td>должность, ФИО</td><td class="c">в работе</td><td class="c">—</td><td class="c"><span class="sign"></span></td></tr>
+      <tr><td>Информационная безопасность</td><td>должность, ФИО</td><td class="c">—</td><td class="c">—</td><td class="c"><span class="sign"></span></td></tr>
+      <tr><td>Утверждение</td><td>должность, ФИО</td><td class="c">—</td><td class="c">—</td><td class="c"><span class="sign"></span></td></tr>
+      <tr><td>Предоставление доступа</td><td>должность, ФИО</td><td class="c">—</td><td class="c">—</td><td class="c"><span class="sign"></span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="foot">
+    <div>Форма сформирована из 1С:Документооборот.<br>Актуальный статус — по QR-коду или ссылке из письма.</div>
+    <div style="text-align:right;white-space:nowrap">Отпечатано<br>00.00.0000 00:00</div>
+  </div>
+</div>
+
+<div class="note"><strong>Зачем бумаге QR.</strong> Распечатанный лист устаревает в момент печати. QR-код снимает эту проблему: лист лежит в деле как след процесса, а текущее состояние всегда на один скан телефона дальше. Тот же приём работает на единице хранения — там QR ведёт на карточку дела.</div>
