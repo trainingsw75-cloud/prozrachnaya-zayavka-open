@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>13. QR-коды в архиве</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>13. QR-коды в архиве</h1><p>Сценарии по приоритетам, план первой недели на 22 часа, лист согласования с QR, три правила и чек-лист перед печатью тиража</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#qr-коды-в-архиве">QR-коды в архиве</a><a class="l2" href="#с-чего-начать-если-читать-некогда">С чего начать, если читать некогда</a><a class="l2" href="#сценарии-применения-приоритеты-и-что-запускаем">Сценарии применения: приоритеты и что запускаем</a><a class="l2" href="#три-правила-которые-дороже-всей-остальной-инструкции">Три правила, которые дороже всей остальной инструкции</a><a class="l2" href="#где-ещё-в-проекте-встречается-qr">Где ещё в проекте встречается QR</a><a class="l2" href="#что-проверить-перед-печатью-тиража">Что проверить перед печатью тиража</a></nav>
+<main class="doc"><h1 id="qr-коды-в-архиве">QR-коды в архиве</h1>
+<h2 id="с-чего-начать-если-читать-некогда">С чего начать, если читать некогда</h2>
+<p>Три сценария первой недели не содержат персональных данных вообще: <strong>дверь хранилища</strong>, <strong>бланк заявки</strong> и <strong>ярлык на короб</strong>. Их можно запускать, ни с кем не согласовывая состав сведений, потому что сведений там нет — только служебные идентификаторы и ссылки на общедоступные страницы.</p>
+<p>Всё, что касается дел, описей, листов согласования и справок, идёт <strong>после</strong> пилота и <strong>после</strong> разговора с ИБ.</p>
+<p>Инструмент уже есть: генератор <code>qr.html</code> из соседнего проекта работает офлайн, хоть с флешки, и никуда ничего не отправляет.</p>
+<hr>
+<h2 id="сценарии-применения-приоритеты-и-что-запускаем">Сценарии применения: приоритеты и что запускаем</h2>
+<div class="scroll"><table><thead><tr><th>Приоритет</th><th>Сценарий</th><th>Что в коде</th><th>Нужна ли база / 1С</th><th>ПДн</th><th>Решение</th></tr></thead><tbody><tr><td><strong>1 — эта неделя</strong></td><td>Дверь хранилища</td><td>URL страницы с режимами хранения и порядком действий при протечке</td><td>нет</td><td>нет</td><td><strong>Запускаем</strong></td></tr><tr><td><strong>1 — эта неделя</strong></td><td>Бланк заявки: подача без поиска в интранете</td><td>URL формы</td><td>нет</td><td>нет</td><td><strong>Запускаем</strong></td></tr><tr><td><strong>1 — эта неделя</strong></td><td>Ярлык на коробе</td><td><code>ALB/BOX/00412</code></td><td>нет (пилот 20 коробов)</td><td>нет</td><td><strong>Запускаем</strong></td></tr><tr><td>2 — следующий шаг</td><td>Метка стеллажа/полки</td><td><code>ALB/LOC/H2-S07-P3</code></td><td>да</td><td>нет</td><td>После пилота коробов</td></tr><tr><td>2</td><td>Ярлык на обложке дела</td><td><code>ALB/F3/O1/D245</code></td><td>да</td><td>нет</td><td>Вместе с меткой полки</td></tr><tr><td>3</td><td>Регистрационный штамп входящего</td><td>линейный код 1С, не QR</td><td>1С типовое</td><td>—</td><td>Когда включат штрихкодирование</td></tr><tr><td>3</td><td>Опись: шапка и строки</td><td>URL эл. описи / шифр дела</td><td>да</td><td>нет</td><td>После базы</td></tr><tr><td>4</td><td>Лист согласования, отрывной талон, акт выдачи, карта-заместитель, проверка справки, пропуск в читальный зал</td><td><code>status.html#z=НОМЕР</code></td><td><strong>нужна страница-указатель</strong></td><td>да</td><td><strong>Только после <code>status.html</code>, читающей статус из выгрузки 1С</strong></td></tr></tbody></table></div>
+<p><strong>Что запускаем на первой неделе — 22 часа</strong></p>
+<div class="scroll"><table><thead><tr><th>Шаг</th><th>Часы</th></tr></thead><tbody><tr><td>Скачать ZIP репозитория, открыть <code>qr.html</code> локально (работает офлайн, с флешки)</td><td>0,5</td></tr><tr><td>Пять правок в <strong>копию</strong> <code>qr.html</code></td><td>1</td></tr><tr><td>Схема идентификаторов на одном листе: латиница, без пробелов, до 40 символов</td><td>2</td></tr><tr><td>Таблица-генератор в Excel: <code>="qr.html#url="&amp;КОДИР.URL(B2)&amp;"&amp;cap="&amp;КОДИР.URL(C2)</code></td><td>2</td></tr><tr><td>Печать тест-партии</td><td>2</td></tr><tr><td>Тест-лист размеров 25/40/60 мм тремя телефонами на реальном материале</td><td>1,5</td></tr><tr><td>Пилот: 20 коробов одного фонда + 5 меток стеллажа, бумажный журнал</td><td>4</td></tr><tr><td>Инструкция на лист + разбор пилота</td><td>3</td></tr><tr><td>Резерв на закупку и согласования</td><td>6</td></tr></tbody></table></div>
+<p><strong>Пять правок в <code>qr.html</code> — без них печатать нельзя</strong></p>
+<div class="scroll"><table><thead><tr><th>№</th><th>Место</th><th>Было → стало</th><th>Зачем</th></tr></thead><tbody><tr><td>1</td><td>стр. 174</td><td><code>margin: 0</code> → <code>margin: 24</code> (или удалить ключ)</td><td>Тихой зоны нет ни на бумаге, ни на экране. <code>margin</code> считается в единицах <code>cellSize</code>, при <code>cellSize: 6</code> четыре модуля = 24. <code>margin: 4</code> дало бы 0,67 модуля</td></tr><tr><td>2</td><td>стр. 171</td><td><code>qrcode(0,'M')</code> → <code>qrcode(0,'H')</code></td><td>Ярлыки трутся десятилетиями, H восстанавливает ~30 %</td></tr><tr><td>3</td><td>стр. 71</td><td><code>form .fields</code> → <code>form.fields</code></td><td>Класс стоит на самой форме — сейчас поля ввода лезут на печатный лист</td></tr><tr><td>4</td><td>стр. 68–75</td><td>добавить <code>.qrbox svg { width:25mm; height:25mm }</code></td><td>Сейчас 240 px = 63,5 мм, размер ярлыка не выбирается</td></tr><tr><td>5</td><td>стр. 82</td><td>скрыть <code>&lt;h1&gt;</code> при печати</td><td>На ярлыке дела заголовок чужого проекта не нужен</td></tr></tbody></table></div>
+<p><strong>Три архитектурных правила, нарушение которых обесценивает всю работу</strong></p>
+<ol><li><strong>QR на деле кодирует только идентичность</strong> (фонд—опись—дело), <strong>никогда не место хранения</strong>. Место кодирует метка полки, связь живёт в базе. Иначе первый перестеллаж = перепечатка тысяч ярлыков.</li><li><strong>Никакого base64 на бумаге.</strong> На ярлык 25 мм — строка не длиннее ~40 символов при уровне H. Ссылка <code>trek.html#d=…</code> (280 символов) даёт модуль 0,27 мм — не прочитается.</li><li><strong>Никаких сокращателей ссылок и никакого GitHub Pages в личном аккаунте на ярлыке, который живёт 30 лет.</strong> До появления постоянного домена — только текстовые коды <code>ALB/BOX/00412</code>, их потом можно связать с любым адресом без перепечатки.</li></ol>
+<p><strong>Материалы:</strong> термотрансфер resin по синтетике либо лазер по PET-этикетке. Прямая термопечать и струйная — нет. Ламинация только матовая. Человекочитаемый шифр рядом с кодом <strong>обязателен</strong> — это требование Правил Росархива № 77 (п. 45, 84), QR его не заменяет.</p>
+<p><strong>[ПРОВЕРИТЬ] в 1С за 15 минут:</strong> печатает ли «Штрихкод на наклейке» полоски или квадрат; есть ли в настройках выбор типа кода и QR в списке; есть ли печать ярлыка в подсистеме «Дела (тома)»; есть ли внешний доступ заявителя без учётной записи; ДО ГУ 2.1 или ПРОФ/КОРП 2.1.</p>
+<hr>
+<hr>
+<h2 id="три-правила-которые-дороже-всей-остальной-инструкции">Три правила, которые дороже всей остальной инструкции</h2>
+<p><strong>Не клеить на сам документ.</strong> Ярлык идёт на короб, на обложку дела, на полку — но не на архивный документ. Клей и плёнка на сроке хранения в десятилетия ведут себя непредсказуемо, а снять наклейку без следа нельзя.</p>
+<p><strong>Не кодировать данные в сам QR.</strong> В код кладётся идентификатор или ссылка, а не содержимое. Строка <code>base64</code> с карточкой заявки на бумаге — это, во-первых, нечитаемый код из-за длины, во-вторых, персональные данные, которые нельзя отозвать: напечатанное живёт, пока лежит бумага.</p>
+<p><strong>Напечатанный код замораживает состояние.</strong> Ссылка на страницу статуса, напечатанная сегодня, завтра покажет вчерашний день, если статус передаётся внутри самой ссылки. Поэтому для листа согласования нужен либо стабильный адрес вида <code>?id=</code>, либо вариант Б — код только для сверки подлинности листа.</p>
+<hr>
+<h2 id="где-ещё-в-проекте-встречается-qr">Где ещё в проекте встречается QR</h2>
+<div class="scroll"><table><thead><tr><th>Где</th><th>Что там</th></tr></thead><tbody><tr><td>Документ 03, решение 3</td><td>Полный разбор сценариев — он воспроизведён выше</td></tr><tr><td>Документ 02</td><td>QR в списке цифровых фич архива, вместе с топографией хранилища</td></tr><tr><td>Документ 05, ТЗ на сервис</td><td>QR как способ доставки ссылки на статус; требование «персональных данных в ссылке нет»</td></tr><tr><td>Документ 08</td><td>Маршрутный лист заявителя с QR на страницу статуса</td></tr><tr><td>Дизайн-система, <code>patterns/doc-header.html</code></td><td>Готовый макет листа согласования с местом под код 25×25 мм</td></tr></tbody></table></div>
+<hr>
+<h2 id="что-проверить-перед-печатью-тиража">Что проверить перед печатью тиража</h2>
+<p>☐ Размер кода проверен на <strong>реальном материале</strong> — той бумаге и тем принтере, которыми будете печатать, а не на экране ☐ Проверка сделана <strong>тремя разными телефонами</strong>, включая самый старый в отделе ☐ Уровень коррекции ошибок позволяет коду читаться при частичном загрязнении ☐ Схема идентификаторов записана на одном листе и согласована: латиница, без пробелов, до 40 символов ☐ Решено, что делать с ярлыком при перемещении дела между коробами ☐ Материал наклейки допустим для условий хранилища — уточнить у поставщика срок службы клея ☐ Есть бумажный журнал пилота: что наклеили, когда, кто, читается ли через месяц</p></main>
+</div></body></html>
