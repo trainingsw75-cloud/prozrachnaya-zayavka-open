@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>11. Пропускной режим Шереметьево: образец процесса доступа</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>11. Пропускной режим Шереметьево: образец процесса доступа</h1><p>Заявка от организации, договор как основание, отдельная заявка на зоны доступа, разные виды пропусков — самый близкий к вашей задаче публичный пример</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#пропускной-режим-шереметьево-как-образец-процесса-доступа">Пропускной режим Шереметьево как образец процесса доступа</a><a class="l2" href="#часть-1-что-опубликовано-открыто">Часть 1. Что опубликовано открыто</a><a class="l2" href="#часть-2-перенос-на-заявки-архива">Часть 2. Перенос на заявки архива</a><a class="l2" href="#что-подтвердилось">Что подтвердилось</a><a class="l2" href="#механика-аэропорта-аналог-в-архиве">Механика аэропорта → аналог в архиве</a><a class="l2" href="#три-идеи-которые-стоило-бы-обдумать">Три идеи, которые стоило бы обдумать</a><a class="l2" href="#чего-из-авиационной-практики-архиву-не-нужно">Чего из авиационной практики архиву не нужно</a><a class="l2" href="#чем-архив-отличается">Чем архив отличается</a></nav>
+<main class="doc"><h1 id="пропускной-режим-шереметьево-как-образец-процесса-доступа">Пропускной режим Шереметьево как образец процесса доступа</h1>
+<h2 id="часть-1-что-опубликовано-открыто">Часть 1. Что опубликовано открыто</h2>
+<div class="scroll"><table><thead><tr><th>№</th><th>Что проверял</th><th>URL</th><th>Что реально написано</th><th>Вердикт</th></tr></thead><tbody><tr><td>1</td><td>Опубликован ли порядок оформления пропусков для работников организаций</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Раздел «Оформление пропусков»: процедура оформления личных пропусков АО «МАШ» в зону транспортной безопасности; порядок определён Требованиями по обеспечению транспортной безопасности (ПП РФ от 05.10.2020 № 1605) и «Инструкцией о пропускном и внутриобъектовом режимах в МАШ»; заявки заполняются на русском языке</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>2</td><td>Форма заявки и состав документов</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Для постоянного личного пропуска: заявка на бланке организации за подписью руководителя с печатью + 2 копии; доверенность; образцы подписей; гарантийное письмо; <strong>копия договора как основание нахождения в контролируемой зоне</strong>; номенклатура должностей и сопроводительное письмо; заявка на активацию зон доступа. Выложены DOCX/DOC/XLSX-шаблоны всех форм</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>3</td><td>Срок подачи заявки (за сколько дней)</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Конкретных сроков подачи или рассмотрения на странице нет; указан только режим работы ООВП (пн–чт 08:00–17:00, пт 08:00–14:30)</td><td><strong>НЕ НАЙДЕНО</strong></td></tr><tr><td>4</td><td>Кто согласует</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Заявку представитель организации самостоятельно согласует с <strong>Шереметьевской таможней</strong>; приём и оформление — Отдел оформления и выдачи пропусков (ООВП) дирекции авиационной и транспортной безопасности АО «МАШ», здание КИВЦ, каб. 17. Для транспортного пропуска — дополнительно Дирекция спецтранспорта и Служба инспекции по безопасности полётов. Доступ в ЗДРО пункта пропуска — по разрешению подразделения пограничного контроля</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>5</td><td>Что получает человек, виды пропусков, зоны</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Виды: постоянный личный, разовый личный, постоянный/разовый транспортный, материальный (на незапрещённые и на запрещённые предметы), вкладыш на фото/видеосъёмку, пропуск в ЗДРО, дубликаты. Зоны доступа активируются отдельной заявкой (СКУД); при выдаче регистрируются биометрические данные (КИВЦ, каб. 36). Оформление разовых пропусков в перевозочный сектор ЗАПРЕЩЕНО до отмены уровня безопасности № 3</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>6</td><td>Срок действия и продление</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Срок действия числом не указан; есть отдельная процедура «Замена постоянного личного пропуска (продление)» и форма заявки на переоформление</td><td><strong>НЕ НАЙДЕНО</strong> (в части срока)</td></tr><tr><td>7</td><td>Аннулирование пропуска, возврат при увольнении</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Оснований аннулирования и порядка возврата при увольнении на странице нет. Есть только общая норма: ответственность за соблюдение порядка получения, хранения и сдачи пропусков, включая своевременное продление, возложена на организацию, оформившую заявку. Утрата: объяснительная и распоряжение о наказании</td><td><strong>НЕ НАЙДЕНО</strong></td></tr><tr><td>8</td><td>Требования к организации-заявителю</td><td><a href="https://www.svo.aero/ru/partners/passes" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/passes</a></td><td>Договор как основание нахождения в контролируемой зоне; доверенность на уполномоченного представителя; гарантийное письмо при безналичной оплате; номенклатура должностей; сведения о лицах — таблицей MS Excel на CD и на stinspect.sovp@svo.su; услуги платные (прейскуранты с 01.01.2026)</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>9</td><td>Публичная выписка из режимной инструкции</td><td><a href="https://www.svo.aero/ru/partners/aviation-security" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/aviation-security</a></td><td>Раздел «Транспортная безопасность»: выложен файл «Выписка_И-5.1-01-25» (PDF). Содержимое не разбиралось — за рамками задачи</td><td><strong>ПОДТВЕРЖДЕНО</strong> (факт публикации)</td></tr><tr><td>10</td><td>ЭДО с контрагентами: приглашение, операторы, адреса обмена</td><td>поиск по svo.aero, <a href="https://www.svo.aero/ru/partners" target="_blank" rel="noopener">https://www.svo.aero/ru/partners</a></td><td>Отдельного раздела или страницы об электронном документообороте с контрагентами не обнаружено; в меню «Партнёрам» только Авиакомпаниям, Рекламодателям, Арендаторам, Транспортная безопасность, Пропуска, Медосмотры, Мы продаём, Тендеры, Раскрытие информации</td><td><strong>НЕ НАЙДЕНО</strong></td></tr><tr><td>11</td><td>Регламенты закупок и типовые формы</td><td><a href="https://www.svo.aero/ru/partners/tenders" target="_blank" rel="noopener">https://www.svo.aero/ru/partners/tenders</a></td><td>Закупки по 223-ФЗ размещаются в ЕИС и на ЭТП etpgpb.ru и roseltorg.ru; выложены «Положение о закупках П-10.6-32-18 (версия 16)» (PDF), планы закупок 2026 АО «МАШ» и ООО «Шереметьево ВИП»; контакты sopkp@svo.su и dvasilchenko@svo.su</td><td><strong>ПОДТВЕРЖДЕНО</strong></td></tr><tr><td>12</td><td>Внутренний поиск по сайту</td><td><a href="https://www.svo.aero/ru/search?q=электронный+документооборот" target="_blank" rel="noopener">https://www.svo.aero/ru/search?q=электронный+документооборот</a></td><td>Страница отдаёт «Страница не найдена. Ошибка 404» — рабочего поиска по сайту нет</td><td><strong>СТРАНИЦА НЕ ОТКРЫЛАСЬ</strong></td></tr></tbody></table></div>
+<p>Шереметьево публикует пропускной режим для организаций подробно и с готовыми формами: состав пакета документов, согласование с Шереметьевской таможней, приём через ООВП в здании КИВЦ, платность услуг. При этом сроки подачи, срок действия пропуска и порядок аннулирования/сдачи при увольнении открыто не опубликованы — они остаются во внутренней инструкции о пропускном режиме, наружу отдана лишь выписка. По ЭДО с контрагентами публичных сведений на сайте нет вовсе; из документооборота открыты только закупочное положение и планы закупок в разделе «Тендеры».</p>
+<hr>
+<h2 id="часть-2-перенос-на-заявки-архива">Часть 2. Перенос на заявки архива</h2>
+<h2 id="что-подтвердилось">Что подтвердилось</h2>
+<ul><li>Шереметьево публично выкладывает <strong>порядок оформления пропусков для сторонних организаций</strong> и <strong>готовые шаблоны форм</strong> (DOCX/XLSX) — заявка, доверенность, образцы подписей, гарантийное письмо, номенклатура должностей.</li><li>Подтверждено: основание нахождения в контролируемой зоне — <strong>копия договора</strong>; ответственность за получение, хранение, продление и сдачу пропусков возложена на <strong>организацию-заявителя</strong>.</li><li>Подтверждено: <strong>зоны доступа активируются отдельной заявкой</strong>, отличной от заявки на сам пропуск.</li><li>Подтверждено: <strong>виды пропусков разведены</strong> (постоянный/разовый личный, транспортный, материальный, вкладыш на съёмку) и есть отдельная процедура «замена (продление)».</li><li>Подтверждено: <strong>внешнее согласование</strong> — представитель организации сам согласует заявку с Шереметьевской таможней; приём ведёт один профильный отдел (ООВП).</li><li><strong>Не найдено</strong>: сроки подачи и рассмотрения, срок действия пропуска, основания аннулирования и порядок сдачи при увольнении — они во внутренней инструкции, наружу отдана только выписка.</li><li><strong>Не найдено</strong>: ничего про электронный документооборот с контрагентами; из документооборота открыты только закупочное положение и планы закупок.</li></ul>
+<h2 id="механика-аэропорта-аналог-в-архиве">Механика аэропорта → аналог в архиве</h2>
+<div class="scroll"><table><thead><tr><th>Приём</th><th>Как у них</th><th>Аналог в архиве</th><th>Стоит ли брать</th></tr></thead><tbody><tr><td>Заявка от организации, а не от человека</td><td>Бланк организации, подпись руководителя, печать</td><td>Заявка от подразделения/подрядчика на своих людей</td><td><strong>Да</strong> — сразу появляется ответственный за человека</td></tr><tr><td>Договор как основание доступа</td><td>Копия договора приложением</td><td>Ссылка на договор/приказ/тему исследования как реквизит заявки</td><td><strong>Да</strong> — отвечает на вопрос «почему ему вообще можно»</td></tr><tr><td>Разделение вида пропуска</td><td>Постоянный / разовый / материальный / вкладыш</td><td>Разовый вход в читальный зал ≠ длящийся допуск в хранилище</td><td><strong>Да</strong> — разные виды требуют разной проверки</td></tr><tr><td>Отдельная заявка на зоны доступа</td><td>Пропуск сам по себе, зоны активируются потом</td><td>Отдельный реквизит «какие помещения», меняемый без переоформления допуска</td><td><strong>Да</strong> — правку зон не гонят по полному кругу</td></tr><tr><td>Внешнее согласование до подачи</td><td>Согласование с таможней силами заявителя</td><td>Согласование с режимной/ИБ-службой ОЭЗ до подачи в архив</td><td><strong>Вряд ли</strong> — у архива согласующие внутренние, проще звеном маршрута</td></tr><tr><td>Один приёмный отдел с приёмными часами</td><td>ООВП, кабинет, режим работы</td><td>Единая точка приёма заявок вместо «кто ответит»</td><td><strong>Да</strong> — но в 1С:ДО это роль, а не кабинет</td></tr><tr><td>Готовые шаблоны форм для внешних</td><td>Публичные DOCX/XLSX</td><td>Шаблон заявки для подрядчиков, не работающих в 1С:ДО</td><td><strong>Да</strong> — избавляет от переписки в почте</td></tr><tr><td>Список людей таблицей отдельным файлом</td><td>Excel-список на CD и на почту</td><td>Пакетная заявка на группу (комиссия, аудит, бригада)</td><td><strong>Вряд ли</strong> — файлом сбоку теряется, лучше строками в заявке</td></tr></tbody></table></div>
+<h2 id="три-идеи-которые-стоило-бы-обдумать">Три идеи, которые стоило бы обдумать</h2>
+<p><strong>1. Отделить «допуск» от «зон».</strong> У них пропуск и активация зон — две разные заявки. В архиве это значит: сам допуск человека оформляется один раз, а перечень помещений (хранилище, читальный зал, конкретные ярусы) — отдельным реквизитом, который можно расширить или урезать без переоформления допуска. Полезно тем, что типовое «ему теперь нужен ещё и второй этаж» перестаёт быть новой заявкой с полным кругом согласований. Потребует: решить, кто вправе менять зоны в одиночку, а что тянет полное согласование.</p>
+<p><strong>2. Организация-заявитель как держатель ответственности.</strong> У них ответственность за хранение, продление и сдачу пропуска несёт та организация, что подписала заявку, а не архив. В карточке заявки это реквизит «ответственное подразделение/контрагент» с конкретным человеком, которому уходят напоминания об окончании срока и требование сдать доступ. Полезно тем, что закрывает главную дыру длящегося доступа — никто не сообщает об увольнении. Потребует: договориться, что архив вправе снимать доступ при молчании ответственного, и чем это оформляется.</p>
+<p><strong>3. Разделить виды доступа по «весу», а не по объекту.</strong> У них разовый, постоянный и материальный пропуска — разные процедуры с разным пакетом. В архиве напрашивается та же логика: разовый визит в читальный зал — короткая форма, длящийся допуск в хранилище — полный пакет с основанием и сроком. Полезно тем, что рутина не тонет в согласованиях, а редкий и рискованный случай не проскакивает по упрощённому пути. Потребует: провести границу, что считать разовым, и запретить «продление разового» вместо оформления постоянного.</p>
+<h2 id="чего-из-авиационной-практики-архиву-не-нужно">Чего из авиационной практики архиву не нужно</h2>
+<ul><li><strong>Платность услуг и прейскуранты</strong> — у архива внутренний заказчик, деньги здесь только добавят бухгалтерию.</li><li><strong>Биометрия при выдаче</strong> — избыточно для помещения на несколько десятков посетителей и тянет отдельный правовой режим персданных.</li><li><strong>Уровни безопасности с временными запретами на целые виды пропусков</strong> — у архива нет внешнего регулятора, который такие уровни объявляет.</li><li><strong>Транспортные и материальные пропуска</strong> — вынос дел из хранилища уже закрыт учётом выдачи дел, а не пропуском на предмет.</li><li><strong>Согласование с внешним ведомством силами заявителя</strong> — у архива согласующие свои, вести человека на сторону незачем.</li><li><strong>Публикация форм на сайте</strong> — заявки идут в 1С:ДО, публичный шаблон нужен разве что подрядчикам без доступа к системе.</li></ul>
+<h2 id="чем-архив-отличается">Чем архив отличается</h2>
+<p>Аэропорт защищает периметр от постороннего человека: важно, кто вошёл и в какую зону. Архив защищает ещё и содержимое — доступ в хранилище автоматически означает доступ к конкретным делам, среди которых бывают дела с ограничением. Поэтому у архива на одну ось больше: «человек — помещение — состав документов», и заявка на вход в помещение не может рассматриваться в отрыве от того, к чему человек там получит доступ. Плюс масштаб: у Шереметьева тысячи держателей пропусков и отдельная дирекция под это, у архива — единицы заявок в неделю, и любая механика тяжелее двух-трёх реквизитов не окупится.</p>
+<p><strong>Оговорка:</strong> всё про сроки подачи, срок действия допуска и порядок аннулирования — <strong>источником не подтверждено</strong>, на сайте этого нет. Идеи 2 и 3 в части «как именно снимать доступ» опираются не на шереметьевскую процедуру (её мы не видели), а только на подтверждённый принцип «ответственность несёт организация-заявитель».</p></main>
+</div></body></html>
