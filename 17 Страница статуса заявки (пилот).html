@@ -134,7 +134,7 @@ textarea{min-height:52px;resize:vertical}
         <label class="f"><span>Номер заявки</span><input id="i_num" placeholder="ЗД-2026-00147"></label>
         <label class="f"><span>Дата подачи</span><input id="i_date" placeholder="00.00.0000"></label>
         <label class="f"><span>Данные актуальны на</span><input id="i_upd" placeholder="00.00.0000"></label>
-        <label class="f"><span>Куда обращаться</span><input id="i_cnt" value="Королев, кабинет 245"></label>
+        <label class="f"><span>Куда обращаться</span><input id="i_cnt" value="здание «Королев», кабинет 245"></label>
       </div>
 
       <h3 style="margin-top:24px">Запрошенные ресурсы</h3>
@@ -340,7 +340,7 @@ window.copyUrl = function(){
 window.openView = function(){ window.open(makeUrl(),'_blank'); };
 window.clearAll = function(){
   ['i_num','i_date','i_upd'].forEach(function(id){ document.getElementById(id).value=''; });
-  document.getElementById('i_cnt').value = 'Королев, кабинет 245';
+  document.getElementById('i_cnt').value = 'здание «Королев», кабинет 245';
   document.getElementById('rows').innerHTML='';
   addRow();
 };
