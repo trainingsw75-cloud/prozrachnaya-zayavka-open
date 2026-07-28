@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>10. Подход телеканалов ко входу</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>10. Подход телеканалов ко входу</h1><p>РЕН ТВ, НТВ, ВГТРК, Первый канал, CNN, Fox News: что удалось подтвердить, три переносимых принципа и почему остальное архиву не подходит</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#подход-телеканалов-ко-входу">Подход телеканалов ко входу</a><a class="l1" href="#заметка-в-проект-не-добавлена">ЗАМЕТКА (в проект НЕ добавлена)</a><a class="l2" href="#что-подтвердилось">Что подтвердилось</a><a class="l2" href="#механика-доступа-на-телеканалах-чем-это-похоже-на-вашу-заявк">Механика доступа на телеканалах → чем это похоже на вашу заявку</a><a class="l2" href="#три-идеи-которые-стоило-бы-обдумать">Три идеи, которые стоило бы обдумать</a><a class="l2" href="#чего-из-телевизионной-практики-архиву-точно-не-нужно">Чего из телевизионной практики архиву точно не нужно</a><a class="l2" href="#чем-архив-принципиально-отличается">Чем архив принципиально отличается</a></nav>
+<main class="doc"><h1 id="подход-телеканалов-ко-входу">Подход телеканалов ко входу</h1>
+<h1 id="заметка-в-проект-не-добавлена">ЗАМЕТКА (в проект НЕ добавлена)</h1>
+<blockquote><p>Разведка подхода телеканалов ко входу: РЕН ТВ, НТВ, ВГТРК, Первый канал, CNN, Fox News. Вы просили прикинуть и оглядеть, не внедряя, — поэтому заметка лежит отдельно и в комплект, опись и доску решений НЕ включена.</p>
+<p>Скажете «добавляй» — оформлю как документ 10 и внесу в оба хранилища.</p></blockquote>
+<hr>
+<h2 id="что-подтвердилось">Что подтвердилось</h2>
+<ul><li><strong>РЕН ТВ</strong> — подтверждён только «вход в процесс»: отдельный адрес <code>tvnews@ren-tv.com</code> именно под аккредитации съёмочных групп, отдельный — под пресс-запросы, отдельный — под юридически значимые сообщения. Ни формы, ни состава сведений, ни сроков.</li><li><strong>НТВ и ВГТРК</strong> — не найдено ничего по существу: только общие адреса и телефоны; у ВГТРК есть пресс-центр с контактом, но без порядка подачи заявок.</li><li><strong>Первый канал</strong> — подтверждена одна процедура: анкета участника на сайте, отдельная под каждый проект, ответ даёт редакция проекта («если ваша кандидатура устроит редакцию…»); в примере по «Голосу» — возрастной ценз от 17 лет.</li><li><strong>Fox News</strong> — единственный полностью описанный регламент разового посетителя: заявка на конкретную дату и передачу, именной непередаваемый e-ticket с QR, сверка имени с документом, 18+, обязательный досмотр, перечень запрещённых вещей, узкое окно регистрации, код из письма живёт 1 час.</li><li><strong>CNN, BBC, часть страниц Fox и РЕН ТВ</strong> — страницы не открылись (403/404/451) либо процедуры на них нет; по ним ничего не утверждаю.</li><li>Общий итог: публичного образца регламента доступа, пригодного к заимствованию, ни у кого нет — весь порядок остаётся внутренним.</li></ul>
+<h2 id="механика-доступа-на-телеканалах-чем-это-похоже-на-вашу-заявк">Механика доступа на телеканалах → чем это похоже на вашу заявку</h2>
+<div class="scroll"><table><thead><tr><th>Приём</th><th>Как у них</th><th>Аналог в архиве</th><th>Стоит ли присматриваться</th></tr></thead><tbody><tr><td>Разные адреса под разные типы обращений</td><td>РЕН ТВ: аккредитации, пресс-запросы и юридические сообщения — три разных ящика</td><td>Разделение потоков: доступ к помещению, доступ к делам, доступ к системе</td><td><strong>Да</strong> — маршрутизация по типу заявки экономит время согласующих</td></tr><tr><td>Решение принимает владелец ресурса</td><td>Первый канал: анкету рассматривает редакция проекта</td><td>Согласование заявки хранителем фонда, а не общей службой</td><td><strong>Да</strong> — подтверждает уже выбранную вами схему</td></tr><tr><td>Своя форма под каждый ресурс</td><td>Первый канал: отдельная анкета на каждый проект</td><td>Разные наборы полей для читального зала, хранилища, БД</td><td><strong>Скорее да</strong>, если типов доступа немного</td></tr><tr><td>Заявка привязана к событию и дате</td><td>Fox News: билет на конкретный эфир</td><td>Разовый визит подрядчика или проверяющего</td><td><strong>Да, но узко</strong> — для постоянного доступа работника не подходит</td></tr><tr><td>Именной непередаваемый пропуск</td><td>e-ticket с QR, имя на билете = имя в документе</td><td>Именной характер доступа, запрет передачи логина/карты</td><td><strong>Да</strong> — принцип персональности универсален</td></tr><tr><td>Ограниченный срок действия кода</td><td>Код из письма истекает через час</td><td>Срок действия предоставленного доступа и его пересмотр</td><td><strong>Да</strong> — но у архива горизонт месяцы, а не часы</td></tr><tr><td>Возрастной ценз заявителя</td><td>17+ у «Голоса», 18+ у Fox</td><td>Формальные требования к заявителю</td><td><strong>Вряд ли</strong> — у вас это закрыто трудовыми отношениями</td></tr><tr><td>Досмотр и перечень запрещённых вещей</td><td>Обязательная процедура на входе</td><td>Режим вноса/выноса</td><td><strong>Нет</strong> — это зона охраны, не процесса заявки</td></tr></tbody></table></div>
+<h2 id="три-идеи-которые-стоило-бы-обдумать">Три идеи, которые стоило бы обдумать</h2>
+<p><strong>1. Маршрутизация заявки по типу ресурса.</strong> У РЕН ТВ разные каналы обращения разведены по темам ещё до рассмотрения. Можно было бы рассмотреть, чтобы заявка с самого начала помечалась типом доступа и уходила сразу профильному согласующему. Полезно тем, что снимает пересылку заявок между подразделениями; потребует согласованного перечня типов ресурсов и закреплённых за ними ответственных.</p>
+<p><strong>2. Решение — за владельцем ресурса.</strong> У Первого канала анкету рассматривает редакция конкретного проекта, а не общая приёмная. Можно было бы присмотреться к явной фиксации того, что содержательное «да/нет» даёт держатель фонда или системы, а служба лишь оформляет. Полезно тем, что убирает размытую ответственность; потребует поимённого реестра владельцев ресурсов.</p>
+<p><strong>3. Именной и непередаваемый характер доступа.</strong> У Fox имя на пропуске обязано совпасть с документом, передача исключена. Можно было бы обдумать закрепление того же принципа для учётных записей и ключей: доступ выдан человеку, не должности и не отделу. Полезно для разбора инцидентов и для чистоты журнала; потребует правила, что смена работника — это новая заявка, а не переоформление старой.</p>
+<h2 id="чего-из-телевизионной-практики-архиву-точно-не-нужно">Чего из телевизионной практики архиву точно не нужно</h2>
+<ul><li><strong>Событийная заявка на дату и час</strong> — у архива доступ длящийся, привязка к сеансу создала бы поток лишних заявок.</li><li><strong>Короткий срок жизни кода (час)</strong> — рассчитан на разовый вход постороннего, для работника это только помеха.</li><li><strong>Досмотр, запрет телефонов, перечень вещей</strong> — это режим охраны; в процесс согласования заявки его тащить незачем.</li><li><strong>Возрастные цензы и кастинговые анкеты</strong> — заявитель у вас уже штатный работник с проверенным статусом.</li><li><strong>Публичная открытая форма подачи</strong> — у каналов вход внешний; у архива заявитель всегда внутренний и известный.</li></ul>
+<h2 id="чем-архив-принципиально-отличается">Чем архив принципиально отличается</h2>
+<p>У телеканалов задача — пустить постороннего человека в одно помещение на несколько часов под наблюдением, после чего отношения с ним заканчиваются. Отсюда вся их механика: разовый именной билет, жёсткое временное окно, досмотр, быстро истекающий код. У архива ОЭЗ задача обратная — предоставить своему работнику постоянный доступ к ресурсам на месяцы, с последующим сопровождением: пересмотром прав при переводе, отзывом при увольнении, периодической сверкой. Поэтому переносится не сама процедура, а только три её общих принципа: заявка идёт владельцу ресурса, доступ именной, у доступа есть заявленный срок. Всё остальное у них решает разовость визита, а у вас — длительность и обратимость прав, и потому регламент архива придётся писать своим, а не по чужому образцу.</p></main>
+</div></body></html>
