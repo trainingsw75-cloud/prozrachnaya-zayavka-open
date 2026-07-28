@@ -98,6 +98,23 @@ textarea{min-height:52px;resize:vertical}
 .out{margin-top:16px}
 .out textarea{font-family:var(--mono);font-size:12px;min-height:70px}
 .hint{font-size:12px;color:var(--ink-3);margin-top:6px;line-height:1.45}
+.batch{margin-top:16px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.batch>summary{padding:12px 16px;background:var(--bg-2);font-weight:650;font-size:13.5px;cursor:pointer;list-style:none}
+.batch>summary::-webkit-details-marker{display:none}
+.batch>summary::before{content:"▸ ";color:var(--ink-3)}
+.batch[open]>summary::before{content:"▾ "}
+.bin{padding:14px 16px 16px}
+.bhelp{margin:0 0 10px;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.cols{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.cols span{font-family:var(--mono);font-size:11px;background:var(--bg-2);border:1px solid var(--line);border-radius:5px;padding:3px 8px;color:var(--ink-2)}
+#i_bulk{font-family:var(--mono);font-size:12px;min-height:110px;white-space:pre}
+#batchOut{margin-top:14px}
+.bres{display:flex;gap:9px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin-bottom:7px;background:var(--bg-2);flex-wrap:wrap}
+.bres .bn{font-family:var(--mono);font-size:12.5px;font-weight:700;white-space:nowrap}
+.bres .bc{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.bres .bu{flex:1;min-width:180px;font-family:var(--mono);font-size:11px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bres button{font:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:7px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;white-space:nowrap}
+.bwarn{padding:10px 13px;border-left:3px solid var(--err);background:var(--err-bg);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink-2);margin-bottom:10px;line-height:1.5}
 .err{padding:36px 24px;text-align:center}
 .err h2{margin:0 0 8px;font-size:18px}
 .err p{margin:0;color:var(--ink-3);font-size:14px}
@@ -149,6 +166,24 @@ textarea{min-height:52px;resize:vertical}
 
       <div class="notebox" id="lenNote"></div>
 
+      <details class="batch">
+        <summary>Пакетная сборка из выгрузки 1С — когда заявок много</summary>
+        <div class="bin">
+          <p class="bhelp">Выгрузите список заявок из 1С в таблицу, выделите строки <b>без заголовка</b> и вставьте сюда. Колонки в таком порядке, разделитель — табуляция или точка с запятой:</p>
+          <div class="cols">
+            <span>1 · Номер заявки</span><span>2 · Дата подачи</span><span>3 · Ресурс</span><span>4 · Тип доступа</span>
+            <span>5 · Состояние</span><span>6 · У кого сейчас</span><span>7 · Срок</span><span>8 · Примечание</span>
+          </div>
+          <p class="bhelp">Строки с одинаковым номером заявки собираются в одну ссылку. Состояние пишите словами: ждёт, согласован, выдан, отказано, уточнения, ожидает ресурса.</p>
+          <textarea id="i_bulk" placeholder="ЗД-2026-00147	28.07.2026	Архивный фонд № 12	Чтение	выдан		31.12.2026	&#10;ЗД-2026-00147	28.07.2026	Система учёта	Чтение и запись	ждёт	Владелец системы	31.07.2026	"></textarea>
+          <div class="row">
+            <button class="pri" onclick="buildBatch()">Собрать ссылки</button>
+            <button onclick="document.getElementById('i_bulk').value='';document.getElementById('batchOut').innerHTML='';">Очистить</button>
+          </div>
+          <div id="batchOut"></div>
+        </div>
+      </details>
+
       <div class="out">
         <label class="f"><span>Ссылка для заявителя</span><textarea id="o_url" readonly></textarea></label>
         <div class="hint">Работает офлайн: данные внутри самой ссылки, сервер их не получает. Обратная сторона — при изменении статуса ресурса нужно выдать новую ссылку.</div>
@@ -174,7 +209,12 @@ var ST = {
 };
 var ORDER = ['wait','agreed','issued','rej','back','hold'];
 
-function esc(s){ var d=document.createElement('span'); d.textContent=(s==null?'':String(s)); return d.innerHTML; }
+// экранирование пригодно и для текста, и для значений атрибутов:
+// innerHTML закрывает & < >, кавычки добавляем сами
+function esc(s){
+  var d=document.createElement('span'); d.textContent=(s==null?'':String(s));
+  return d.innerHTML.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 function enc(o){ return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
 function dec(t){ var s=t.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4) s+='='; return JSON.parse(decodeURIComponent(escape(atob(s)))); }
 
@@ -332,6 +372,82 @@ function renumber(){
   });
 }
 
+/* ---------- пакетная сборка из выгрузки ---------- */
+function mapState(s){
+  var v = (s||'').toLowerCase().trim();
+  if (!v) return 'wait';
+  if (v.indexOf('выдан')===0 || v.indexOf('предостав')===0) return 'issued';
+  if (v.indexOf('согласов')===0) return 'agreed';
+  if (v.indexOf('отказ')===0 || v.indexOf('отклон')===0) return 'rej';
+  if (v.indexOf('уточн')===0 || v.indexOf('доработ')===0 || v.indexOf('возвращ')===0) return 'back';
+  if (v.indexOf('ожида')===0) return 'hold';
+  return 'wait';
+}
+
+window.buildBatch = function(){
+  var raw = document.getElementById('i_bulk').value;
+  var out = document.getElementById('batchOut');
+  var lines = raw.split(/\r?\n/).filter(function(l){ return l.trim(); });
+  if (!lines.length){ out.innerHTML = '<div class="bwarn">Вставьте строки из выгрузки.</div>'; return; }
+
+  var sep = (lines[0].indexOf('\t') >= 0) ? '\t' : ';';
+  var upd = document.getElementById('i_upd').value.trim();
+  var cnt = document.getElementById('i_cnt').value.trim();
+  var groups = {}, order = [], skipped = 0;
+
+  lines.forEach(function(l){
+    var c = l.split(sep).map(function(x){ return x.trim(); });
+    var num = c[0] || '';
+    if (!num || !(c[2] || c[3])) { skipped++; return; }
+    if (!groups[num]) { groups[num] = { n:num, d:c[1]||'', a:upd, c:cnt, rs:[] }; order.push(num); }
+    groups[num].rs.push({ n:c[2]||'', t:c[3]||'', s:mapState(c[4]), w:c[5]||'', u:c[6]||'', m:c[7]||'' });
+  });
+
+  if (!order.length){ out.innerHTML = '<div class="bwarn">Ни одной пригодной строки. Проверьте порядок колонок и разделитель.</div>'; return; }
+
+  var base = (location.protocol.indexOf('http')===0)
+    ? location.origin + location.pathname
+    : location.href.split('#')[0];
+
+  var html = '';
+  if (skipped) html += '<div class="bwarn">Пропущено строк без номера заявки или без ресурса: '+skipped+'.</div>';
+  if (!upd) html += '<div class="bwarn">Не заполнено поле «Данные актуальны на» — заявитель не увидит, на какое число сведения.</div>';
+
+  var all = [];
+  order.forEach(function(num){
+    var o = groups[num];
+    var url = base + '#d=' + enc(o);
+    all.push(o.n + '\t' + url);
+    var lenWarn = url.length > 1800 ? ' · <span style="color:var(--err)">ссылка длинная, '+url.length+'</span>' : '';
+    html += '<div class="bres"><span class="bn">'+esc(o.n)+'</span>'+
+            '<span class="bc">'+o.rs.length+' '+plural(o.rs.length,'ресурс','ресурса','ресурсов')+lenWarn+'</span>'+
+            '<span class="bu" title="'+esc(url)+'">'+esc(url)+'</span>'+
+            '<button onclick="copyOne(this)" data-u="'+esc(url)+'">Копировать</button>'+
+            '<button onclick="window.open(this.dataset.u,\'_blank\')" data-u="'+esc(url)+'">Открыть</button></div>';
+  });
+
+  html += '<div class="row"><button class="pri" onclick="copyAll()">Скопировать всё таблицей</button></div>';
+  out.innerHTML = html;
+  out.dataset.all = all.join('\n');
+};
+
+window.copyOne = function(btn){
+  var ta = document.createElement('textarea');
+  ta.value = btn.dataset.u; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); btn.textContent = 'Скопировано'; setTimeout(function(){ btn.textContent='Копировать'; }, 1500); }
+  catch(e){ alert('Скопируйте ссылку вручную.'); }
+  document.body.removeChild(ta);
+};
+
+window.copyAll = function(){
+  var ta = document.createElement('textarea');
+  ta.value = document.getElementById('batchOut').dataset.all || '';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); alert('Скопировано. Вставьте в таблицу: первая колонка — номер заявки, вторая — ссылка.'); }
+  catch(e){ alert('Не удалось скопировать.'); }
+  document.body.removeChild(ta);
+};
+
 window.copyUrl = function(){
   var t=document.getElementById('o_url'); t.select(); t.setSelectionRange(0,99999);
   try { document.execCommand('copy'); alert('Ссылка скопирована. Вставьте её в письмо заявителю.'); }
@@ -352,12 +468,13 @@ if (hash.indexOf('#d=') === 0){
   catch(e){ showError(); }
 } else {
   document.getElementById('builder').hidden = false;
-  document.addEventListener('input', function(e){
+  // поле пакетной загрузки исключено: оно не влияет на одиночную ссылку
+  var live = function(e){
+    if (e.target.id === 'i_bulk') return;
     if (e.target.closest('#builder')) update();
-  });
-  document.addEventListener('change', function(e){
-    if (e.target.closest('#builder')) update();
-  });
+  };
+  document.addEventListener('input', live);
+  document.addEventListener('change', live);
   addRow();
   addRow();
 }
