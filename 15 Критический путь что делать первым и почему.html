@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>15. Критический путь: что делать первым и почему</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>15. Критический путь: что делать первым и почему</h1><p>Три задачи с длинным сроком ожидания запускаются сегодня; неделя по дням; чего не делать; что блокирует что; следующий пункт на разработку</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#критический-путь-что-делать-первым-и-почему">Критический путь: что делать первым и почему</a><a class="l2" href="#правило-из-которого-всё-следует">Правило, из которого всё следует</a><a class="l2" href="#сегодня-до-обеда-три-действия">Сегодня, до обеда — три действия</a><a class="l2" href="#что-делать-пока-эти-три-ответа-идут">Что делать, пока эти три ответа идут</a><a class="l2" href="#чего-не-делать-на-этой-неделе">Чего НЕ делать на этой неделе</a><a class="l2" href="#что-блокирует-что">Что блокирует что</a><a class="l2" href="#следующий-пункт-на-разработку-рекомендация">Следующий пункт на разработку — рекомендация</a><a class="l2" href="#итог-одной-строкой">Итог одной строкой</a></nav>
+<main class="doc"><h1 id="критический-путь-что-делать-первым-и-почему">Критический путь: что делать первым и почему</h1>
+<h2 id="правило-из-которого-всё-следует">Правило, из которого всё следует</h2>
+<p>В проекте три задачи с <strong>длинным сроком ожидания</strong>, который от вас не зависит:</p>
+<div class="scroll"><table><thead><tr><th>Задача</th><th>Кто отвечает</th><th>Сколько ждать</th><th>Что будет, если запустить позже</th></tr></thead><tbody><tr><td>Разрешение ИБ на отправку почты с сервера 1С</td><td>служба ИБ</td><td><strong>до 2 недель</strong></td><td>Встанет всё информирование заявителя — главная цель проекта</td></tr><tr><td>Ответ отдела закупок о сроке процедуры</td><td>отдел закупок</td><td>дни–недели</td><td>Любая дата в плане останется выдумкой</td></tr><tr><td>Замер обращений «где моя заявка»</td><td>вы сами</td><td><strong>2 недели</strong></td><td>Цифру «до» задним числом не получить <strong>никогда</strong></td></tr></tbody></table></div>
+<p>Все три запускаются <strong>в первый день</strong>, до всего остального. Ни одна не требует разрешения руководства, денег или программиста.</p>
+<p>Остальное — работа, которую вы контролируете и можете делать в любом порядке.</p>
+<hr>
+<h2 id="сегодня-до-обеда-три-действия">Сегодня, до обеда — три действия</h2>
+<h3 id="1-начать-лист-учёта-обращений">☐ 1. Начать лист учёта обращений</h3>
+<p>Лист бумаги или файл. Каждый раз, когда у вас спрашивают «а что с моей заявкой» — палочка, дата, кто спросил, каким способом.</p>
+<p><strong>Почему первым.</strong> Это единственная метрика проекта, которую нельзя взять из 1С и нельзя восстановить задним числом. Через две недели у вас появится число, ради которого весь проект и затевался. Без него на защите на вопрос «а какая была проблема» ответить будет нечем.</p>
+<p>Считать нужно <strong>до</strong> любых изменений. Начнёте после — сравнивать будет не с чем.</p>
+<h3 id="2-подать-в-иб-заявку-на-разрешение-отправки-почты-с-сервера-">☐ 2. Подать в ИБ заявку на разрешение отправки почты с сервера 1С</h3>
+<p>Формулировка простая: «прошу разрешить отправку служебных уведомлений с сервера 1С:Документооборот на внутренние адреса работников».</p>
+<p><strong>Почему первым.</strong> На режимном предприятии это две недели календаря, и это не работа, а ожидание. Пока разрешения нет, письмо заявителю не уйдёт, сколько ни настраивай.</p>
+<p>Если разрешение уже есть — вычеркните и переходите дальше. Проверить: раздел А документа 09, пункт А7.</p>
+<h3 id="3-спросить-в-отделе-закупок-один-вопрос">☐ 3. Спросить в отделе закупок один вопрос</h3>
+<blockquote><p>«Мы планируем доработку в 1С:Документооборот объёмом порядка 50–80 часов. Подскажите, пожалуйста: входят ли такие работы в действующий договор сопровождения, а если нет — какой у нас порядок и сколько времени занимает процедура от служебной записки до начала работ подрядчика?»</p></blockquote>
+<p><strong>Почему первым.</strong> Ответ определяет весь календарь проекта. Пока он неизвестен, вы не можете назвать руководству ни одной даты — а назовёте наугад, отвечать будете вы. Подробности — документ 12.</p>
+<hr>
+<h2 id="что-делать-пока-эти-три-ответа-идут">Что делать, пока эти три ответа идут</h2>
+<p>Порядок внутри недели свободный. Всё бесплатно, без программиста, без разрешений.</p>
+<div class="scroll"><table><thead><tr><th>День</th><th>Что</th><th>Результат</th><th>Где смотреть</th></tr></thead><tbody><tr><td>Пн</td><td>Паспорт процесса за час: 8 шагов по своей базе</td><td>Три цифры: средний срок, максимальный, сколько висит дольше 5 дней</td><td>Документ 00, вкладка 1</td></tr><tr><td>Вт</td><td>Проверить, попадает ли <strong>автор заявки</strong> в получатели уведомлений</td><td>Ответ «да/нет» на главную дыру</td><td>Документ 09, раздел Г</td></tr><tr><td>Ср</td><td>Пройти карточку заявки по вкладкам, выписать пустые поля</td><td>Список того, что можно включить без программиста</td><td>Документ 09, раздел Б</td></tr><tr><td>Чт</td><td>Показать будущему контролёру описание роли в формате вакансии</td><td>Человек, согласившийся сам</td><td>Документ 01, «Контролёр как внутренняя вакансия»</td></tr><tr><td>Пт</td><td>Три QR-сценария без персональных данных: дверь хранилища, бланк заявки, ярлык на короб</td><td>Видимый результат, который можно показать</td><td>Документ 13</td></tr></tbody></table></div>
+<p>Пятница выбрана намеренно: <strong>QR — единственное, что даёт результат, который видно глазами</strong>. К понедельнику у вас есть что показать, кроме таблиц.</p>
+<hr>
+<h2 id="чего-не-делать-на-этой-неделе">Чего НЕ делать на этой неделе</h2>
+<div class="scroll"><table><thead><tr><th>Не делать</th><th>Почему</th></tr></thead><tbody><tr><td>Писать техзадание подрядчику</td><td>До ответа закупок неизвестно, нужно ли оно вообще и в каком виде</td></tr><tr><td>Нести регламент на подпись</td><td>Сначала цифры замера, потом документ. Иначе нечем обосновать сроки в нём</td></tr><tr><td>Обещать руководству даты</td><td>Ни одной даты у вас пока нет — есть только оценки</td></tr><tr><td>Настраивать письма</td><td>Пока нет разрешения ИБ, проверить работу всё равно нельзя</td></tr><tr><td>Клеить QR на дела и описи</td><td>Только короба, двери и полки. Всё, что касается дел, — после пилота</td></tr><tr><td>Показывать доску решений</td><td>Она для работы после положительного решения, а не для первого разговора</td></tr></tbody></table></div>
+<hr>
+<h2 id="что-блокирует-что">Что блокирует что</h2>
+<pre><code>Лист учёта (2 недели) ──────────────┐
+                                     ├──► Цифры «до и после» ──► Защита проекта
+Паспорт процесса (1 час) ───────────┘
+
+Разрешение ИБ (2 недели) ──► Настройка писем ──► Первое письмо заявителю
+
+Ответ закупок (дни–недели) ──► Понимание календаря ──► Разговор с руководством
+                                                    └──► Решение о доработке
+
+QR без ПДн (1 день) ──► Видимый результат  (ничем не блокируется)
+
+Контролёр (30 минут разговора) ──► Приказ ──► Работающий контроль</code></pre>
+<p>Три ветки идут параллельно и не мешают друг другу. Ветка QR не зависит ни от чего — поэтому она и стоит в плане последней по времени, но первой по вероятности успеха.</p>
+<hr>
+<h2 id="следующий-пункт-на-разработку-рекомендация">Следующий пункт на разработку — рекомендация</h2>
+<p><strong>Пилот страницы статуса на готовом коде. 12–19 часов, из них большая часть — не программирование.</strong></p>
+<h3 id="почему-именно-он">Почему именно он</h3>
+<div class="scroll"><table><thead><tr><th>Довод</th><th>Суть</th></tr></thead><tbody><tr><td>Не требует закупки</td><td>Работа в границах имеющихся ресурсов, процедуру не проходит</td></tr><tr><td>Даёт результат до того, как закупочные часы вообще начнут тикать</td><td>Полтора-четыре месяца ожидания перестают быть простоем</td></tr><tr><td>Проверяет требования на живых людях</td><td>Набор полей, придуманный на бумаге, почти всегда отличается от нужного</td></tr><tr><td>Снижает риск переделок в будущем ТЗ</td><td>Обкатанный состав полей → меньше допсоглашений</td></tr><tr><td>Закрывает главную боль хотя бы частично</td><td>Заявитель видит стадию, не заходя в 1С</td></tr></tbody></table></div>
+<h3 id="что-в-нём-делается-по-порядку">Что в нём делается по порядку</h3>
+<ol><li><strong>Санитария — 4 часа.</strong> Убрать чужую предметную область: почтовые поля, ссылки на стороннюю систему, упоминания трудового законодательства. Экранировать все поля, которые попадают в разметку.</li><li><strong>Шесть этапов вместо пяти</strong> — регистрация, рассмотрение, согласование, утверждение, выдача, готово. Убрать жёстко вшитые «пятёрки».</li><li><strong>Новые поля</strong> — подразделение, должность, срок этапа, текущий согласующий, причина отказа, дата обновления данных.</li><li><strong>Ветка отказа</strong> — отдельное состояние с обязательной причиной.</li><li><strong>Оговорка про актуальность</strong> — «данные на такое-то число», обязательно.</li><li><strong>Проверка</strong> — печать на A4, тёмная тема, битая ссылка, длина адреса.</li></ol>
+<h3 id="границы-которые-надо-принять-сразу">Границы, которые надо принять сразу</h3>
+<p>Это <strong>не</strong> замена сервиса из 1С. Данные будут снимком, а не живыми. При смене этапа нужна новая ссылка. <strong>Персональных данных в ссылке быть не должно ни одного</strong> — только номер заявки, ресурс и стадия. Как только в выдачу потребуются ФИО или журналирование обращений — начинается разговор о настоящем сервисе, и вот тогда пригодится документ 05.</p>
+<h3 id="что-нужно-от-вас-чтобы-начать">Что нужно от вас, чтобы начать</h3>
+<p>☐ Решение по пункту s15 доски решений: «использовать» или «доработать» ☐ Ответ ИБ: допустима ли обезличенная страница статуса во внутренней сети ☐ Один живой пример заявки, на котором проверяем состав полей</p>
+<hr>
+<h2 id="итог-одной-строкой">Итог одной строкой</h2>
+<p>Сегодня — три письма и лист бумаги. На этой неделе — час в своей базе и разговор с будущим контролёром. В пятницу — первый QR-код на двери хранилища. Всё остальное ждёт ответов, которые вы уже запросили.</p></main>
+</div></body></html>
