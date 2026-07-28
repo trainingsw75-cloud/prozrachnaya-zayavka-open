@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>16. Видимость заявки для заявителя: как настроить</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>16. Видимость заявки для заявителя: как настроить</h1><p>Прямой ответ: почему автор не видит свою заявку, флажок автоведения рабочей группы, дозаполнение старых заявок, проверка под учётной записью автора</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#как-сделать-чтобы-заявитель-видел-свою-заявку">Как сделать, чтобы заявитель видел свою заявку</a><a class="l2" href="#часть-1-механизмы-видимости-в-21">Часть 1. Механизмы видимости в 2.1</a><a class="l2" href="#механизмы-видимости-внутреннего-документа-в-1сдо-21">Механизмы видимости внутреннего документа в 1С:ДО 2.1</a><a class="l2" href="#часть-2-пошаговая-настройка">Часть 2. Пошаговая настройка</a><a class="l2" href="#короткий-ответ">Короткий ответ</a><a class="l2" href="#перед-настройкой-4-проверки">Перед настройкой — 4 проверки</a><a class="l2" href="#настройка-по-шагам">Настройка по шагам</a><a class="l2" href="#проверка-результата">Проверка результата</a><a class="l2" href="#если-не-сработало">Если не сработало</a><a class="l2" href="#что-это-не-решает">Что это НЕ решает</a></nav>
+<main class="doc"><h1 id="как-сделать-чтобы-заявитель-видел-свою-заявку">Как сделать, чтобы заявитель видел свою заявку</h1>
+<h2 id="часть-1-механизмы-видимости-в-21">Часть 1. Механизмы видимости в 2.1</h2>
+<h2 id="механизмы-видимости-внутреннего-документа-в-1сдо-21">Механизмы видимости внутреннего документа в 1С:ДО 2.1</h2>
+<div class="scroll"><table><thead><tr><th>#</th><th>Механизм</th><th>Есть в 2.1</th><th>Что даёт</th><th>Где настраивается</th></tr></thead><tbody><tr><td>1</td><td><strong>Рабочая группа документа</strong></td><td>Да — разд. «Рабочие группы объектов» (<a href="<a href="https://its.1c.ru/db/docprof21/content/148/hdoc" target="_blank" rel="noopener">https://its.1c.ru/db/docprof21/content/148/hdoc</a>" target="_blank" rel="noopener">ИТС ПРОФ 2.1, 20.7</a>)</td><td>Список пользователей/ролей, которые видят документ. <strong>Если рабочая группа заполнена, права считаются только по ней — политики доступа и права папок не применяются</strong></td><td>Закладка/поле «Рабочая группа» в карточке документа; галочка «Изменение» = право на правку, по умолчанию только чтение (<a href="<a href="https://www.1cbit.ru/blog/nastroyka-prav-dostupa-v-1s-dokumentooborot-opisanie-i-instruktsiya/" target="_blank" rel="noopener">https://www.1cbit.ru/blog/nastroyka-prav-dostupa-v-1s-dokumentooborot-opisanie-i-instruktsiya/</a>" target="_blank" rel="noopener">1С-БИТ</a>)</td></tr><tr><td>1а</td><td><strong>Автоведение состава</strong></td><td>Да — флажок на <strong>виде документа</strong> <em>«Автоматически вести состав рабочей группы»</em> (точное написание — <strong>проверить</strong> в вашем релизе)</td><td>В группу автоматически попадают автор, авторы и исполнители процессов по документу, пользователи из реквизитов (ответственный, зарегистрировал, утвердил)</td><td>НСИ → Виды внутренних документов → карточка вида. Рядом — «Заполнение рабочей группы является обязательным» (<a href="<a href="https://1c-kpd.ru/knowledge/prava-dostupa/rabochaya-gruppa-v-1s-dokumentooborot/" target="_blank" rel="noopener">https://1c-kpd.ru/knowledge/prava-dostupa/rabochaya-gruppa-v-1s-dokumentooborot/</a>" target="_blank" rel="noopener">1С-КПД</a>)</td></tr><tr><td>2</td><td><strong>Права папок</strong> внутренних документов</td><td>Да (<a href="<a href="https://its.1c.ru/db/docprof21/content/147/hdoc" target="_blank" rel="noopener">https://its.1c.ru/db/docprof21/content/147/hdoc</a>" target="_blank" rel="noopener">ИТС 20.6</a>)</td><td>Дополнительно <strong>сужают</strong> доступ; запрет приоритетнее разрешения. Но при заполненной рабочей группе не работают</td><td>Карточка папки → настройка прав (название команды — <strong>проверить</strong>)</td></tr><tr><td>3</td><td><strong>Политики доступа / профили (полномочия)</strong></td><td>Да</td><td>Политики режут по разрезам: виды документов, организации, гриф, группы контрагентов. Профили/полномочия дают роли — «что вообще можно делать». <strong>Разреза «автор документа» в политиках нет</strong> — сделать «автор видит свой документ» политикой нельзя</td><td>Настройка → Права доступа → Политики доступа / Профили групп доступа (<strong>проверить</strong> названия)</td></tr><tr><td>4</td><td><strong>Гриф доступа</strong></td><td>Да</td><td>Может закрыть документ <strong>и от автора</strong>: если грифа нет в политике автора, он документ не увидит. При заполненной рабочей группе гриф на видимость не влияет (следствие приоритета рабочей группы — <strong>проверить</strong> на стенде)</td><td>Реквизит «Гриф доступа» в карточке; разрешённые грифы — в политике</td></tr><tr><td>5</td><td><strong>Задача «Ознакомление»</strong></td><td>Да</td><td>Исполнитель задачи получает доступ <strong>на чтение</strong> предмета («права по касанию»). Автору задача не адресуется, поэтому сама по себе проблему не решает; можно добавить автора отдельным ознакомителем. Сохраняется ли доступ после выполнения задачи — <strong>проверить</strong></td><td>Шаблон процесса / маршрут в шаблоне вида документа</td></tr><tr><td>6</td><td><strong>Как автор ищет</strong></td><td>Да</td><td>Список «Мои документы» (<a href="<a href="https://its.1c.ru/db/docprof21/content/38/hdoc" target="_blank" rel="noopener">https://its.1c.ru/db/docprof21/content/38/hdoc</a>" target="_blank" rel="noopener">ИТС 4.2</a>); быстрые отборы и поиск в списке «Внутренние документы»; обработка «Поиск документов и файлов»; полнотекстовый поиск; «Избранное» и «История» (<a href="<a href="https://is1c.ru/about/pc/article/10-sposobov-nayti-i-ne-poteryat-dokument-v-1s-dokumentooborot-2-1/" target="_blank" rel="noopener">https://is1c.ru/about/pc/article/10-sposobov-nayti-i-ne-poteryat-dokument-v-1s-dokumentooborot-2-1/</a>" target="_blank" rel="noopener">ИнфоСофт</a>). Точный состав «Моих документов» и имя реквизита автора («Автор» / «Подготовил») — <strong>проверить</strong>: открытого текста ИТС я не получил</td><td>Списки раздела «Документы и файлы»</td></tr><tr><td>7</td><td><strong>Уведомление без прав</strong></td><td>Да</td><td>Уведомления шлются по e-mail/всплывающим окном со ссылкой вида <code>e1cib/data/...</code> (<a href="<a href="https://its.1c.ru/db/doccorp21/content/781/hdoc" target="_blank" rel="noopener">https://its.1c.ru/db/doccorp21/content/781/hdoc</a>" target="_blank" rel="noopener">ИТС гл. 17</a>). Письмо уходит, но без прав ссылка документ не откроет. Формулировку отказа <strong>не подтвердил</strong> источниками — не выдумываю</td><td>Настройка → Уведомления</td></tr></tbody></table></div>
+<h3 id="предупреждение-про-30">Предупреждение про 3.0</h3>
+<p>Автоматическая выдача прав по задачам «из коробки», правила автозаполнения групп доступа из пользовательского режима и опция «Расширять» права со связанных документов — это <strong>редакция 3.0</strong>; в 2.1 их нет, там папки + политики + рабочие группы (<a href="<a href="https://is1c.ru/about/pc/article/razlichiya-1s-dokumentooborot-versii-2-1-i-3-0/" target="_blank" rel="noopener">https://is1c.ru/about/pc/article/razlichiya-1s-dokumentooborot-versii-2-1-i-3-0/</a>" target="_blank" rel="noopener">ИнфоСофт: различия 2.1 и 3.0</a>). Гибкое автозаполнение рабочих групп алгоритмом в 2.1 закрывается сторонним расширением (<a href="<a href="https://www.doc-lvv.ru/blog/1076406" target="_blank" rel="noopener">https://www.doc-lvv.ru/blog/1076406</a>" target="_blank" rel="noopener">«Автозаполняемые рабочие группы»</a>) — то есть штатное автоведение в 2.1 фиксированное, не программируемое.</p>
+<h3 id="что-сделать-прямой-ответ">Что сделать (прямой ответ)</h3>
+<ol><li>В карточке <strong>вида внутреннего документа «Заявка на доступ к ресурсам»</strong> включить флажок автоматического ведения состава рабочей группы — тогда автор и участники процессов попадают в группу сами.</li><li>Для уже созданных заявок дозаполнить рабочую группу массово (обработка «Групповое изменение реквизитов»).</li><li>Проверить, что папка заявок не содержит явного запрета, и что гриф доступа на заявках либо не ставится, либо перекрывается рабочей группой.</li><li>Автору показать заявки через отбор по автору в списке «Внутренние документы» и «Мои документы»; при желании — добавить в конец маршрута ознакомление автора.</li><li>Обязательно проверить результат на тестовой базе отчётом проверки настроенных прав — приоритет рабочей группы над политиками я подтвердил только вторичными источниками (<a href="<a href="https://www.doc-lvv.ru/prava-dostupa-v-1s-dokumentooborot-21" target="_blank" rel="noopener">https://www.doc-lvv.ru/prava-dostupa-v-1s-dokumentooborot-21</a>" target="_blank" rel="noopener">doc-lvv</a>, <a href="<a href="https://infostart.ru/1c/articles/2718393/" target="_blank" rel="noopener">https://infostart.ru/1c/articles/2718393/</a>" target="_blank" rel="noopener">ИнфоСтарт</a>); полный текст ИТС закрыт авторизацией.</li></ol>
+<hr>
+<h2 id="часть-2-пошаговая-настройка">Часть 2. Пошаговая настройка</h2>
+<h2 id="короткий-ответ">Короткий ответ</h2>
+<p>Заявку не видно, потому что в 1С:ДО 2.1 у автора нет автоматических прав на свой документ: доступ даёт либо рабочая группа документа, либо папка/политика. Решение: у <strong>вида</strong> внутреннего документа «Заявка на доступ к ресурсам» включить автоматическое ведение состава рабочей группы — тогда автор попадает в неё сам [НАСТРОЙКА]. Для уже поданных заявок рабочую группу дозаполнить массово. Готовой галочки «автор видит своё» в 2.1 нет.</p>
+<h2 id="перед-настройкой-4-проверки">Перед настройкой — 4 проверки</h2>
+<p>☐ <strong>Есть ли у вас право менять настройки.</strong> Откройте НСИ → Виды внутренних документов и попробуйте открыть карточку нужного вида. Если поля серые/не открывается — нужен администратор.</p>
+<p>☐ <strong>Есть ли тестовая копия базы.</strong> Все шаги сначала делаются в копии. Если копии нет — просите администратора сделать её до начала.</p>
+<p>☐ <strong>Кто сейчас в рабочей группе.</strong> Откройте 2–3 уже поданные заявки и посмотрите поле/закладку «Рабочая группа»: пусто или там есть люди. Если заполнено — права считаются <strong>только</strong> по ней, папки и политики не действуют.</p>
+<p>☐ <strong>Приходит ли автору письмо о заявке.</strong> Спросите у автора. Письмо со ссылкой может приходить, а прав всё равно не быть — это разные вещи (уведомление ≠ доступ).</p>
+<h2 id="настройка-по-шагам">Настройка по шагам</h2>
+<ol><li><strong>Включить автоведение рабочей группы</strong> [НАСТРОЙКА] [КОРОБКА] Открыть: НСИ → Виды внутренних документов → карточка вида «Заявка на доступ к ресурсам». Сделать: поставить флажок «Автоматически вести состав рабочей группы» (точное написание — <em>проверить в своей базе</em>, в разных релизах формулировка отличается). Записать и закрыть. Результат: создаём тестовую заявку — в её рабочей группе автоматически появляется автор и участники процесса.</li></ol>
+<ol><li><strong>Проверить флажок обязательности</strong> [НАСТРОЙКА] Там же, рядом, есть «Заполнение рабочей группы является обязательным». Его включать не обязательно; смотрите, чтобы он не мешал сохранению заявки.</li></ol>
+<ol><li><strong>Дозаполнить старые заявки</strong> [НАСТРОЙКА] Открыть: обработка «Групповое изменение реквизитов» (доступна администратору). Сделать: отобрать внутренние документы нужного вида и добавить авторов в рабочую группу. Если обработка табличную часть «Рабочая группа» не поддерживает в вашем релизе — <em>проверить</em>; тогда либо открывать заявки вручную, либо это [ДОРАБОТКА]. Результат: в старых заявках в рабочей группе есть автор.</li></ol>
+<ol><li><strong>Проверить папку и гриф</strong> [НАСТРОЙКА] Открыть: папку, где лежат заявки, → настройка прав доступа (название команды <em>проверить в своей базе</em>). Сделать: убедиться, что нет явного <strong>запрета</strong> на группу пользователей-авторов. Запрет сильнее разрешения. Открыть карточку заявки: реквизит «Гриф доступа». Если гриф стоит и у автора его нет в политике — он документ не увидит. Проще всего гриф на заявках не ставить. Результат: в папке нет запретов, гриф пустой или разрешён автору.</li></ol>
+<ol><li><strong>Показать автору, где искать</strong> [КОРОБКА] Раздел «Документы и файлы» → список «Внутренние документы» → отбор по автору; плюс список «Мои документы». Точный состав «Моих документов» и имя реквизита автора («Автор» либо «Подготовил») — <em>проверить в своей базе</em>.</li></ol>
+<ol><li><strong>По желанию — ознакомление автора</strong> [НАСТРОЙКА] В шаблоне процесса добавить в конец маршрута задачу «Ознакомление» на автора: исполнитель задачи получает доступ на чтение. Сохраняется ли доступ после выполнения задачи — <em>проверить</em>.</li></ol>
+<h2 id="проверка-результата">Проверка результата</h2>
+<ol><li>В <strong>тестовой копии</strong> попросите администратора создать тестового пользователя-заявителя (или используйте свою вторую учётку) — 1 мин.</li><li>Войдите под ним и подайте тестовую заявку — 1 мин.</li><li>Не выходя, откройте «Мои документы» и «Внутренние документы» с отбором по автору. Заявка должна быть видна и открываться — 1 мин.</li><li>Откройте саму заявку и посмотрите рабочую группу: там должен быть автор — 30 сек.</li><li>Вернитесь под свою учётку и проверьте отчёт по настроенным правам доступа (в разделе прав доступа; <em>проверить название</em>) — 1,5 мин.</li></ol>
+<p>Главное: смотреть <strong>под учётной записью автора</strong>. Под своей вы почти наверняка видите документ по другим правам, и проверка ничего не докажет.</p>
+<h2 id="если-не-сработало">Если не сработало</h2>
+<div class="scroll"><table><thead><tr><th>Симптом</th><th>Вероятная причина</th><th>Что смотреть</th></tr></thead><tbody><tr><td>Заявка не видна, рабочая группа пустая</td><td>Флажок автоведения не включён или включён после создания заявки</td><td>Карточка вида документа; создать новую тестовую заявку</td></tr><tr><td>Письмо пришло, а по ссылке нет прав</td><td>Уведомление и права — независимы: письмо ушло, доступ не выдан</td><td>Рабочая группа этой конкретной заявки; добавить автора вручную</td></tr><tr><td>Автор в рабочей группе, но заявку не открывает</td><td>Гриф доступа не разрешён автору либо права кэшированы</td><td>Реквизит «Гриф доступа»; перезайти в программу; отчёт по правам</td></tr><tr><td>Видит в списке, но не может править</td><td>В рабочей группе не стоит галочка «Изменение» — по умолчанию только чтение</td><td>Строка автора в рабочей группе</td></tr><tr><td>Новые заявки видны, старые нет</td><td>Автоведение работает только вперёд</td><td>Групповое изменение реквизитов по старым документам</td></tr><tr><td>Не видит ни один автор, ни в одном виде</td><td>Запрет на папке или политика доступа не даёт вид документа</td><td>Права папки заявок; политики доступа профиля автора</td></tr><tr><td>Заявка появилась, но её содержимое/файлы недоступны</td><td>Права на файлы считаются отдельно</td><td>Открыть вложение под автором</td></tr></tbody></table></div>
+<h2 id="что-это-не-решает">Что это НЕ решает</h2>
+<ul><li><strong>Гибкую логику</strong> «кому именно показывать» — в 2.1 автоведение фиксированное, программировать состав группы нельзя без стороннего расширения [ДОРАБОТКА].</li><li><strong>Автовыдачу прав по задачам</strong> и опцию «расширять» права со связанных документов — это редакция 3.0, в 2.1 их нет.</li><li><strong>Показ автору чужих заявок</strong> его отдела — рабочая группа даёт доступ поимённо, «автор» как разрез в политиках отсутствует.</li><li><strong>Ситуацию с грифом</strong>: если гриф обязателен по регламенту, конфликт «гриф против рабочей группы» надо проверять на стенде — приоритет рабочей группы подтверждён только вторичными источниками, не текстом ИТС.</li><li><strong>Красивый список «мои заявки»</strong> одной кнопкой — пока это отбор в общем списке; отдельный список — [ДОРАБОТКА].</li><li><strong>Права на файлы и печатные формы</strong> — считаются отдельно от карточки документа.</li></ul></main>
+</div></body></html>
