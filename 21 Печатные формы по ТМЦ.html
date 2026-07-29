@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Печатные формы по ТМЦ — приём, увольнение, заявка, памятка</title>
+<style>
+:root{
+  --ink:#12211d;--ink-2:#3d514b;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;
+  --radius:11px;--shadow:0 1px 2px rgba(16,32,28,.06),0 8px 24px rgba(16,32,28,.06);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --serif:"Times New Roman",Times,serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#b6c7c2;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15px;line-height:1.55}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1000px;margin:0 auto;padding:14px 22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650}
+.top p{margin:3px 0 0;font-size:12px;opacity:.85}
+.top button{font:inherit;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer}
+.top button:hover{background:rgba(255,255,255,.24)}
+
+.tabs{max-width:1000px;margin:0 auto;padding:14px 20px 0;display:flex;gap:7px;flex-wrap:wrap}
+.tab{font:inherit;font-size:13px;font-weight:600;padding:9px 15px;border-radius:9px 9px 0 0;border:1px solid var(--line);border-bottom:none;background:var(--bg-2);color:var(--ink-3);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--bg);color:var(--ink)}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px 60px}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:0 var(--radius) var(--radius) var(--radius);box-shadow:var(--shadow);padding:0}
+.panel[hidden]{display:none}
+
+.note{margin:0;padding:14px 22px;background:var(--warn-bg);border-bottom:1px solid var(--line);font-size:13px;color:var(--ink-2);line-height:1.55}
+.note.red{background:var(--err-bg)}
+.note b{color:var(--ink)}
+
+/* --- бланк --- */
+.sheet{padding:30px 34px 36px;font-family:var(--serif);color:var(--ink)}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:18px}
+.org b{display:block;font-size:14px;text-transform:uppercase;letter-spacing:.02em}
+.org span{font-size:12.5px;color:var(--ink-2)}
+.qr{width:74px;height:74px;flex:none;background:var(--bg-2);border:1px dashed var(--line);border-radius:5px;display:grid;place-items:center;text-align:center;font-family:var(--font);font-size:8.5px;color:var(--ink-3);line-height:1.2;padding:5px}
+.ttl{text-align:center;font-size:16px;font-weight:700;text-transform:uppercase;margin:0 0 4px}
+.sub{text-align:center;font-size:13px;color:var(--ink-2);margin-bottom:20px}
+
+.fields{font-size:13.5px;line-height:2.05;margin-bottom:18px}
+.fields .l{color:var(--ink-3);display:inline-block;min-width:190px}
+.fill{border-bottom:1px dotted var(--line);display:inline-block;min-width:200px;padding:0 5px}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-family:var(--font)}
+th{background:var(--bg-2);text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);font-weight:700;padding:8px 9px;border:1px solid var(--line)}
+td{padding:10px 9px;border:1px solid var(--line);vertical-align:top;color:var(--ink-2);height:34px}
+td.c{text-align:center;white-space:nowrap}
+.sig{border-bottom:1px solid var(--ink-3);display:inline-block;min-width:90px;height:1.1em}
+
+.foot{margin-top:20px;padding-top:12px;border-top:1px solid var(--line);font-family:var(--font);font-size:10.5px;color:var(--ink-3);line-height:1.55}
+.legal{margin-top:14px;padding:11px 14px;background:var(--bg-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;font-family:var(--font);font-size:11.5px;color:var(--ink-2);line-height:1.5}
+
+/* --- памятка --- */
+.memo{padding:30px 34px 36px}
+.memo h2{font-size:21px;margin:0 0 6px;letter-spacing:-.01em}
+.memo .lead{font-size:13.5px;color:var(--ink-3);margin:0 0 22px}
+.memo h3{font-size:14.5px;margin:24px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.memo ul{margin:0 0 14px;padding-left:20px;font-size:14px;line-height:1.6}
+.memo li{margin-bottom:5px}
+.memo .box{margin-top:20px;padding:14px 17px;background:var(--ok-bg);border-radius:9px;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.memo .box b{color:var(--ok)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media (max-width:720px){.two{grid-template-columns:1fr}}
+
+input.f{border:none;border-bottom:1px dotted var(--line);background:transparent;color:var(--ink);font:inherit;padding:1px 4px;min-width:190px;outline:none}
+input.f:focus{background:var(--bg-2);border-bottom-color:var(--brand)}
+td input.f{width:100%;min-width:0;border-bottom:none;padding:0}
+
+@media print{
+  body{background:#fff;font-size:11pt}
+  .top,.tabs,.note{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .panel{border:none;box-shadow:none;border-radius:0;page-break-after:always}
+  .panel[hidden]{display:block!important}
+  .panel:last-child{page-break-after:auto}
+  .sheet,.memo{padding:0}
+  .qr{border:1px solid #999}
+  tr{page-break-inside:avoid}
+  input.f{border-bottom:1px solid #999}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="in">
+  <div>
+    <h1>Печатные формы по ТМЦ</h1>
+    <p>Отдел по работе с персоналом ОЭЗ «Алабуга» · заполняется на экране или от руки</p>
+  </div>
+  <div><button onclick="window.print()">🖨 Печать всех форм</button></div>
+</div></div>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-p="p1">Обходной лист</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="p2">Ведомость выдачи</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="p3">Заявка на ТМЦ</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="p4">Памятка работнику</button>
+</div>
+
+<div class="wrap">
+
+<!-- ================= ОБХОДНОЙ ЛИСТ ================= -->
+<section class="panel" id="p1">
+  <div class="note red"><b>Прежде чем пускать в оборот.</b> Обходной лист не предусмотрен Трудовым кодексом — это внутренний инструмент. Из-за несданного имущества <b>нельзя</b> задерживать трудовую книжку, окончательный расчёт или само увольнение. Оговорка об этом уже вписана в бланк — не убирайте её.</div>
+  <div class="sheet">
+    <div class="hdr">
+      <div class="org"><b>Отдел по работе с персоналом</b><span>ОЭЗ «Алабуга»</span></div>
+      <div class="qr">QR<br>список<br>числящихся<br>позиций</div>
+    </div>
+    <div class="ttl">Обходной лист</div>
+    <div class="sub">при прекращении трудового договора</div>
+
+    <div class="fields">
+      <div><span class="l">Работник:</span><input class="f" placeholder="должность, фамилия и инициалы"></div>
+      <div><span class="l">Подразделение:</span><input class="f" placeholder="наименование"></div>
+      <div><span class="l">Последний рабочий день:</span><input class="f" placeholder="00.00.0000" style="min-width:130px"></div>
+      <div><span class="l">Лист открыт:</span><input class="f" placeholder="00.00.0000" style="min-width:130px"></div>
+    </div>
+
+    <table>
+      <thead><tr>
+        <th style="width:26%">Что сдаётся</th><th style="width:30%">Позиции</th>
+        <th style="width:16%">Принимает</th><th style="width:13%">Дата</th><th style="width:15%">Подпись</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Средства индивидуальной защиты, спецодежда</td><td><input class="f" placeholder="по личной карточке выдачи"></td><td>склад</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Инструмент, приборы, оснастка</td><td><input class="f" placeholder="по ведомости закрепления"></td><td>МОЛ подразделения</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Вычислительная техника</td><td><input class="f" placeholder="ноутбук, монитор, гарнитура, блок питания"></td><td>ИТ</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Корпоративная SIM-карта</td><td><input class="f" placeholder="номер"></td><td>ИТ</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr style="background:var(--err-bg)"><td><b>Учётные записи и доступы</b></td><td><input class="f" placeholder="почта, 1С, СКУД, сеть, папки"></td><td>ИТ и ИБ</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Электронная подпись</td><td><input class="f" placeholder="токен, заявление о прекращении"></td><td>ответственный за ЭП</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Пропуск, ключи, печати</td><td><input class="f" placeholder="карта, ключи, штампы"></td><td>служба безопасности</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Документы и дела на исполнении</td><td><input class="f" placeholder="передаются по акту"></td><td>руководитель</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Литература, стандарты</td><td><input class="f"></td><td>библиотека</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Подотчётные суммы, карты</td><td><input class="f" placeholder="авансовые отчёты, топливные карты"></td><td>бухгалтерия</td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td><input class="f" placeholder="иное"></td><td><input class="f"></td><td><input class="f"></td><td class="c"></td><td class="c"><span class="sig"></span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="legal">Обходной лист помогает ничего не забыть. Он <b>не является условием увольнения</b> и не задерживает выдачу документов и окончательный расчёт. Если имущество не сдано, вопрос решается отдельно, в порядке, установленном трудовым законодательством.</div>
+
+    <div class="foot" style="display:flex;gap:36px;flex-wrap:wrap">
+      <div style="flex:1;min-width:210px">Работник <span class="sig" style="min-width:150px"></span><br>подпись, дата</div>
+      <div style="flex:1;min-width:210px">Отдел по работе с персоналом <span class="sig" style="min-width:130px"></span><br>подпись, дата</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ВЕДОМОСТЬ ВЫДАЧИ ================= -->
+<section class="panel" id="p2" hidden>
+  <div class="note"><b>Когда применяется.</b> При приёме на работу и при любой последующей выдаче. Первичный документ на движение ценностей обязателен, но форму утверждает руководитель — унифицированную применять не обязательно. Эту форму перед использованием утвердите приказом.</div>
+  <div class="sheet">
+    <div class="hdr">
+      <div class="org"><b>Отдел по работе с персоналом</b><span>ОЭЗ «Алабуга»</span></div>
+      <div class="qr">QR<br>карточка<br>работника</div>
+    </div>
+    <div class="ttl">Ведомость выдачи</div>
+    <div class="sub">материальных ценностей и средств труда</div>
+
+    <div class="fields">
+      <div><span class="l">Работник:</span><input class="f" placeholder="должность, фамилия и инициалы"></div>
+      <div><span class="l">Подразделение:</span><input class="f"></div>
+      <div><span class="l">Дата выхода на работу:</span><input class="f" placeholder="00.00.0000" style="min-width:130px"></div>
+      <div><span class="l">Ведомость №:</span><input class="f" placeholder="___" style="min-width:110px"></div>
+    </div>
+
+    <table>
+      <thead><tr>
+        <th style="width:5%">№</th><th style="width:31%">Наименование</th><th style="width:17%">Инвентарный / ID метки</th>
+        <th style="width:9%">Кол-во</th><th style="width:13%">Состояние</th><th style="width:11%">Выдал</th><th style="width:14%">Получил</th>
+      </tr></thead>
+      <tbody id="vedRows"></tbody>
+    </table>
+
+    <div class="legal">Получая ценности, работник подтверждает их состав и состояние. Материальная ответственность наступает в пределах, установленных трудовым законодательством. Договор о полной материальной ответственности подписывается <b>только</b> с работниками, чьи должности входят в утверждённый перечень.</div>
+
+    <div class="foot" style="display:flex;gap:36px;flex-wrap:wrap">
+      <div style="flex:1;min-width:210px">Выдал <span class="sig" style="min-width:150px"></span><br>должность, подпись, дата</div>
+      <div style="flex:1;min-width:210px">Получил <span class="sig" style="min-width:150px"></span><br>подпись, дата</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ЗАЯВКА ================= -->
+<section class="panel" id="p3" hidden>
+  <div class="note"><b>Куда идёт.</b> Заявка на материальные ценности проходит тем же путём, что и заявка на доступ: инициатор — руководитель — снабжение. Если позиции нет в наличии, дальше включается закупочная процедура, и срок считается уже по ней.</div>
+  <div class="sheet">
+    <div class="hdr">
+      <div class="org"><b>Отдел по работе с персоналом</b><span>ОЭЗ «Алабуга»</span></div>
+      <div class="qr">QR<br>статус<br>заявки</div>
+    </div>
+    <div class="ttl">Заявка на материальные ценности</div>
+    <div class="sub">канцелярия · расходные материалы · техника · вода</div>
+
+    <div class="fields">
+      <div><span class="l">Заявитель:</span><input class="f" placeholder="должность, фамилия и инициалы"></div>
+      <div><span class="l">Подразделение:</span><input class="f"></div>
+      <div><span class="l">Дата:</span><input class="f" placeholder="00.00.0000" style="min-width:130px"></div>
+      <div><span class="l">Срок, к которому нужно:</span><input class="f" placeholder="00.00.0000" style="min-width:130px"></div>
+    </div>
+
+    <table>
+      <thead><tr>
+        <th style="width:5%">№</th><th style="width:40%">Что требуется</th><th style="width:12%">Кол-во</th>
+        <th style="width:43%">Для чего — обязательно к заполнению</th>
+      </tr></thead>
+      <tbody id="zaRows"></tbody>
+    </table>
+
+    <div style="margin-top:20px;font-family:var(--font);font-size:12.5px">
+      <table><thead><tr><th style="width:34%">Согласование</th><th style="width:33%">Решение</th><th style="width:33%">Подпись и дата</th></tr></thead>
+      <tbody>
+        <tr><td>Руководитель подразделения</td><td class="c">согласовано / отклонено</td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Снабжение — наличие на складе</td><td class="c">есть / нет, требуется закупка</td><td class="c"><span class="sig"></span></td></tr>
+        <tr><td>Выдано</td><td class="c">дата выдачи</td><td class="c"><span class="sig"></span></td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="legal">Графа «для чего» заполняется всегда: без неё заявка возвращается. Она же служит обоснованием при списании и при проверке.</div>
+  </div>
+</section>
+
+<!-- ================= ПАМЯТКА ================= -->
+<section class="panel" id="p4" hidden>
+  <div class="note"><b>Для раздачи.</b> Печатайте на одну страницу и выдавайте при приёме на работу, а также повесьте на информационный стенд. Перед печатью подставьте свои контакты вместо подчёркиваний.</div>
+  <div class="memo">
+    <h2>Памятка работнику: что вам положено и что вернуть</h2>
+    <p class="lead">Отдел по работе с персоналом ОЭЗ «Алабуга»</p>
+
+    <div class="two">
+      <div>
+        <h3>Когда выходите на работу</h3>
+        <p style="font-size:14px;margin:0 0 8px">Вам должны выдать:</p>
+        <ul>
+          <li>рабочее место и мебель;</li>
+          <li>компьютер или ноутбук, монитор, гарнитуру;</li>
+          <li>канцелярские принадлежности;</li>
+          <li>спецодежду и средства защиты — если они положены на вашей должности;</li>
+          <li>пропуск, ключи, карту доступа;</li>
+          <li>служебный номер телефона — если положен.</li>
+        </ul>
+        <p style="font-size:13.5px;color:var(--ink-3);margin:0">Всё, что выдано, вносится в ведомость. Прочитайте её перед подписью: вы подтверждаете и состав, и состояние вещей.</p>
+
+        <h3>Как заказать нужное</h3>
+        <ul>
+          <li>Заполните заявку на материальные ценности.</li>
+          <li>Обязательно напишите, <b>для чего</b> — без этого заявку вернут.</li>
+          <li>Заявку согласует ваш руководитель.</li>
+          <li>Если на складе нет — потребуется закупка, и это занимает время.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Питьевая вода</h3>
+        <ul>
+          <li>Кулеры установлены: <input class="f" placeholder="перечислите места" style="min-width:150px"></li>
+          <li>Вода закончилась — сообщите: <input class="f" placeholder="кому" style="min-width:130px"></li>
+          <li>Или отсканируйте код на кулере — откроется заявка.</li>
+          <li>Не переставляйте бутыли сами: замену делает <input class="f" placeholder="кто" style="min-width:110px"></li>
+        </ul>
+
+        <h3>Когда увольняетесь</h3>
+        <p style="font-size:14px;margin:0 0 8px">Нужно вернуть:</p>
+        <ul>
+          <li>технику и всё, что к ней прилагалось;</li>
+          <li>спецодежду и средства защиты;</li>
+          <li>пропуск, ключи, печати;</li>
+          <li>служебную SIM-карту;</li>
+          <li>документы и дела, которые у вас на исполнении;</li>
+          <li>подотчётные суммы и карты.</li>
+        </ul>
+        <div class="box"><b>Важно.</b> Обходной лист нужен, чтобы ничего не забыть. Он <b>не задерживает</b> ни выдачу документов, ни окончательный расчёт, ни само увольнение — это установлено законом.</div>
+      </div>
+    </div>
+
+    <h3>Куда обращаться</h3>
+    <p style="font-size:14px;margin:0">Отдел по работе с персоналом — здание «Королев», кабинет 245. Телефон: <input class="f" placeholder="добавочный" style="min-width:110px"></p>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  // строки таблиц: пустые бланки под заполнение
+  var ved = document.getElementById('vedRows'), za = document.getElementById('zaRows');
+  var h = '';
+  for (var i = 1; i <= 12; i++){
+    h += '<tr><td class="c">' + i + '</td>' +
+         '<td><input class="f"></td><td><input class="f"></td>' +
+         '<td class="c"><input class="f"></td><td><input class="f"></td>' +
+         '<td class="c"><span class="sig"></span></td><td class="c"><span class="sig"></span></td></tr>';
+  }
+  ved.innerHTML = h;
+
+  h = '';
+  for (var j = 1; j <= 10; j++){
+    h += '<tr><td class="c">' + j + '</td><td><input class="f"></td>' +
+         '<td class="c"><input class="f"></td><td><input class="f"></td></tr>';
+  }
+  za.innerHTML = h;
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){ x.setAttribute('aria-selected', String(x === t)); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.hidden = (p.id !== t.dataset.p); });
+      window.scrollTo(0, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

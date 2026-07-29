@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>20. QR на материальных ценностях</title>
+<style>:root{
+  --ink:#12211d;--ink-2:#33453f;--ink-3:#6b7f79;
+  --bg:#fff;--bg-2:#f4f7f5;--bg-3:#e8eeeb;--line:#d6e0dc;
+  --brand:#0f5f4c;--brand-ink:#fff;--accent:#b9791a;
+  --ok:#1c7c46;--ok-bg:#e6f4ec;--warn:#a86a00;--warn-bg:#fdf1dd;
+  --err:#b23030;--err-bg:#fbeaea;--info:#1d5fa8;--info-bg:#e7f0fb;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#e9f1ee;--ink-2:#c2d0cc;--ink-3:#8a9c97;
+  --bg:#0e1614;--bg-2:#14201d;--bg-3:#1c2c28;--line:#2a3d38;
+  --brand:#3fa98c;--brand-ink:#06201a;--accent:#e0a54a;
+  --ok:#5fd39a;--ok-bg:#102b1f;--warn:#e5b45c;--warn-bg:#2d2415;
+  --err:#f08a8a;--err-bg:#2e1717;--info:#7db3ef;--info-bg:#132437;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-2);color:var(--ink);font-size:15.5px;line-height:1.62}
+
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:10}
+.top .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;font-size:16px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+.top p{margin:3px 0 0;font-size:12.5px;opacity:.85;max-width:80ch}
+.acts{display:flex;gap:8px;align-items:center}
+.acts .btn,.acts button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:inherit;cursor:pointer;text-decoration:none;white-space:nowrap}
+.acts .btn:hover,.acts button:hover{background:rgba(255,255,255,.24)}
+
+.shell{max-width:1240px;margin:0 auto;padding:22px 24px 80px;display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:980px){.shell{grid-template-columns:1fr}.toc{position:static!important;max-height:none!important}}
+
+.toc{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 12px}
+.toc .tt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);font-weight:700;padding:0 8px 9px}
+.toc a{display:block;padding:5px 9px;border-radius:6px;color:var(--ink-2);text-decoration:none;font-size:12.5px;line-height:1.35}
+.toc a:hover{background:var(--bg-2);color:var(--ink)}
+.toc a.l1{font-weight:650;color:var(--ink);margin-top:7px}
+.toc a.l2{padding-left:18px}
+
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:34px 40px 46px;min-width:0}
+@media (max-width:640px){.doc{padding:22px 18px 30px}.shell{padding:14px 12px 50px}}
+
+.doc h1{font-size:25px;line-height:1.22;margin:34px 0 12px;letter-spacing:-.02em;padding-bottom:9px;border-bottom:2px solid var(--brand)}
+.doc h1:first-child{margin-top:0}
+.doc h2{font-size:20px;line-height:1.28;margin:34px 0 11px;letter-spacing:-.01em}
+.doc h3{font-size:16.5px;margin:26px 0 9px}
+.doc h4{font-size:14.5px;margin:20px 0 7px;color:var(--ink-2)}
+.doc p{margin:0 0 13px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:24px}
+.doc li{margin-bottom:6px}
+.doc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.doc strong{font-weight:650}
+.doc hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+
+.doc code{font-family:var(--mono);font-size:.86em;background:var(--bg-2);padding:2px 6px;border-radius:5px;border:1px solid var(--line)}
+.doc pre{background:var(--bg-2);border:1px solid var(--line);border-radius:9px;padding:14px 16px;overflow-x:auto;margin:0 0 15px}
+.doc pre code{background:none;border:none;padding:0;font-size:12.8px;line-height:1.55}
+
+.doc blockquote{margin:0 0 18px;padding:13px 18px;background:var(--warn-bg);border-left:3px solid var(--accent);border-radius:0 9px 9px 0}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc blockquote table{margin-bottom:0}
+
+.scroll{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:9px}
+.doc table{border-collapse:collapse;width:100%;font-size:13.4px;line-height:1.45}
+.doc th{text-align:left;background:var(--bg-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.doc td{padding:10px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.doc td:last-child{border-right:none}
+.doc tbody tr:last-child td{border-bottom:none}
+.doc tbody tr:hover td{background:var(--bg-2)}
+
+@media print{
+  body{background:#fff;font-size:10.2pt;line-height:1.4}
+  .top{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+  .top .in{padding:0 0 8px}
+  .acts,.toc{display:none!important}
+  .shell{display:block;max-width:none;padding:0}
+  .doc{border:none;border-radius:0;padding:0}
+  .doc h1{font-size:16pt;page-break-after:avoid;margin-top:18pt}
+  .doc h2,.doc h3{page-break-after:avoid;margin-top:13pt}
+  .doc table{font-size:8.6pt}
+  .scroll{overflow:visible;page-break-inside:auto}
+  .doc tr{page-break-inside:avoid}
+  .doc pre,.doc blockquote{page-break-inside:avoid}
+  .doc a{color:#000;text-decoration:none}
+}
+</style></head><body>
+<div class="top"><div class="in"><div><h1>20. QR на материальных ценностях</h1><p>Инвентарная маркировка, что кодировать и что нельзя, 12 сценариев, наклейки и стойкость, связка с увольнением</p></div>
+<div class="acts"><a class="btn" href="ОПИСЬ.html">← К описи</a><button onclick="window.print()">🖨 Печать / PDF</button></div></div></div>
+<div class="shell">
+<nav class="toc"><div class="tt">Содержание</div><a class="l1" href="#qr-и-штрихкоды-на-тмц-рабочий-разбор">QR и штрихкоды на ТМЦ — рабочий разбор</a><a class="l2" href="#1-инвентарная-маркировка">1. Инвентарная маркировка</a><a class="l2" href="#2-что-кодировать-в-метке">2. Что кодировать в метке</a><a class="l2" href="#3-сценарии-применения">3. Сценарии применения</a><a class="l2" href="#4-инвентаризация-со-сканером">4. Инвентаризация со сканером</a><a class="l2" href="#5-печать-и-наклейки">5. Печать и наклейки</a><a class="l2" href="#6-связка-с-увольнением">6. Связка с увольнением</a><a class="l2" href="#7-чего-делать-не-надо">7. Чего делать не надо</a><a class="l2" href="#что-запустить-на-первой-неделе">▶ Что запустить на первой неделе</a></nav>
+<main class="doc"><h1 id="qr-и-штрихкоды-на-тмц-рабочий-разбор">QR и штрихкоды на ТМЦ — рабочий разбор</h1>
+<h2 id="1-инвентарная-маркировка">1. Инвентарная маркировка</h2>
+<div class="scroll"><table><thead><tr><th>Вопрос</th><th>Ответ</th><th>Статус</th></tr></thead><tbody><tr><td>Обязательна ли маркировка ОС</td><td>Нет. Методические указания (приказ Минфина № 91н), где это описывалось, утратили силу с введением <strong>ФСБУ 6/2020</strong> (утв. приказом Минфина от 17.09.2020 № 204н). Сам ФСБУ инвентарные номера не регулирует</td><td>[ЗАКОН]</td></tr><tr><td>Кто тогда решает</td><td>Организация — учётной политикой и положением об учёте ТМЦ. Номер даёт бухгалтерия при принятии к учёту</td><td>[ЛОКАЛЬНЫЙ АКТ]</td></tr><tr><td>Основные средства</td><td>Единица учёта — инвентарный объект; номер уникален и не переиспользуется после выбытия (уточнить срок «карантина» номера у бухгалтерии)</td><td>[ЛОКАЛЬНЫЙ АКТ]</td></tr><tr><td>Малоценное имущество, запасы, спецодежда, расходники</td><td>Учитываются как запасы (ФСБУ 5/2019) или списываются на расходы. Инвентарного номера, как правило, нет — маркируется <strong>партия/место хранения</strong>, а не штука</td><td>[ЗАКОН] + [ПРАКТИКА]</td></tr><tr><td>СИЗ и спецодежда</td><td>Учёт выдачи — по правилам приказа Минтруда от 29.10.2021 № 766н; личная карточка учёта выдачи СИЗ может вестись электронно (с идентификацией работника и его ЭП)</td><td>[ЗАКОН]</td></tr><tr><td>Способ нанесения</td><td>Ярлык, краска, наклейка — способ не нормирован, закрепляется локально</td><td>[ПРАКТИКА]</td></tr></tbody></table></div>
+<h2 id="2-что-кодировать-в-метке">2. Что кодировать в метке</h2>
+<ul><li><strong>Кодируем:</strong> только идентификатор объекта либо ссылку вида <code>https://&lt;домен&gt;/i/&lt;ID&gt;</code>. Оптимум — ссылка: телефон открывает карточку без приложения.</li><li><strong>НЕ кодируем — и почему:</strong></li></ul>
+<div class="scroll"><table><thead><tr><th>Нельзя</th><th>Причина</th></tr></thead><tbody><tr><td>ФИО держателя, табельный номер, кабинет</td><td>Персональные данные (152-ФЗ). Метку видно всем, её фотографируют</td></tr><tr><td>Стоимость</td><td>Инвентаризационная и рыночная цена расходятся; наклейка становится «ценником» для воров</td></tr><tr><td>Наименование и модель</td><td>Устаревает при замене/ремонте; перепечатывать метку дороже, чем поправить карточку</td></tr></tbody></table></div>
+<p><strong>Рекомендуемый формат ID:</strong> <code>ALB-&lt;КЛАСС&gt;-&lt;ГГГГ&gt;-&lt;NNNN&gt;</code> (пример <code>ALB-NB-2026-0417</code>), плюс контрольный символ. Класс — 2–3 буквы (NB ноутбук, MB мебель, KL ключ, KU кулер). ID «немой»: по нему нельзя понять ни владельца, ни цену. Инвентарный номер бухгалтерии допустимо дублировать текстом рядом с кодом — глазами, не в коде.</p>
+<h2 id="3-сценарии-применения">3. Сценарии применения</h2>
+<div class="scroll"><table><thead><tr><th>Что маркируем</th><th>Что в коде</th><th>Кто сканирует</th><th>Что после скана</th><th>ПДн</th><th>Приоритет</th></tr></thead><tbody><tr><td>Ноутбук, монитор, техника у работника</td><td>ID + ссылка на карточку</td><td>ИТ, кладовщик</td><td>Открывается карточка: статус, дата выдачи, номер ведомости</td><td>Нет (держатель — только в базе)</td><td>1</td></tr><tr><td>Мебель, рабочее место</td><td>ID мебели / ID места</td><td>Комиссия по инвентаризации</td><td>Отметка «найдено» в ведомости пересчёта</td><td>Нет</td><td>2</td></tr><tr><td>Ключи, пропуска (носитель, не сам пропуск)</td><td>ID брелока</td><td>Дежурный, охрана</td><td>Журнал выдачи/сдачи ключа</td><td>Нет — ФИО не в коде</td><td>2</td></tr><tr><td>Кулер</td><td>ID кулера + ссылка на форму заявки</td><td>Любой работник</td><td>Форма «заказать воду» с уже подставленным кулером и адресом</td><td>Нет</td><td>1</td></tr><tr><td>Полка/ячейка склада</td><td>ID места хранения</td><td>Кладовщик</td><td>Список того, что числится на полке</td><td>Нет</td><td>1</td></tr><tr><td>Коробка/партия расходников</td><td>ID партии</td><td>Кладовщик</td><td>Остаток, списание</td><td>Нет</td><td>3</td></tr><tr><td>Картридж (оборотный)</td><td>ID картриджа</td><td>ИТ</td><td>Отметка «установлен/сдан на утилизацию»</td><td>Нет</td><td>3</td></tr><tr><td>Обходной лист при увольнении</td><td>ID работника-заявки (обезличенный)</td><td>Кладовщик, ИТ, АХО</td><td>Список числящихся за человеком позиций к сдаче</td><td>Ссылка ведёт в закрытую базу, в коде ПДн нет</td><td>1</td></tr><tr><td>Ведомость выдачи (бланк)</td><td>Номер ведомости</td><td>Кадры, бухгалтерия</td><td>Быстрый поиск скана подписанного бланка</td><td>Нет</td><td>2</td></tr><tr><td>Памятка работнику</td><td>Ссылка на публичную форму заявки/FAQ</td><td>Работник</td><td>Открывается форма заявки на ТМЦ и воду</td><td>Нет</td><td>1</td></tr><tr><td>Инструмент, приборы</td><td>ID + ссылка</td><td>Мастер</td><td>Дата поверки/ТО, кто держит</td><td>Нет</td><td>3</td></tr><tr><td>Аптечка, огнетушитель</td><td>ID</td><td>Ответственный</td><td>Срок годности, дата проверки</td><td>Нет</td><td>2</td></tr></tbody></table></div>
+<h2 id="4-инвентаризация-со-сканером">4. Инвентаризация со сканером</h2>
+<ul><li>Порядок инвентаризации — <strong>ФСБУ 28/2023</strong> (утв. приказом Минфина от 13.01.2023 № 4н), обязателен с 01.04.2025. Маркировка сам порядок не меняет, но снимает ручное переписывание и ошибки в номерах. [ЗАКОН]</li><li><strong>Чем сканировать:</strong> старт — обычный телефон (камера читает QR без приложения). ТСД (терминал сбора данных) нужен только при тысячах позиций, работе в холоде/цехе и штрихкодах вместо QR. [ПРАКТИКА]</li><li><strong>Минимум, чтобы заработало без большой системы:</strong> таблица «ID — объект — место — держатель» (Excel/Google Sheets), офлайн-генератор QR из соседнего проекта, принтер этикеток, лист сверки. Итог — два столбца: «числится» и «отсканировано».</li><li>Расхождения всё равно оформляются документами инвентаризации — скан их не заменяет.</li></ul>
+<h2 id="5-печать-и-наклейки">5. Печать и наклейки</h2>
+<div class="scroll"><table><thead><tr><th>Куда</th><th>Что клеить</th></tr></thead><tbody><tr><td>Металл (шкафы, стеллажи, техника)</td><td>Полиэстер/полипропилен, стойкий к спирту и трению; хорошо держит</td></tr><tr><td>Пластик (корпуса, кулеры)</td><td>То же, но обезжирить; не на текстурированный «шагрень» — отходит</td></tr><tr><td>Ткань спецодежды</td><td>Наклейка не живёт. Только термотрансфер, вшивной ярлык или метка на шкафчике/комплекте</td></tr><tr><td>Стекло, полированные поверхности</td><td>Держится, но заметно — клеить на нижнюю/тыльную грань</td></tr></tbody></table></div>
+<ul><li><strong>Минимальный размер QR:</strong> 20×20 мм для телефона с 10–15 см; мельче — только при хорошей печати и коротком ID. Обязательно белое поле вокруг кода.</li><li><strong>Нельзя клеить:</strong> на вентиляционные решётки, на подвижные части, на шильдики с серийным номером и маркировкой производителя, на нагревающиеся зоны, на СИЗ в местах защитного слоя, на арендованное/чужое имущество без согласия владельца.</li><li>Термобумага (чековая) выцветает за месяцы — не годится.</li></ul>
+<h2 id="6-связка-с-увольнением">6. Связка с увольнением</h2>
+<ul><li>Обходной лист <strong>не предусмотрен ТК РФ</strong> — это локальный документ; задерживать расчёт и выдачу документов из-за него нельзя. [ЗАКОН]</li><li>Скан ID работника-заявки открывает готовый список числящихся позиций — кладовщик отмечает сдачу, а не переписывает наименования. Экономия — основная.</li><li><strong>Почему код не отменяет подпись:</strong> сканирование фиксирует факт в базе, но не является ни первичным документом, ни доказательством согласия. Материальная ответственность и взыскание ущерба (ст. 248 ТК РФ) опираются на подписанные документы — ведомость, договор о матответственности, акт. Подпись в ведомости остаётся. [ЗАКОН]</li></ul>
+<h2 id="7-чего-делать-не-надо">7. Чего делать не надо</h2>
+<div class="scroll"><table><thead><tr><th>Не надо</th><th>Причина</th></tr></thead><tbody><tr><td>Класть ФИО, табельный номер, телефон в QR</td><td>Утечка ПДн, метку фотографируют посторонние</td></tr><tr><td>Печатать стоимость на наклейке</td><td>Наводка для хищения, цифра быстро устаревает</td></tr><tr><td>Считать скан заменой подписи</td><td>Не первичный документ; в споре о матответственности не работает</td></tr><tr><td>Клеить один код на комплект «ноутбук + сумка + мышь»</td><td>При частичной сдаче непонятно, что вернули</td></tr><tr><td>Переиспользовать ID выбывшего объекта</td><td>Ломает историю и сверку с бухгалтерией</td></tr><tr><td>Запускать сразу ТСД и «систему»</td><td>Оборудование без чистого реестра ID не даёт эффекта</td></tr></tbody></table></div>
+<h2 id="что-запустить-на-первой-неделе">▶ Что запустить на первой неделе</h2>
+<ol><li><strong>QR на кулерах</strong> — код ведёт на форму заявки на воду с подставленным номером кулера. Без ПДн, без оборудования.</li><li><strong>QR на памятке новичка</strong> — ссылка на публичный FAQ «что получаешь / что сдаёшь / как заказать». Печать на обычном принтере.</li><li><strong>QR на полках склада</strong> — код ведёт на список позиций полки в общей таблице. Даёт готовый реестр ID под будущую инвентаризацию.</li></ol>
+<p><strong>Уточнить у бухгалтерии:</strong> формат инвентарного номера, порог отнесения к ОС, правила повторного использования номеров. <strong>Уточнить в локальном акте:</strong> форма ведомости выдачи, состав обходного листа, ответственный за маркировку.</p>
+<p>Sources: <a href="<a href="https://minfin.gov.ru/ru/document/?id_4=133537-federalnyi_standart_bukhgalterskogo_ucheta_fsbu_62020_osnovnye_sredstva" target="_blank" rel="noopener">https://minfin.gov.ru/ru/document/?id_4=133537-federalnyi_standart_bukhgalterskogo_ucheta_fsbu_62020_osnovnye_sredstva</a>" target="_blank" rel="noopener">ФСБУ 6/2020 (Минфин)</a>, <a href="<a href="https://minfin.gov.ru/ru/document?id_4=301697" target="_blank" rel="noopener">https://minfin.gov.ru/ru/document?id_4=301697</a>" target="_blank" rel="noopener">ФСБУ 28/2023 (Минфин)</a>, <a href="<a href="https://base.garant.ru/403326464/62ca3c9a93aac147338fa0b3dccb5683/" target="_blank" rel="noopener">https://base.garant.ru/403326464/62ca3c9a93aac147338fa0b3dccb5683/</a>" target="_blank" rel="noopener">Приказ Минтруда № 766н, личная карточка СИЗ</a>, <a href="<a href="https://mintrud.gov.ru/docs/mintrud/orders/2185" target="_blank" rel="noopener">https://mintrud.gov.ru/docs/mintrud/orders/2185</a>" target="_blank" rel="noopener">Приказ Минтруда № 771н</a>, <a href="<a href="https://glavkniga.ru/situations/k503050" target="_blank" rel="noopener">https://glavkniga.ru/situations/k503050</a>" target="_blank" rel="noopener">Обходной лист при увольнении</a>, <a href="<a href="https://logos-pravo.ru/statya-248-tk-rf-poryadok-vzyskaniya-ushcherba" target="_blank" rel="noopener">https://logos-pravo.ru/statya-248-tk-rf-poryadok-vzyskaniya-ushcherba</a>" target="_blank" rel="noopener">Ст. 248 ТК РФ</a>, <a href="<a href="https://glavkniga.ru/situations/s503115" target="_blank" rel="noopener">https://glavkniga.ru/situations/s503115</a>" target="_blank" rel="noopener">Присвоение инвентарных номеров</a></p></main>
+</div></body></html>
